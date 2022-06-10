@@ -1,23 +1,55 @@
-from cProfile import label
 import tkinter as tk
-from __Controllers.StockController import Controller, ButtonController, TableController
-from __Views.MainMenu import Form, Table
+from __Controllers.SideButtonController import ButtonController
+from __Controllers.TableController import TableController
+from __Views.Form import Form
+from __Views.Table import Table
 from __Models.Stocks import *
 from tkinter import Frame, ttk
 
-import importlib, os
+import importlib, os, asyncio
 
 from ttkthemes import ThemedStyle
+
+class Loading(tk.Toplevel):
+
+    def __init__(self,parent):
+        super().__init__(parent)
+
+        self.geometry('+20+10')
+        self.title('Download Stock Data')
+
+    
+
+    async def createStockCoroutine(MarketType):
+        pass
+        # mktCtrl = MarketController()
+        # mkt = MarketDetail()
+                
+        # x = mkt.getMarket()
+        # y = x.get(MarketType)
+        
+        # coru = []
+        # for i in y:
+        #     await asyncio.sleep(delay=random.uniform(0, 0.0001))
+        #     coru.append(await mktCtrl.createStock(i))
+
+        #     if MarketType == 'SET':
+        #         progress(pb_S,(len(coru)/len(y))*100,MarketType,i)
+        #         pb_S.update_idletasks()
+        #     elif MarketType == 'mai':
+        #         progress(pb_m,(len(coru)/len(y))*100,MarketType,i)
+        #         pb_m.update_idletasks()
+
+        # print(y)
+        # return coru
+
 
 class Button(tk.Button):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
-        # self.columnconfigure(0, weight=1)
-        # self.rowconfigure(0, weight=1)
-        # self.grid(row=0, column=0, sticky=tk.N + tk.S + tk.E + tk.W)
 
-    def add_button(self, controller:Controller, view:Form, frame:Frame, name:str, row:int, col:int):
+    def add_button(self, controller:ButtonController, view:Form, frame:Frame, name:str, row:int, col:int):
         view = view(self.master)
         controller.bind(view,frame, name, row, col)
         
@@ -25,14 +57,12 @@ class Application(ttk.Notebook):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
-        # self.columnconfigure(0, weight=1)
-        # self.rowconfigure(0, weight=1)
         self.grid(row=0, column=1, rowspan=100, sticky=tk.N + tk.S + tk.E + tk.W)
 
         self.style = ttk.Style()
         self.style.configure('TNotebook.Tab', font=('Bahnschrift SemiLight Condensed', 14))
 
-    def new_tab(self, controller: Controller, view: Table, name: str):
+    def new_tab(self, controller: TableController, view: Table, name: str):
         view = view(self.master)
         controller.bind(view)
         self.add(view, text=name)
@@ -43,9 +73,6 @@ class Lbl(tk.Label):
         self.master = master
         self['text'] ='SET & mai Stock'
         self['font'] = ("Impact", 18)
-        # self.columnconfigure(0, weight=1)
-        # self.columnconfigure(1, weight=10)
-        # self.rowconfigure(0, weight=1)
         self.grid(row=0, column=0, padx=3, sticky=tk.N + tk.S + tk.W)
 
 class LblFrame(tk.LabelFrame):
@@ -55,8 +82,7 @@ class LblFrame(tk.LabelFrame):
         self['text'] ='Datas prepared by Safem0de '
         self.columnconfigure(0, weight=4)
         self.columnconfigure(1, weight=10)
-        for i in range(100):
-            self.rowconfigure(i, weight=1)
+        [self.rowconfigure(i, weight=1) for i in range(100)]
         self.grid(row=1, column=0, sticky=tk.N + tk.S + tk.E + tk.W)
 
 class App(tk.Tk):
@@ -77,11 +103,8 @@ class App(tk.Tk):
 
 
 if __name__ == "__main__":
-    root = App()
-    # root.columnconfigure(0, weight=1)
-    # root.rowconfigure(0, weight=1)
-    # root.rowconfigure(1, weight=15)
 
+    root = App()
 
     lb = Lbl(master=root)
     label_frame = LblFrame(master=root)
