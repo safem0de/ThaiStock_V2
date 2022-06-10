@@ -1,12 +1,27 @@
+import pandas as pd
+
 class Stock:
 
+    __Market = {
+        'SET' : [],
+        'mai' : [],
+    }
+
     def __init__(self):
-        pass
-    
-    __MarketSET = {}
+        __prefix = ['NUMBER','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+        for i in __prefix:
+            dflist = pd.read_html('https://classic.set.or.th/set/commonslookup.do?language=th&country=TH&prefix='+i
+                        , match="ชื่อย่อหลักทรัพย์" ,encoding='utf8')
+            df0 = dflist[0]
+            df0 = df0[['ชื่อย่อหลักทรัพย์','ตลาด']]
 
-    def getMarketData(self):
-        return self.__MarketSET
-
-    def setMarketData_SET(self, name, data):
-        self.__MarketSET[name] = data
+            for r_i,r in df0.iterrows():
+                x = dict()
+                if df0.iloc[r_i,1] == 'mai':
+                    x[str(df0.iloc[r_i,0]).replace('&','%26').replace(' ','+')] = None
+                    self.__Market['mai'].append(x)
+                    print(x)
+                else:
+                    x[str(df0.iloc[r_i,0]).replace('&','%26').replace(' ','+')] = None
+                    self.__Market['SET'].append(x)
+                    print(x)

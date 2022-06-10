@@ -1,5 +1,3 @@
-
-from __Views.Form import Form
 from __Views.Table import Table
 from __Models.Stocks import Stock
 

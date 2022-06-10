@@ -3,46 +3,40 @@ from __Controllers.SideButtonController import ButtonController
 from __Controllers.TableController import TableController
 from __Views.Form import Form
 from __Views.Table import Table
-from __Models.Stocks import *
-from tkinter import Frame, ttk
+from __Models.Stocks import Stock
+from tkinter import Frame, Label, ttk
 
-import importlib, os, asyncio
+import importlib, os, asyncio, random
 
 from ttkthemes import ThemedStyle
 
-class Loading(tk.Toplevel):
+class Loading(tk.Tk):
 
-    def __init__(self,parent):
-        super().__init__(parent)
+    def __init__(self):
+        super().__init__()
 
-        self.geometry('+20+10')
+        self.geometry('+1921+10')
         self.title('Download Stock Data')
 
-    
+        self.btn = ttk.Button(self, text='Close', command=self.destroy)
+        self.btn.grid(row=0, column=0, sticky=tk.N + tk.S + tk.E + tk.W)
 
-    async def createStockCoroutine(MarketType):
-        pass
-        # mktCtrl = MarketController()
-        # mkt = MarketDetail()
+        self.style = ThemedStyle(self)
+        self.style.set_theme("clearlooks")
+        print('Loading...')
+
+    def createStockCoroutine(self, MarketType):
+
+        mkt = Stock()
                 
-        # x = mkt.getMarket()
-        # y = x.get(MarketType)
+        x = mkt.getMarketData()
+        y = x.get(MarketType)
         
-        # coru = []
-        # for i in y:
-        #     await asyncio.sleep(delay=random.uniform(0, 0.0001))
-        #     coru.append(await mktCtrl.createStock(i))
+        coru = []
+        for i in y:
+            print(i)
 
-        #     if MarketType == 'SET':
-        #         progress(pb_S,(len(coru)/len(y))*100,MarketType,i)
-        #         pb_S.update_idletasks()
-        #     elif MarketType == 'mai':
-        #         progress(pb_m,(len(coru)/len(y))*100,MarketType,i)
-        #         pb_m.update_idletasks()
-
-        # print(y)
         # return coru
-
 
 class Button(tk.Button):
     def __init__(self, master=None):
@@ -66,14 +60,6 @@ class Application(ttk.Notebook):
         view = view(self.master)
         controller.bind(view)
         self.add(view, text=name)
-
-class Lbl(tk.Label):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.master = master
-        self['text'] ='SET & mai Stock'
-        self['font'] = ("Impact", 18)
-        self.grid(row=0, column=0, padx=3, sticky=tk.N + tk.S + tk.W)
 
 class LblFrame(tk.LabelFrame):
     def __init__(self, master=None):
@@ -100,26 +86,67 @@ class App(tk.Tk):
 
         self.style = ThemedStyle(self)
         self.style.set_theme("clearlooks")
+        print('MainMenu')
 
 
 if __name__ == "__main__":
 
-    root = App()
-
-    lb = Lbl(master=root)
-    label_frame = LblFrame(master=root)
-    button = Button(master=label_frame)
-
     stock = Stock()
-    button_controller = ButtonController(stock)
     
-    button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Stock NEWS", row=0, col=0)
-    button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Stock Analysis", row=1, col=0)
-    button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Candle Stick", row=2, col=0)
+    async def ShowLoading():
+        await asyncio.sleep(delay=random.uniform(0, 0.0001))
+        load = Loading()
+        # load.createStockCoroutine('SET')
+        load.mainloop()
 
-    app = Application(master=label_frame)
-    table_controller = TableController()
-    app.new_tab(view=Table, controller=table_controller, name="SET")
-    app.new_tab(view=Table, controller=table_controller, name="mai")
+    async def Show():
+        await asyncio.sleep(delay=1)
+        root = App()
+        lb = Label(master=root)
+        lb['text'] ='SET & mai Stock'
+        lb['font'] = ("Impact", 18)
+        lb.grid(row=0, column=0, padx=3, sticky=tk.N + tk.S + tk.W)
+        label_frame = LblFrame(master=root)
+        button = Button(master=label_frame)
 
-    root.mainloop()
+        button_controller = ButtonController(stock)
+        
+        button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Stock NEWS", row=0, col=0)
+        button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Stock Analysis", row=1, col=0)
+        button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Candle Stick", row=2, col=0)
+
+        button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Bibiology", row=99, col=0)
+
+        app = Application(master=label_frame)
+        table_controller = TableController()
+        app.new_tab(view=Table, controller=table_controller, name="SET")
+        app.new_tab(view=Table, controller=table_controller, name="mai")
+
+        root.mainloop()
+
+    async def sequencial():
+        task1 =  asyncio.create_task(ShowLoading())
+        task2 =  asyncio.create_task(Show())
+        await task1
+        await task2
+
+    asyncio.run(sequencial())
+    # root = App()
+
+    # lb = Lbl(master=root)
+    # label_frame = LblFrame(master=root)
+    # button = Button(master=label_frame)
+
+    # stock = Stock()
+    # button_controller = ButtonController(stock)
+    
+    # button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Stock NEWS", row=0, col=0)
+    # button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Stock Analysis", row=1, col=0)
+    # button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Candle Stick", row=2, col=0)
+
+    # app = Application(master=label_frame)
+    # table_controller = TableController()
+    # app.new_tab(view=Table, controller=table_controller, name="SET")
+    # app.new_tab(view=Table, controller=table_controller, name="mai")
+
+    # root.mainloop()
