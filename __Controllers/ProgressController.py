@@ -1,14 +1,10 @@
-from tkinter import E
-from __Views.Progress import Progress
 from __Models.Stocks import Stock
 
-import threading as Thread
 import pandas as pd
 
 class ProgressController():
-    def __init__(self, model: Stock) -> None:
+    def __init__(self) -> None:
         super().__init__()
-        self.model = model
 
     def createStock(self, st_Name) -> list:
         ls = []
