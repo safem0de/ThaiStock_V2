@@ -8,4 +8,3 @@ class TableController():
     def bind(self, view: Table):
         self.view = view
         self.view.create_view()
-        self.view.create_button()

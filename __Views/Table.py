@@ -6,6 +6,7 @@ class Table(tk.Frame):
         super().__init__(master)
         self.master = master
         self.grid(row=0, column=0, sticky=tk.N + tk.S + tk.E + tk.W)
+        self.create_button()
         
     def create_view(self):
         frame = tk.Frame(self)

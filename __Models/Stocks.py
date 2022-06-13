@@ -3,8 +3,8 @@ import pandas as pd
 class Stock:
 
     __Market = {
-        'SET' : [],
-        'mai' : [],
+        'SET' : {},
+        'mai' : {},
     }
 
     def __init__(self):
@@ -19,9 +19,18 @@ class Stock:
                 x = dict()
                 if df0.iloc[r_i,1] == 'mai':
                     x[str(df0.iloc[r_i,0]).replace('&','%26').replace(' ','+')] = None
-                    self.__Market['mai'].append(x)
+                    self.__Market['mai'].update(x)
                     print(x)
                 else:
                     x[str(df0.iloc[r_i,0]).replace('&','%26').replace(' ','+')] = None
-                    self.__Market['SET'].append(x)
+                    self.__Market['SET'].update(x)
                     print(x)
+
+    def getMarket(self):
+        return self.__Market
+
+    def setMarket_mai(self, param:dict):
+        self.__Market['mai'].update(param)
+
+    def setMarket_SET(self, param:dict):
+        self.__Market['SET'].update(param)

@@ -8,7 +8,6 @@ class Form(tk.Frame):
         self.entries = {}
         self.buttons = {}
         self.comboboxes = {}
-        self.progreses = {}
 
     def create_entry(self, frame, label, row, column, textvar):
         label_frame = tk.LabelFrame(frame, text=label)
@@ -30,3 +29,4 @@ class Form(tk.Frame):
         self.comboboxes[label] = ttk.Combobox(label_frame, values=values)
         self.comboboxes[label].grid(row=1, column=1)
         label_frame.grid(row=row, column=column, sticky=tk.N + tk.S + tk.E + tk.W)
+
