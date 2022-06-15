@@ -30,37 +30,6 @@ class Loading(tk.Tk):
         self.style.set_theme("clearlooks")
         print('Loading...')
 
-        # def ShowProgress(model: Stock, controller:ProgressController):
-        #     async def createStockCoroutine(MarketType):
-
-        #         mkt = model
-                
-        #         x = mkt.getMarket()
-        #         y = x.get(MarketType)
-        #         # print(y)
-        #         coru = []
-        #         for i in y:
-        #             # print(i)
-        #             await asyncio.sleep(delay=random.uniform(0, 0.0001))
-        #             coru.append(await controller.createStock(i))
-
-        #             if MarketType == 'SET':
-        #                 progress(pb_S,(len(coru)/len(y))*100,MarketType,i)
-        #                 pb_S.update_idletasks()
-        #             elif MarketType == 'mai':
-        #                 progress(pb_m,(len(coru)/len(y))*100,MarketType,i)
-        #                 pb_m.update_idletasks()
-
-        #         return coru
-
-        #     async def main():
-        #         cococoru  = [createStockCoroutine('SET'),createStockCoroutine('mai')]
-        #         await asyncio.gather(*cococoru)
-                    
-        #     asyncio.run(main())
-
-        # ShowProgress()
-
 class Button(ttk.Button):
     def __init__(self, master=None):
         super().__init__(master)
@@ -120,23 +89,13 @@ if __name__ == "__main__":
         await asyncio.sleep(delay=random.uniform(0, 0.0001))
         load.mainloop()
 
-    async def ShowProgress():
+    async def ShowProgress_SET():
 
         def update_progressSET_label():
-            # return f"Current Progress: {pb['value']}%"
             return f"Current Progress: {round(pb_S['value'],1)}%"
 
-        def update_progressmai_label():
-            # return f"Current Progress: {pb['value']}%"
-            return f"Current Progress: {round(pb_m['value'],1)}%"
-
         def update_SETname_label(name):
-            # return f"Current Progress: {pb['value']}%"
             return f"SET : {name}"
-
-        def update_mainame_label(name):
-            # return f"Current Progress: {pb['value']}%"
-            return f"mai : {name}"
 
         def progress(pb: ttk.Progressbar, val ,Market, name):
             if pb['value'] < 100:
@@ -146,11 +105,6 @@ if __name__ == "__main__":
                     value_label_SET['text'] = ""
                     SET_name_label['text'] = update_SETname_label(name)
                     value_label_SET['text'] = update_progressSET_label()
-                elif Market == 'mai':
-                    mai_name_label['text'] = ""
-                    value_label_mai['text'] = ""
-                    mai_name_label['text'] = update_mainame_label(name)
-                    value_label_mai['text'] = update_progressmai_label()
             else:
                 pass
 
@@ -171,35 +125,6 @@ if __name__ == "__main__":
         # label
         value_label_SET = ttk.Label(load, text=update_progressSET_label())
         value_label_SET.grid(column=0, row=2, columnspan=5, padx=10, pady=20, sticky=tk.NSEW)
-
-        mai_name_label = ttk.Label(load, text="")
-        mai_name_label.grid(column=0, row=3, columnspan=5, padx=10, pady=20, sticky=tk.NSEW)
-
-        pb_m = ttk.Progressbar(
-            load,
-            orient='horizontal',
-            mode='determinate',
-            length=280,
-            name='mai'
-        )
-        # place the progressbar
-        pb_m.grid(column=0, row=4, columnspan=5, padx=10, sticky=tk.NSEW)
-
-        value_label_mai = ttk.Label(load, text=update_progressmai_label())
-        value_label_mai.grid(column=0, row=5, columnspan=5, padx=10, pady=20, sticky=tk.NSEW)
-
-        # x = stock.getMarket().get('SET')
-        # y = stock.getMarket().get('mai')
-
-        # count_SET = 0
-
-        # progress_controller = ProgressController()
-        # for k in x:
-        #     val = progress_controller.createStock(k)
-        #     stock.setMarket_SET({k : val})
-        #     count_SET += 1
-        #     progress(pb_S,(count_SET)/len(x)*100,'SET',k)
-        #     pb_S.update_idletasks()
         
         def update(progressbar:ttk.Progressbar, MarketName):
             count = 0
@@ -218,15 +143,65 @@ if __name__ == "__main__":
                 progress(progressbar, (count/len(x))*100, MarketName, k)
                 progressbar.update_idletasks()
 
-        # p1 = mp.Process(target=update,(pb_m,'mai'))
-        # p2 = mp.Process(target=update,args=(pb_S,'SET'))
-        # p1.start()
-        # p2.start()
         Thread(update(pb_S,'SET')).start()
-        Thread(update(pb_m,'mai')).start()
+    
+    async def ShowProgress_mai():
+
+        def update_progressmai_label():
+            return f"Current Progress: {round(pb_m['value'],1)}%"
+
+        def update_mainame_label(name):
+            return f"mai : {name}"
+
+        def progress(pb: ttk.Progressbar, val ,Market, name):
+            if pb['value'] < 100:
+                pb['value'] = val
+                if Market == 'mai':
+                    mai_name_label['text'] = ""
+                    value_label_mai['text'] = ""
+                    mai_name_label['text'] = update_mainame_label(name)
+                    value_label_mai['text'] = update_progressmai_label()
+            else:
+                pass
+
+        mai_name_label = ttk.Label(load, text="")
+        mai_name_label.grid(column=0, row=3, columnspan=5, padx=10, pady=20, sticky=tk.NSEW)
+
+        pb_m = ttk.Progressbar(
+            load,
+            orient='horizontal',
+            mode='determinate',
+            length=280,
+            name='mai'
+        )
+        # place the progressbar
+        pb_m.grid(column=0, row=4, columnspan=5, padx=10, sticky=tk.NSEW)
+
+        value_label_mai = ttk.Label(load, text=update_progressmai_label())
+        value_label_mai.grid(column=0, row=5, columnspan=5, padx=10, pady=20, sticky=tk.NSEW)
         
+        def update(progressbar:ttk.Progressbar, MarketName):
+            count = 0
+            progress_controller = ProgressController()
+            x = stock.getMarket().get(MarketName)
+            for k in x:
+                val = progress_controller.createStock(k)
+
+                if MarketName == 'SET':
+                    stock.setMarket_SET({k : val})
+                    count += 1
+                else:
+                    stock.setMarket_mai({k : val})
+                    count += 1
+
+                progress(progressbar, (count/len(x))*100, MarketName, k)
+                progressbar.update_idletasks()
+
+        Thread(update(pb_m,'mai')).start()
 
     async def ShowMain():
+        print(stock.getMarket())
+
         await asyncio.sleep(delay=random.uniform(0.0001, 0.0002))
         root = App()
         lb = Label(master=root)
@@ -253,10 +228,12 @@ if __name__ == "__main__":
 
     async def sequencial():
         task1 = asyncio.create_task(ShowLoading())
-        # ShowProgress()
-        task2 = asyncio.create_task(ShowProgress())
-        task3 = asyncio.create_task(ShowMain())
+        task2 = asyncio.create_task(ShowProgress_SET())
+        task3 = asyncio.create_task(ShowProgress_mai())
+        task4 = asyncio.create_task(ShowMain())
         await task1
+        await task2
         await task3
+        await task4
 
     asyncio.run(sequencial())

@@ -20,11 +20,11 @@ class Stock:
                 if df0.iloc[r_i,1] == 'mai':
                     x[str(df0.iloc[r_i,0]).replace('&','%26').replace(' ','+')] = None
                     self.__Market['mai'].update(x)
-                    print(x)
+                    # print(x)
                 else:
                     x[str(df0.iloc[r_i,0]).replace('&','%26').replace(' ','+')] = None
                     self.__Market['SET'].update(x)
-                    print(x)
+                    # print(x)
 
     def getMarket(self):
         return self.__Market
