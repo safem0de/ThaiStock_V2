@@ -48,9 +48,9 @@ class Application(ttk.Notebook):
         self.style = ttk.Style()
         self.style.configure('TNotebook.Tab', font=('Bahnschrift SemiLight Condensed', 14))
 
-    def new_tab(self, controller:TableController, view:Table, name:str):
+    def new_tab(self, controller:TableController, view:Table, model:Stock, name:str):
         view = view(self.master)
-        controller.bind(view)
+        controller.bind(model, view, name)
         self.add(view, text=name)
 
 class LblFrame(tk.LabelFrame):
@@ -220,9 +220,9 @@ if __name__ == "__main__":
         button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Bibiology", row=99, col=0)
 
         app = Application(master=label_frame)
-        table_controller = TableController()
-        app.new_tab(view=Table, controller=table_controller, name="SET")
-        app.new_tab(view=Table, controller=table_controller, name="mai")
+        table_controller = TableController(stock)
+        app.new_tab(view=Table, controller=table_controller, model=stock, name="SET")
+        app.new_tab(view=Table, controller=table_controller, model=stock, name="mai")
 
         root.mainloop()
 
