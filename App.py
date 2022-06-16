@@ -1,4 +1,4 @@
-from itertools import count
+
 from threading import Thread
 import tkinter as tk
 from __Controllers.SideButtonController import ButtonController
@@ -10,7 +10,6 @@ from __Models.Stocks import Stock
 from tkinter import Frame, Label, ttk
 
 import importlib, os, asyncio, random
-import multiprocessing as mp
 from ttkthemes import ThemedStyle
 
 class Loading(tk.Tk):
@@ -22,12 +21,12 @@ class Loading(tk.Tk):
         #     pass
 
         # self.protocol("WM_DELETE_WINDOW", func=disable_event)
-        self.geometry('+1921+10')
+        self.geometry('+21+10')
         self.title('Download Stock Data')
         self.resizable(0, 0)
-        
-        self.style = ThemedStyle(self)
-        self.style.set_theme("clearlooks")
+
+        # self.style = ThemedStyle(self)
+        # self.style.set_theme("clearlooks")
         print('Loading...')
 
 class Button(ttk.Button):
@@ -49,7 +48,7 @@ class Application(ttk.Notebook):
         self.style.configure('TNotebook.Tab', font=('Bahnschrift SemiLight Condensed', 14))
 
     def new_tab(self, controller:TableController, view:Table, model:Stock, name:str):
-        view = view(self.master)
+        view = view(self.master, model)
         controller.bind(model, view, name)
         self.add(view, text=name)
 
@@ -73,7 +72,7 @@ class App(tk.Tk):
             pyi_splash.close()
         
         self.title('Safem0de Stock Version 0.3')
-        self.geometry(f'{int(self.winfo_screenwidth()*0.975)}x{int(self.winfo_screenheight()*0.7)}+1910+0')
+        self.geometry(f'{int(self.winfo_screenwidth()*0.975)}x{int(self.winfo_screenheight()*0.7)}+10+0')
         self.state('zoomed')
 
         self.style = ThemedStyle(self)
@@ -142,7 +141,7 @@ if __name__ == "__main__":
 
                 progress(progressbar, (count/len(x))*100, MarketName, k)
                 progressbar.update_idletasks()
-
+        
         Thread(update(pb_S,'SET')).start()
     
     async def ShowProgress_mai():
@@ -200,7 +199,6 @@ if __name__ == "__main__":
         Thread(update(pb_m,'mai')).start()
 
     async def ShowMain():
-        print(stock.getMarket())
 
         await asyncio.sleep(delay=random.uniform(0.0001, 0.0002))
         root = App()
@@ -228,11 +226,11 @@ if __name__ == "__main__":
 
     async def sequencial():
         task1 = asyncio.create_task(ShowLoading())
-        task2 = asyncio.create_task(ShowProgress_SET())
+        # task2 = asyncio.create_task(ShowProgress_SET())
         task3 = asyncio.create_task(ShowProgress_mai())
         task4 = asyncio.create_task(ShowMain())
         await task1
-        await task2
+        # await task2
         await task3
         await task4
 

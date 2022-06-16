@@ -17,6 +17,7 @@ class ProgressController():
             ls.append(df.iloc[1,1] if (df.iloc[1,1]) == '-' else float(df.iloc[1,1]))
             ls.append(df.iloc[2,1] if (df.iloc[2,1]) == '-' else float(df.iloc[2,1]))
             ls.append(df.iloc[3,1] if (df.iloc[3,1]) == '-' else float(df.iloc[3,1]))
+            ls.append(df.iloc[4,1] if (df.iloc[4,1]) == '-' else float(df.iloc[4,1]))
             ls.append(df.iloc[5,1] if (df.iloc[5,1]) == '-' else float(df.iloc[5,1]))
             ls.append(df.iloc[6,1] if (df.iloc[6,1]) == '-' else float(df.iloc[6,1]))
             ls.append(df.iloc[7,1] if (df.iloc[7,1]) == '-' else float(df.iloc[7,1]))
