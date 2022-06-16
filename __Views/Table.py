@@ -6,9 +6,9 @@ from __Controllers.TableController import TableController
 
 class Table(tk.Frame):
 
-    def __init__(self, controller:TableController, model:Stock, master=None):
-        super().__init__(master)
-        self.master = master
+    def __init__(self, controller:TableController, model:Stock,):#master=None
+        super().__init__()#master
+        # self.master = master
         self.model = model
         self.controller = controller
         self.grid(row=0, column=0, sticky=tk.N + tk.S + tk.E + tk.W)
