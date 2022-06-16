@@ -9,6 +9,12 @@ class Form(tk.Frame):
         self.buttons = {}
         self.comboboxes = {}
 
+    def create_view(self, frame):
+        self.create_button(frame, name="Stock_NEWS", row=0, column=0)
+        # self.create_button(self, frame, name="Stock_NEWS", row=1, column=0)
+        # self.create_button(self, frame, name="Stock_NEWS", row=2, column=0)
+        # self.create_button(self, frame, name="Stock_NEWS", row=99, column=0)
+
     def create_entry(self, frame, label, row, column, textvar):
         label_frame = tk.LabelFrame(frame, text=label)
         self.entries[label] = tk.Entry(label_frame, textvariable=textvar)
@@ -20,7 +26,7 @@ class Form(tk.Frame):
         self.style.configure('big.TButton', font=('Bahnschrift SemiBold', 12), foreground = "blue4")
 
         self.buttons[name] = ttk.Button(frame)
-        self.buttons[name]["text"] = name
+        self.buttons[name]["text"] = str(name).replace("_"," ")
         self.buttons[name]["style"] = "big.TButton"
         self.buttons[name].grid(row=row, column=column, padx=3, sticky=tk.NW + tk.E)
 

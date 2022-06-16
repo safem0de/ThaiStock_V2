@@ -34,9 +34,13 @@ class Button(ttk.Button):
         super().__init__(master)
         self.master = master
 
-    def add_button(self, controller:ButtonController, view:Form, frame:Frame, name:str, row:int, col:int):
+    # def add_button(self, controller:ButtonController, view:Form, frame:Frame, name:str, row:int, col:int):
+    #     view = view(self.master)
+    #     controller.bind(view, frame, name, row, col)
+
+    def add_button(self, controller:ButtonController, view:Form, frame:Frame,):
         view = view(self.master)
-        controller.bind(view, frame, name, row, col)
+        controller.bind(view, frame)
         
 class Application(ttk.Notebook):
     def __init__(self, master=None):
@@ -211,11 +215,11 @@ if __name__ == "__main__":
         button = Button(master=label_frame)
         button_controller = ButtonController(stock)
         
-        button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Stock NEWS", row=0, col=0)
-        button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Stock Analysis", row=1, col=0)
-        button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Candle Stick", row=2, col=0)
+        button.add_button(view=Form, controller=button_controller, frame=label_frame,)
+        # button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Stock_Analysis", row=1, col=0)
+        # button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Candle_Stick", row=2, col=0)
 
-        button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Bibiology", row=99, col=0)
+        # button.add_button(view=Form, controller=button_controller, frame=label_frame, name="Bibiology", row=99, col=0)
 
         app = Application(master=label_frame)
         table_controller = TableController(stock)
@@ -226,11 +230,11 @@ if __name__ == "__main__":
 
     async def sequencial():
         task1 = asyncio.create_task(ShowLoading())
-        task2 = asyncio.create_task(ShowProgress_SET())
-        task3 = asyncio.create_task(ShowProgress_mai())
+        # task2 = asyncio.create_task(ShowProgress_SET())
+        # task3 = asyncio.create_task(ShowProgress_mai())
         task4 = asyncio.create_task(ShowMain())
         await task1
-        await task2
-        await task3
+        # await task2
+        # await task3
 
     asyncio.run(sequencial())
