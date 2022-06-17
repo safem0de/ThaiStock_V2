@@ -21,7 +21,7 @@ class Loading(tk.Tk):
         #     pass
 
         # self.protocol("WM_DELETE_WINDOW", func=disable_event)
-        self.geometry('+21+10')
+        self.geometry('+1921+10')
         self.title('Download Stock Data')
         self.resizable(0, 0)
 
@@ -72,7 +72,7 @@ class App(tk.Tk):
             pyi_splash.close()
         
         self.title('Safem0de Stock Version 0.3')
-        self.geometry(f'{int(self.winfo_screenwidth()*0.975)}x{int(self.winfo_screenheight()*0.7)}+10+0')
+        self.geometry(f'{int(self.winfo_screenwidth()*0.975)}x{int(self.winfo_screenheight()*0.7)}+1910+0')
         self.state('zoomed')
 
         self.style = ThemedStyle(self)
@@ -222,11 +222,11 @@ if __name__ == "__main__":
 
     async def sequencial():
         task1 = asyncio.create_task(ShowLoading())
-        task2 = asyncio.create_task(ShowProgress_SET())
-        task3 = asyncio.create_task(ShowProgress_mai())
+        # task2 = asyncio.create_task(ShowProgress_SET())
+        # task3 = asyncio.create_task(ShowProgress_mai())
         task4 = asyncio.create_task(ShowMain())
         await task1
-        await task2
-        await task3
+        # await task2
+        # await task3
 
     asyncio.run(sequencial())
