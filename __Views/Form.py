@@ -11,9 +11,10 @@ class Form(tk.Frame):
 
     def create_view(self, frame):
         self.create_button(frame, name="Stock_NEWS", row=0, column=0)
-        # self.create_button(self, frame, name="Stock_NEWS", row=1, column=0)
-        # self.create_button(self, frame, name="Stock_NEWS", row=2, column=0)
-        # self.create_button(self, frame, name="Stock_NEWS", row=99, column=0)
+        self.create_button(frame, name="Stock_Analysis", row=1, column=0)
+        self.create_button(frame, name="Candle_Stick", row=2, column=0)
+        
+        self.create_button(frame, name="Bibiology", row=99, column=0)
 
     def create_entry(self, frame, label, row, column, textvar):
         label_frame = tk.LabelFrame(frame, text=label)
