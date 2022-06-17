@@ -28,6 +28,7 @@ class ButtonController():
 
     def Candle_Stick_Click(self):
         print('test Candle_Stick')
+        
 
 
     def Bibiology_Click(self):

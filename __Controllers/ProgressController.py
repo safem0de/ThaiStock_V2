@@ -28,5 +28,4 @@ class ProgressController():
             print(st_Name, e, sep='\n')
             pass
 
-        # print(ls)
         return ls

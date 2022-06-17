@@ -222,11 +222,11 @@ if __name__ == "__main__":
 
     async def sequencial():
         task1 = asyncio.create_task(ShowLoading())
-        # task2 = asyncio.create_task(ShowProgress_SET())
-        # task3 = asyncio.create_task(ShowProgress_mai())
+        task2 = asyncio.create_task(ShowProgress_SET())
+        task3 = asyncio.create_task(ShowProgress_mai())
         task4 = asyncio.create_task(ShowMain())
         await task1
-        # await task2
-        # await task3
+        await task2
+        await task3
 
     asyncio.run(sequencial())
