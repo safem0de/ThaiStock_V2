@@ -1,4 +1,5 @@
 from __Views.Form import Form
+from __Views.Analyse import StockAnalyse
 from __Models.Stocks import Stock
 import tkinter as tk
 
@@ -7,7 +8,7 @@ class ButtonController():
         super().__init__()
         self.model = model
 
-    def bind(self, view: Form, frame:tk.Frame,):
+    def bind(self, view: Form, frame:tk.Frame):
         self.view = view
         self.view.create_view(frame)
         self.view.buttons["Stock_NEWS"].configure(command=self.Stock_NEWS_Click)
@@ -21,7 +22,8 @@ class ButtonController():
 
 
     def Stock_Analysis_Click(self):
-        print('test Analysis')
+        window = StockAnalyse()
+        window.grab_set()
 
 
     def Candle_Stick_Click(self):
