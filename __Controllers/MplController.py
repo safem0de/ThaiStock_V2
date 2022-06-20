@@ -1,29 +1,20 @@
 ### 'https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv'
+import pandas as pd
+import yfinance as yf
+from yahoofinancials import YahooFinancials
 
-class MplController():
-
-    # __daily = pd.DataFrame()
+class CandleController():
 
     def __init__(self) -> None:
         super().__init__()
-        # # mpf.plot('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv')
-        # self.__daily = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv',index_col=0,parse_dates=True)
-        # self.__daily.index.name = 'Date'
-        # y = [x.replace('AAPL.','') for x in self.__daily.columns.to_list()]
-        # self.__daily.columns = y
 
-    def bind(self, view):
-        self.view = view
-        self.view.create_view()
+    def create_graph(self, st_Name:str) -> pd.DataFrame:
+        __df = pd.DataFrame()
+        try:
+            ticker = yf.Ticker(st_Name.upper() +'.BK')
+            __df = ticker.history(period="1y")
+        except Exception as e:
+            print(e)
+            pass
 
-    def percentB_belowzero(percentB,price):
-        import numpy as np
-        signal   = []
-        previous = -1.0
-        for date,value in percentB.iteritems():
-            if value < 0 and previous >= 0:
-                signal.append(price[date]*0.99)
-            else:
-                signal.append(np.nan)
-            previous = value
-        return signal
+        return __df

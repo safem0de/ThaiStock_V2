@@ -1,20 +1,23 @@
 import tkinter as tk
-import matplotlib
+from matplotlib.figure import Figure
 import mplfinance as mpf
 import pandas as pd
+import numpy as np
 
-matplotlib.use('TkAgg')
+from tkinter import ttk
 
 from matplotlib.backends.backend_tkagg import (
-    FigureCanvasTkAgg,
-    NavigationToolbar2Tk
-)
-from __Controllers.MplController import MplController
+    FigureCanvasTkAgg, NavigationToolbar2Tk)
+# Implement the default Matplotlib key bindings.
+from matplotlib.backend_bases import key_press_handler
+# from matplotlib.figure import Figure
 
-class Graph(tk.Toplevel):
+class Graph(tk.Tk):
 
     def __init__(self):
         super().__init__()
+
+        # self.protocol("WM_DELETE_WINDOW",func=lambda : self.destroy())
 
     def create_view(self, dataframe:pd.DataFrame):
 
@@ -26,7 +29,7 @@ class Graph(tk.Toplevel):
         signal    = macd.ewm(span=9, adjust=False).mean()
         histogram = macd - signal
 
-        self.fig = mpf.figure(style='yahoo',figsize=(7,8))
+        self.fig = mpf.figure(style='yahoo', figsize=(6,7))
         ax1 = self.fig.add_subplot(3,1,1)
         ax2 = self.fig.add_subplot(3,1,2)
         ax3 = self.fig.add_subplot(3,1,3)
@@ -43,6 +46,10 @@ class Graph(tk.Toplevel):
 
         mpf.plot(dataframe, ax=ax1, volume=ax3, addplot=ap, xrotation=0, type='candle')
 
+        # self.fig = Figure(figsize=(5, 4), dpi=100)
+        # t = np.arange(0, 3, .01)
+        # self.fig.add_subplot(111).plot(t, 2 * np.sin(2 * np.pi * t))
+
         canvas = FigureCanvasTkAgg(self.fig, master=self)
         canvas.draw()
         canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
@@ -50,3 +57,18 @@ class Graph(tk.Toplevel):
         toolbar = NavigationToolbar2Tk(canvas, self)
         toolbar.update()
         canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
+        def on_key_press(event):
+            print("you pressed {}".format(event.key))
+            key_press_handler(event, canvas, toolbar)
+            
+        canvas.mpl_connect("key_press_event", on_key_press)
+
+        def _quit():
+            self.quit()     # stops mainloop
+            # self.destroy()  # this is necessary on Windows to prevent
+                            # Fatal Python Error: PyEval_RestoreThread: NULL tstate
+
+
+        button = ttk.Button(master=self, text="Quit", command=_quit)
+        button.pack(side=tk.BOTTOM)
