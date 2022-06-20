@@ -1,5 +1,5 @@
 import pandas as pd
-import threading as Thread
+
 class Stock:
 
     __Market = {

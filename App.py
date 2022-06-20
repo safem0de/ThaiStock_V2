@@ -17,17 +17,17 @@ class Loading(tk.Tk):
     def __init__(self):
         super().__init__()
 
-        # def disable_event():
-        #     pass
+        def disable_event():
+            pass
 
-        # self.protocol("WM_DELETE_WINDOW", func=disable_event)
+        self.protocol("WM_DELETE_WINDOW", func=disable_event)
         self.geometry('+1921+10')
         self.title('Download Stock Data')
         self.resizable(0, 0)
 
-        # self.style = ThemedStyle(self)
-        # self.style.set_theme("clearlooks")
         print('Loading...')
+        self.style = ttk.Style()
+        self.style.configure('big.TButton', font=('Bahnschrift SemiBold', 12), foreground = "blue4")
 
 class Button(ttk.Button):
     def __init__(self, master=None):
@@ -199,6 +199,9 @@ if __name__ == "__main__":
         Thread(update(pb_m,'mai')).start()
 
     async def ShowMain():
+        BtnClose = ttk.Button(load, text='Close', command=lambda: load.destroy(),style='big.TButton')
+        BtnClose.grid(column=0, row=6, columnspan=5, padx=10, pady=20, sticky=tk.E + tk.W)
+        
 
         await asyncio.sleep(delay=random.uniform(0.0001, 0.0002))
         root = App()

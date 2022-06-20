@@ -1,5 +1,3 @@
-from __Models.Stocks import Stock
-
 import pandas as pd
 
 class ProgressController():

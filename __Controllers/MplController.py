@@ -1,11 +1,20 @@
-import pandas as pd
-import mplfinance as mpf
-
 ### 'https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv'
 
 class MplController():
+
+    # __daily = pd.DataFrame()
+
     def __init__(self) -> None:
         super().__init__()
+        # # mpf.plot('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv')
+        # self.__daily = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv',index_col=0,parse_dates=True)
+        # self.__daily.index.name = 'Date'
+        # y = [x.replace('AAPL.','') for x in self.__daily.columns.to_list()]
+        # self.__daily.columns = y
+
+    def bind(self, view):
+        self.view = view
+        self.view.create_view()
 
     def percentB_belowzero(percentB,price):
         import numpy as np
@@ -18,15 +27,3 @@ class MplController():
                 signal.append(np.nan)
             previous = value
         return signal
-
-    # mpf.plot('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv')
-    daily = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv',index_col=0,parse_dates=True)
-    daily.index.name = 'Date'
-    y = [x.replace('AAPL.','') for x in daily.columns.to_list()]
-    # print(y)
-    daily.columns = y
-    # daily.shape
-    # daily.head(3)
-    # daily.tail(3)
-
-    # print(daily.head(3))
