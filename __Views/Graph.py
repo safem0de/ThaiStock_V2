@@ -30,9 +30,12 @@ class Graph(tk.Tk):
         histogram = macd - signal
 
         self.fig = mpf.figure(style='yahoo', figsize=(6,7))
-        ax1 = self.fig.add_subplot(3,1,1)
-        ax2 = self.fig.add_subplot(3,1,2, sharex=ax1)
-        ax3 = self.fig.add_subplot(3,1,3)
+        self.fig.suptitle(dataframe.Name)
+
+        ax1 = self.fig.add_subplot(311)
+        ax2 = self.fig.add_subplot(312)
+        ax3 = self.fig.add_subplot(313)
+
 
         ap = [
             # mpf.make_addplot(exp12, color='lime', ax=ax1),
@@ -40,15 +43,11 @@ class Graph(tk.Tk):
             
             mpf.make_addplot(histogram,type='bar',width=0.7,panel=1,
                             color='dimgray',alpha=1,secondary_y=False, ax=ax2),
-            mpf.make_addplot(macd,panel=1,color='fuchsia',secondary_y=True, ax=ax2),
-            mpf.make_addplot(signal,panel=1,color='b',secondary_y=True, ax=ax2),
+            mpf.make_addplot(macd, color='fuchsia',secondary_y=True, ax=ax2),
+            mpf.make_addplot(signal, color='b',secondary_y=True, ax=ax2),
             ]
 
         mpf.plot(dataframe, ax=ax1, volume=ax3, addplot=ap, xrotation=10, type='candle')
-
-        # self.fig = Figure(figsize=(5, 4), dpi=100)
-        # t = np.arange(0, 3, .01)
-        # self.fig.add_subplot(111).plot(t, 2 * np.sin(2 * np.pi * t))
 
         canvas = FigureCanvasTkAgg(self.fig, master=self)
         canvas.draw()

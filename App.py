@@ -206,7 +206,7 @@ if __name__ == "__main__":
         await asyncio.sleep(delay=random.uniform(0.0001, 0.0002))
         root = App()
         root.protocol("WM_DELETE_WINDOW",func=lambda:root.quit())
-        
+
         lb = Label(master=root)
         lb['text'] ='SET & mai Stock'
         lb['font'] = ("Impact", 18)
