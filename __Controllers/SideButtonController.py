@@ -37,15 +37,9 @@ class ButtonController():
 
         window = Graph()
         window.geometry('+1921+10')
-        window.wm_title('Candle Stick')
-
+        window.title('Candle Stick')
         window.create_view(a)
-
-        x = window.winfo_toplevel().winfo_reqwidth()
-
-        window2 = Graph()
-        window2.geometry(f'+{1921+x+10}+10')
-        window2.wm_title('Renko')
+        # window.protocol('WM_DELETE_WINDOW',func=lambda: window.destroy())
 
     def Bibiology_Click(self):
         print('test Bibiology')

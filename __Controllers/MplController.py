@@ -18,3 +18,7 @@ class CandleController():
             pass
 
         return __df
+
+    def bind(self, view):
+        self.view = view
+        self.view.create_view()

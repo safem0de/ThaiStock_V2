@@ -14,10 +14,10 @@ from matplotlib.backend_bases import key_press_handler
 
 class Graph(tk.Tk):
 
-    def __init__(self):
-        super().__init__()
-
-        # self.protocol("WM_DELETE_WINDOW",func=lambda : self.destroy())
+    def __init__(self, master=None):
+        super().__init__(master)
+        self.master = master
+        self.protocol("WM_DELETE_WINDOW",func=lambda: self.destroy())
 
     def create_view(self, dataframe:pd.DataFrame):
 
@@ -31,7 +31,7 @@ class Graph(tk.Tk):
 
         self.fig = mpf.figure(style='yahoo', figsize=(6,7))
         ax1 = self.fig.add_subplot(3,1,1)
-        ax2 = self.fig.add_subplot(3,1,2)
+        ax2 = self.fig.add_subplot(3,1,2, sharex=ax1)
         ax3 = self.fig.add_subplot(3,1,3)
 
         ap = [
@@ -44,7 +44,7 @@ class Graph(tk.Tk):
             mpf.make_addplot(signal,panel=1,color='b',secondary_y=True, ax=ax2),
             ]
 
-        mpf.plot(dataframe, ax=ax1, volume=ax3, addplot=ap, xrotation=0, type='candle')
+        mpf.plot(dataframe, ax=ax1, volume=ax3, addplot=ap, xrotation=10, type='candle')
 
         # self.fig = Figure(figsize=(5, 4), dpi=100)
         # t = np.arange(0, 3, .01)
@@ -61,14 +61,9 @@ class Graph(tk.Tk):
         def on_key_press(event):
             print("you pressed {}".format(event.key))
             key_press_handler(event, canvas, toolbar)
-            
+
         canvas.mpl_connect("key_press_event", on_key_press)
 
-        def _quit():
-            self.quit()     # stops mainloop
-            # self.destroy()  # this is necessary on Windows to prevent
-                            # Fatal Python Error: PyEval_RestoreThread: NULL tstate
-
-
-        button = ttk.Button(master=self, text="Quit", command=_quit)
-        button.pack(side=tk.BOTTOM)
+    # def add_window(self, controller):
+    #     view = view(self.master)
+    #     controller.bind(view)
