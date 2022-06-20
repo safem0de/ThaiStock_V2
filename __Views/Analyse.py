@@ -10,6 +10,7 @@ class StockAnalyse(tk.Toplevel):
         super().__init__()
 
         self.title('Analysis Mode')
+        self.geometry('+1921+10')
         self.analyseTable(stk=[])
 
         self.labelheader = ttk.Label(self, text = 'Analyse')
