@@ -201,7 +201,7 @@ if __name__ == "__main__":
     async def ShowMain():
         BtnClose = ttk.Button(load, text='Close', command=lambda: load.destroy(),style='big.TButton')
         BtnClose.grid(column=0, row=6, columnspan=5, padx=10, pady=20, sticky=tk.E + tk.W)
-        
+        BtnClose.focus()
 
         await asyncio.sleep(delay=random.uniform(0.0001, 0.0002))
         root = App()
