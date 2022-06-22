@@ -78,12 +78,12 @@ class Table(tk.Frame):
         for col in columns:
             self.tree.heading(col, text=col)
             self.tree.column(col, minwidth=0, width=90, stretch=False, anchor=tk.E)
-
-        for data in model.getMarket().get(Market).values():
-            try:
+            
+        try:
+            for data in model.getMarket().get(Market).values():
                 self.tree.insert('', tk.END, values=data)
-            except:
-                pass
+        except:
+            pass
         
         self.tree.bind('<<TreeviewSelect>>', item_selected)
         self.tree.grid(row=0, column=0, sticky=tk.NSEW)

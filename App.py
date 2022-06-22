@@ -222,6 +222,7 @@ if __name__ == "__main__":
         table_controller = TableController(stock)
         app.new_tab(view=Table, controller=table_controller, model=stock, name="SET")
         app.new_tab(view=Table, controller=table_controller, model=stock, name="mai")
+        app.new_tab(view=Table, controller=table_controller, model=stock, name="Crypto")
 
         root.mainloop()
 
