@@ -16,13 +16,17 @@ class Graph(tk.Tk):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
+        # self.state('zoomed')
         self.protocol("WM_DELETE_WINDOW",func=lambda: self.destroy())
 
-        self.LblframePeriod = ttk.LabelFrame(self, text="Period of Charts")
-        self.LblframePeriod.pack(side=tk.LEFT, expand=False, padx=5, pady=5)
+        self.frame = ttk.Frame(self)
+        self.frame.pack(fill=tk.X)
 
-        self.LblframeIndicator = ttk.LabelFrame(self, text="Indicators")
-        self.LblframeIndicator.pack(side=tk.LEFT, expand=False, padx=5, pady=5)
+        self.LblframePeriod = ttk.LabelFrame(self.frame, text="Period of Charts")
+        self.LblframePeriod.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, padx=5, pady=5)
+
+        self.LblframeIndicator = ttk.LabelFrame(self.frame, text="Indicators")
+        self.LblframeIndicator.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, padx=5, pady=5)
 
         selected_period = tk.StringVar()
         period = (('1 Day', '1d'),
@@ -120,11 +124,11 @@ class Graph(tk.Tk):
 
         canvas = FigureCanvasTkAgg(self.fig, master=self)
         canvas.draw()
-        canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=1)
+        canvas.get_tk_widget().pack(fill=tk.X, padx=5, pady=5)
 
         toolbar = NavigationToolbar2Tk(canvas, self)
         toolbar.update()
-        canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=1)
+        canvas.get_tk_widget().pack(fill=tk.X)
 
         def on_key_press(event):
             print("you pressed {}".format(event.key))

@@ -75,7 +75,7 @@ class StockAnalyse(tk.Toplevel):
 
     def analyseTable(self, stk):
         columns = ('หลักทรัพย์', 'งบ(ปี)ที่คำนวณ', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
-        self.tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse')
+        self.tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=15)
 
         # define headings
         for col in columns:
