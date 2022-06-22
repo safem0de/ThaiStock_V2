@@ -78,7 +78,7 @@ class Table(tk.Frame):
         for col in columns:
             self.tree.heading(col, text=col)
             self.tree.column(col, minwidth=0, width=90, stretch=False, anchor=tk.E)
-            
+
         try:
             for data in model.getMarket().get(Market).values():
                 self.tree.insert('', tk.END, values=data)

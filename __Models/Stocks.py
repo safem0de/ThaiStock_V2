@@ -1,10 +1,12 @@
 import pandas as pd
+import requests
 
 class Stock:
 
     __Market = {
         'SET' : {},
         'mai' : {},
+        'Crypto' :{}
     }
 
     def __init__(self):
@@ -25,6 +27,34 @@ class Stock:
                     x[str(df0.iloc[r_i,0]).replace('&','%26').replace(' ','+')] = None
                     self.__Market['SET'].update(x)
                     # print(x)
+
+        url = 'https://api.coincap.io/v2/assets'
+        response = requests.get(url)
+        x = dict(response.json())
+        # y = pd.DataFrame(x['data'])
+        # print(y)
+
+        for r in x['data']:
+            y = dict()
+            print(r)
+            y[r.get('symbol')] = [
+                str(r.get('name')).upper(),
+                r.get('symbol'),
+                round(float(r.get('priceUsd')),4),
+                '-',
+                round(float(r.get('changePercent24Hr')),4),
+                '-',
+                '-',
+                '-',
+                '-',
+                round(float(r.get('volumeUsd24Hr')),4),
+                round(float(r.get('marketCapUsd'))/1000000,4),
+                '-'
+                ]
+            self.__Market['Crypto'].update(y)
+
+        # print(self.__Market)
+
 
     def getMarket(self):
         return self.__Market

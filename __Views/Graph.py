@@ -1,5 +1,5 @@
 import tkinter as tk
-from matplotlib import axes, axis
+from matplotlib import axis, pyplot as plt
 import mplfinance as mpf
 import pandas as pd
 
@@ -87,40 +87,30 @@ class Graph(tk.Tk):
         self.fig.suptitle(dataframe.Name)
         self.fig.subplots_adjust(hspace=0.001)
 
-        ax1 = self.fig.add_subplot(321)
-        ax2 = self.fig.add_subplot(323, sharex = ax1)
-        ax3 = self.fig.add_subplot(325, sharex = ax1)
+        # ax1 = self.fig.add_subplot(321)
+        # ax2 = self.fig.add_subplot(323, sharex = ax1)
+        # ax3 = self.fig.add_subplot(325, sharex = ax1)
 
-        self.RemoveLabel(ax1)
-        self.RemoveLabel(ax2)
+        # self.RemoveLabel(ax1)
+        # self.RemoveLabel(ax2)
 
-        ax4 = self.fig.add_subplot(322)
-
-        # ax1.grid(True)
-        # for tick in ax1.xaxis.get_major_ticks():
-        #     tick.tick1line.set_visible(False)
-        #     tick.tick2line.set_visible(False)
-        #     tick.label1.set_visible(False)
-        #     tick.label2.set_visible(False)
-
-        # ax2.grid(True)
-        # for tick in ax2.xaxis.get_major_ticks():
-        #     tick.tick1line.set_visible(False)
-        #     tick.tick2line.set_visible(False)
-        #     tick.label1.set_visible(False)
-        #     tick.label2.set_visible(False)
+        # ax4 = self.fig.add_subplot(322)
         
-        ap = [
-            # mpf.make_addplot(exp12, color='lime', ax=ax1),
-            # mpf.make_addplot(exp26, color='c', ax=ax1),
+        # ap = [
+        #     mpf.make_addplot(exp12, color='lime', ax=ax1),
+        #     mpf.make_addplot(exp26, color='c', ax=ax1),
             
-            mpf.make_addplot(histogram,type='bar',
-                            color='dimgray', ax=ax2),#secondary_y=False,
-            mpf.make_addplot(macd, color='fuchsia', ax=ax2),#secondary_y=True,
-            mpf.make_addplot(signal, color='b', ax=ax2),#secondary_y=True,
-            ]
+        #     mpf.make_addplot(histogram,type='bar',
+        #                     color='dimgray', ax=ax2),#secondary_y=False,
+        #     mpf.make_addplot(macd, color='fuchsia', ax=ax2),#secondary_y=True,
+        #     mpf.make_addplot(signal, color='b', ax=ax2),#secondary_y=True,
+        #     ]
 
-        mpf.plot(dataframe, ax=ax1, volume=ax3, addplot=ap, xrotation=10, type='candle')
+        # mpf.plot(dataframe, ax=ax1, volume=ax3, addplot=ap, xrotation=10, type='candle')
+
+        # mpf.plot(dataframe, ax=ax1, volume=ax3, addplot=ap, xrotation=10, type='candle')
+        ax1 = self.fig.add_subplot(111)
+        mpf.plot(dataframe, volume=True, tight_layout=True,)
 
         canvas = FigureCanvasTkAgg(self.fig, master=self)
         canvas.draw()
