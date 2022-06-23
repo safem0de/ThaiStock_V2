@@ -22,8 +22,9 @@ class Table(tk.Frame):
                 record = item['values']
 
                 print(record)
-                x = record[0]
-                financialTable(x)
+                if Market != 'Crypto':
+                    x = record[0] 
+                    financialTable(x)
 
         def financialTable(record):
 

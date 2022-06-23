@@ -1,10 +1,9 @@
 import tkinter as tk
-from matplotlib import axis, pyplot as plt
-import mplfinance as mpf
-import pandas as pd
-
 from tkinter import ttk
 
+from matplotlib import axis
+import mplfinance as mpf
+import pandas as pd
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.backend_bases import key_press_handler
@@ -108,9 +107,19 @@ class Graph(tk.Tk):
 
         # mpf.plot(dataframe, ax=ax1, volume=ax3, addplot=ap, xrotation=10, type='candle')
 
-        # mpf.plot(dataframe, ax=ax1, volume=ax3, addplot=ap, xrotation=10, type='candle')
-        ax1 = self.fig.add_subplot(111)
-        mpf.plot(dataframe, volume=True, tight_layout=True,)
+        # ax1 = self.fig.add_subplot(111)
+        # mpf.plot(dataframe, volume=True, tight_layout=True,)
+        mpf.plot(
+            dataframe,
+            panel_ratios=(2, 1, 3, 1),
+            type="hollow_candle",
+            volume=True,
+            style='yahoo',
+            figsize=(12.8, 10),
+            # addplot=ap0,
+            main_panel=2,
+            volume_panel=3,
+            num_panels=4,)
 
         canvas = FigureCanvasTkAgg(self.fig, master=self)
         canvas.draw()
