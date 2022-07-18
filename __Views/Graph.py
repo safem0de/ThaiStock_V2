@@ -86,40 +86,40 @@ class Graph(tk.Tk):
         self.fig.suptitle(dataframe.Name)
         self.fig.subplots_adjust(hspace=0.001)
 
-        # ax1 = self.fig.add_subplot(321)
-        # ax2 = self.fig.add_subplot(323, sharex = ax1)
-        # ax3 = self.fig.add_subplot(325, sharex = ax1)
+        ax1 = self.fig.add_subplot(321)
+        ax2 = self.fig.add_subplot(323, sharex = ax1)
+        ax3 = self.fig.add_subplot(325, sharex = ax1)
 
         # self.RemoveLabel(ax1)
         # self.RemoveLabel(ax2)
 
         # ax4 = self.fig.add_subplot(322)
         
-        # ap = [
-        #     mpf.make_addplot(exp12, color='lime', ax=ax1),
-        #     mpf.make_addplot(exp26, color='c', ax=ax1),
+        ap = [
+            mpf.make_addplot(exp12, color='lime', ax=ax1),
+            mpf.make_addplot(exp26, color='c', ax=ax1),
             
-        #     mpf.make_addplot(histogram,type='bar',
-        #                     color='dimgray', ax=ax2),#secondary_y=False,
-        #     mpf.make_addplot(macd, color='fuchsia', ax=ax2),#secondary_y=True,
-        #     mpf.make_addplot(signal, color='b', ax=ax2),#secondary_y=True,
-        #     ]
+            mpf.make_addplot(histogram,type='bar',
+                            color='dimgray', ax=ax2),#secondary_y=False,
+            mpf.make_addplot(macd, color='fuchsia', ax=ax2),#secondary_y=True,
+            mpf.make_addplot(signal, color='b', ax=ax2),#secondary_y=True,
+            ]
 
-        # mpf.plot(dataframe, ax=ax1, volume=ax3, addplot=ap, xrotation=10, type='candle')
+        mpf.plot(dataframe, ax=ax1, volume=ax3, addplot=ap, xrotation=10, type='candle')
 
         # ax1 = self.fig.add_subplot(111)
         # mpf.plot(dataframe, volume=True, tight_layout=True,)
-        mpf.plot(
-            dataframe,
-            panel_ratios=(2, 1, 3, 1),
-            type="hollow_candle",
-            volume=True,
-            style='yahoo',
-            figsize=(12.8, 10),
-            # addplot=ap0,
-            main_panel=2,
-            volume_panel=3,
-            num_panels=4,)
+        # mpf.plot(
+        #     dataframe,
+        #     panel_ratios=(2, 1, 3, 1),
+        #     type="hollow_candle",
+        #     volume=True,
+        #     style='yahoo',
+        #     figsize=(12.8, 10),
+        #     # addplot=ap0,
+        #     main_panel=2,
+        #     volume_panel=3,
+        #     num_panels=4,)
 
         canvas = FigureCanvasTkAgg(self.fig, master=self)
         canvas.draw()

@@ -2,7 +2,6 @@ from tkinter import *
 import tkinter as tk
 from tkinter.ttk import *
 
-from matplotlib import axis
 import mplfinance as mpf
 import pandas as pd
 from matplotlib.backends.backend_tkagg import (
@@ -35,7 +34,7 @@ if __name__ == '__main__':
     # mpf.plot(
     #         app.dataframe,
     #         panel_ratios=(2, 1, 3, 1),
-    #         type="hollow_candle",
+    #  python Ap       type="hollow_candle",
     #         volume=True,
     #         style='yahoo',
     #         figsize=(12.8, 10),

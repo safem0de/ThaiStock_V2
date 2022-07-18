@@ -48,7 +48,7 @@ class Stock:
                 '-',
                 round(float(r.get('volumeUsd24Hr')),4),
                 round(float(r.get('marketCapUsd'))/1000000,4),
-                round(float(r.get('vwap24Hr')),4),
+                # round(float(r.get('vwap24Hr')),4),
                 ]
             self.__Market['Crypto'].update(y)
 
