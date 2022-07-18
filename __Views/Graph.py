@@ -82,7 +82,8 @@ class Graph(tk.Tk):
         signal = macd.ewm(span=9, adjust=False).mean()
         histogram = macd - signal
 
-        self.fig = mpf.figure(style='yahoo', figsize=(15,6))
+        self.fig = mpf.figure(style='yahoo', figsize=(16,9))
+        # <Mpf_Figure size 1600x900 with 0 Axes>
         self.fig.suptitle(dataframe.Name)
         self.fig.subplots_adjust(hspace=0.001)
 
