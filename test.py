@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter.ttk import *
 
 import mplfinance as mpf
+import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
@@ -23,25 +24,27 @@ class App(tk.Tk):
 
         print(self.dataframe)
 
+def example_plot(ax, fontsize=12):
+    ax.plot([1, 2])
+
+
 if __name__ == '__main__':
     app = App()
-    app.fig = mpf.figure(style='yahoo', figsize=(15,6))
-    ax1 = app.fig.add_subplot(111)
-    mpf.plot(app.dataframe,
-            type='hollow_candle',
-            ax=ax1,)
+    # app.fig = mpf.figure(style='yahoo', figsize=(15,6))
+    plt.close('all')
+    app.fig = plt.figure()
 
-    # mpf.plot(
-    #         app.dataframe,
-    #         panel_ratios=(2, 1, 3, 1),
-    #  python Ap       type="hollow_candle",
-    #         volume=True,
-    #         style='yahoo',
-    #         figsize=(12.8, 10),
-    #         # addplot=ap0,
-    #         main_panel=2,
-    #         volume_panel=3,
-    #         num_panels=4,)
+    ax1 = plt.subplot2grid((3, 3), (0, 0))
+    ax2 = plt.subplot2grid((3, 3), (0, 1), colspan=2)
+    ax3 = plt.subplot2grid((3, 3), (1, 0), colspan=2, rowspan=2)
+    ax4 = plt.subplot2grid((3, 3), (1, 2), rowspan=2)
+
+    example_plot(ax1)
+    example_plot(ax2)
+    example_plot(ax3)
+    example_plot(ax4)
+
+    plt.tight_layout()
 
     canvas = FigureCanvasTkAgg(app.fig, master=app)
     canvas.draw()
