@@ -36,7 +36,7 @@ class ButtonController():
         a = data.create_graph('PTG','1y')
 
         window = Graph()
-        window.geometry('+1921+10')
+        # window.geometry('+1921+10')
         window.title('Candle Stick')
         window.create_view(a)
         # window.protocol('WM_DELETE_WINDOW',func=lambda: window.destroy())

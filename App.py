@@ -1,4 +1,3 @@
-
 from threading import Thread
 import tkinter as tk
 from __Controllers.SideButtonController import ButtonController
