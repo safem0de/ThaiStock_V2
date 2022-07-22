@@ -33,7 +33,7 @@ class ButtonController():
 
     def Candle_Stick_Click(self):
         data = CandleController()
-        a = data.create_graph('PTG','6mo')
+        a = data.create_graph('PTG','1y')
 
         window = Graph()
         window.geometry('+1921+10')
