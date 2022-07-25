@@ -132,12 +132,12 @@ class Graph(tk.Tk):
         ax2.annotate("MACD",xy=(0.02,0.8),
             xycoords='axes fraction',
             size=8,
-            bbox=dict(boxstyle="round", fc=(0.5, 0.5, 0.5), ec="none"))
+            bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9), ec="none"))
 
         ax3.annotate("RSI",xy=(0.02,0.8),
             xycoords='axes fraction',
             size=8,
-            bbox=dict(boxstyle="round", fc=(0.5, 0.5, 0.5), ec="none"))
+            bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9), ec="none"))
 
         ap = [
             mpf.make_addplot(exp12, color='y', ax=ax0),
