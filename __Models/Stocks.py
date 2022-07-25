@@ -8,6 +8,7 @@ class Stock:
         'mai' : {},
         'Crypto' :{}
     }
+    __Selected_StockName = None
 
     def __init__(self):
         __prefix = ['NUMBER','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
@@ -63,3 +64,9 @@ class Stock:
 
     def setMarket_SET(self, param:dict):
         self.__Market['SET'].update(param)
+
+    def getSelected_StockName(self):
+        return self.__Selected_StockName
+
+    def setSelected_StockName(self, param):
+        self.__Selected_StockName = param

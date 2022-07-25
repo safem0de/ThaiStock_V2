@@ -1,3 +1,4 @@
+from tkinter.messagebox import showerror
 from __Views.Form import Form
 from __Views.Analyse import StockAnalyse
 from __Views.Graph import Graph
@@ -18,8 +19,7 @@ class ButtonController():
         self.view.create_view(frame)
         self.view.buttons["Stock_NEWS"].configure(command=self.Stock_NEWS_Click)
         self.view.buttons["Stock_Analysis"].configure(command=self.Stock_Analysis_Click)
-        self.view.buttons["Candle_Stick"].configure(command=self.Candle_Stick_Click)
-
+        self.view.buttons["Candle_Stick"].configure(command=lambda:self.Candle_Stick_Click())
         self.view.buttons["Bibiology"].configure(command=self.Bibiology_Click)
 
     def Stock_NEWS_Click(self):
@@ -32,14 +32,23 @@ class ButtonController():
 
 
     def Candle_Stick_Click(self):
-        data = CandleController()
-        a = data.create_graph('AAV','1y')
+        name = self.model.getSelected_StockName()
+        if not name == None:
+            try:
+                data = CandleController()
+                a = data.create_graph(name,'1y')
 
-        window = Graph()
-        # window.geometry('+1921+10')
-        window.title('Candle Stick')
-        window.create_view(a)
-        # window.protocol('WM_DELETE_WINDOW',func=lambda: window.destroy())
+                window = Graph()
+                window.geometry('+1921+10')
+                window.title('Candle Stick')
+                window.create_view(a)
+                # window.protocol('WM_DELETE_WINDOW',func=lambda: window.destroy())
+            except Exception as e:
+                print(e)
+            
+        else:
+            showerror('Please select stock','to show the Graphs please select')
+            return
 
     def Bibiology_Click(self):
         print('test Bibiology')

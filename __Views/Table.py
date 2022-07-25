@@ -20,11 +20,13 @@ class Table(tk.Frame):
             for selected_item in self.tree.selection():
                 item = self.tree.item(selected_item)
                 record = item['values']
-
-                print(record)
+                
                 if Market != 'Crypto':
                     x = record[0] 
                     financialTable(x)
+                    model.setSelected_StockName(record[0]+'.BK')
+                else:
+                    model.setSelected_StockName(record[1]+'-USD')
 
         def financialTable(record):
 
