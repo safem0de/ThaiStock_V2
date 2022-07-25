@@ -3,11 +3,13 @@ from tkinter import ttk
 
 import numpy as np
 from matplotlib import axis
+
 import mplfinance as mpf
 import pandas as pd
 from matplotlib.backends.backend_tkagg import (
     FigureCanvasTkAgg, NavigationToolbar2Tk)
 from matplotlib.backend_bases import key_press_handler
+from pyparsing import alphas
 
 
 class Graph(tk.Tk):
@@ -84,14 +86,12 @@ class Graph(tk.Tk):
         df['avg_loss'] = self.rma(df.loss[n+1:].to_numpy(), n, np.nansum(df.loss.to_numpy()[:n+1])/n)
         df['rs'] = df.avg_gain / df.avg_loss
         df['rsi_14'] = 100 - (100 / (1 + df.rs))
-        # df.fillna('-', inplace=True)
         return df['rsi_14'].squeeze()
 
     def create_view(self, df:pd.DataFrame):
 
-        exp12 = df['Close'].ewm(span=12, adjust=False).mean()
+        exp12 = df['Close'].ewm(span=12, adjust=False).mean() ## pd.Series
         exp26 = df['Close'].ewm(span=26, adjust=False).mean()
-        print(exp26)
 
         macd = exp12 - exp26
 
@@ -129,6 +129,16 @@ class Graph(tk.Tk):
         fontsize=20, color='gray', alpha=0.4,
         ha='center', va='center', rotation='20')
 
+        ax2.annotate("MACD",xy=(0.02,0.8),
+            xycoords='axes fraction',
+            size=8,
+            bbox=dict(boxstyle="round", fc=(0.7, 0.7, 0.7), ec="none"))
+
+        ax3.annotate("RSI",xy=(0.02,0.8),
+            xycoords='axes fraction',
+            size=8,
+            bbox=dict(boxstyle="round", fc=(0.7, 0.7, 0.7), ec="none"))
+
         ap = [
             mpf.make_addplot(exp12, color='y', ax=ax0),
             mpf.make_addplot(exp26, color='c', ax=ax0),
@@ -146,8 +156,6 @@ class Graph(tk.Tk):
 
         mpf.plot(df,ax=ax0,volume=ax1,type='candle', addplot=ap, xrotation=10)
         mpf.plot(df,ax=ax4,type='renko')
-
-        # print(df)
         
         canvas = FigureCanvasTkAgg(fig, master=self)
         canvas.draw()
