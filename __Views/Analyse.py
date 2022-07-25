@@ -16,7 +16,32 @@ class StockAnalyse(tk.Toplevel):
 
         self.labelheader = ttk.Label(self, text = 'Analyse')
         self.labelheader['font'] = ("Impact", 16)
-        self.labelheader.grid(row=0, column=0, sticky=tk.W)
+        self.labelheader.grid(row=0, column=0, sticky=tk.W+tk.N)
+
+        self.LblframeMarket = ttk.LabelFrame(self, text="Market")
+        self.LblframeMarket.grid(row=1, column=0, sticky=tk.W+tk.N)
+
+        selected_Market = tk.StringVar()
+        mkt = (('SET & mai', 'all'),
+                ('SET', 'set'),
+                ('SET100', 'set100'),
+                ('mai', 'mai'),)
+
+        mkt_count = 0
+        for p in mkt:
+            # print(p)
+            r = ttk.Radiobutton(
+                self.LblframeMarket,
+                text=p[0],
+                value=p[1],
+                variable=selected_Market,
+                command = lambda : print(selected_Market.get())
+            )
+            r.grid(row=0, column=mkt_count, sticky=tk.W + tk.E)
+            mkt_count += 1
+            # print(mkt_count)
+
+        selected_Market.set('all')
 
         # https://www.pythontutorial.net/tkinter/tkinter-checkbox/
         self.checkbox_asset_var = tk.StringVar()
@@ -27,7 +52,7 @@ class StockAnalyse(tk.Toplevel):
         variable=self.checkbox_asset_var,
         onvalue='asset',
         offvalue='rm_asset')
-        self.checkbox_asset.grid(row=1, column=0, padx=3, sticky=tk.W)
+        self.checkbox_asset.grid(row=2, column=0, padx=3, sticky=tk.W)
 
         self.checkbox_revenue_var = tk.StringVar()
         self.checkbox_revenue = ttk.Checkbutton(self,
@@ -36,7 +61,7 @@ class StockAnalyse(tk.Toplevel):
         variable=self.checkbox_revenue_var,
         onvalue='revenue',
         offvalue='rm_revenue')
-        self.checkbox_revenue.grid(row=2, column=0, padx=3, sticky=tk.W)
+        self.checkbox_revenue.grid(row=3, column=0, padx=3, sticky=tk.W)
 
         self.checkbox_netprofit_var = tk.StringVar()
         self.checkbox_netprofit = ttk.Checkbutton(self,
@@ -45,7 +70,7 @@ class StockAnalyse(tk.Toplevel):
         variable=self.checkbox_netprofit_var,
         onvalue='netprofit',
         offvalue='rm_netprofit')
-        self.checkbox_netprofit.grid(row=3, column=0, padx=3, sticky=tk.W)
+        self.checkbox_netprofit.grid(row=4, column=0, padx=3, sticky=tk.W)
 
         self.checkbox_ROE_var = tk.StringVar()
         self.checkbox_ROE = ttk.Checkbutton(self,
@@ -54,7 +79,7 @@ class StockAnalyse(tk.Toplevel):
         variable=self.checkbox_ROE_var,
         onvalue='roe',
         offvalue='rm_roe')
-        self.checkbox_ROE.grid(row=4, column=0, padx=3, sticky=tk.W)
+        self.checkbox_ROE.grid(row=5, column=0, padx=3, sticky=tk.W)
 
         self.checkbox_Yield_var = tk.StringVar()
         self.checkbox_Yield = ttk.Checkbutton(self,
@@ -63,7 +88,7 @@ class StockAnalyse(tk.Toplevel):
         variable=self.checkbox_Yield_var,
         onvalue='yield',
         offvalue='rm_yield')
-        self.checkbox_Yield.grid(row=5, column=0, padx=3, sticky=tk.W)
+        self.checkbox_Yield.grid(row=6, column=0, padx=3, sticky=tk.W)
 
         self.checkbox_PE_var = tk.StringVar()
         self.checkbox_PE = ttk.Checkbutton(self,
@@ -72,7 +97,7 @@ class StockAnalyse(tk.Toplevel):
         variable=self.checkbox_PE_var,
         onvalue='pe',
         offvalue='rm_pe')
-        self.checkbox_PE.grid(row=6, column=0, padx=3, sticky=tk.W)
+        self.checkbox_PE.grid(row=7, column=0, padx=3, sticky=tk.W)
 
         self.checkbox_PBV_var = tk.StringVar()
         self.checkbox_PBV = ttk.Checkbutton(self,
@@ -81,7 +106,7 @@ class StockAnalyse(tk.Toplevel):
         variable=self.checkbox_PBV_var,
         onvalue='pbv',
         offvalue='rm_pbv')
-        self.checkbox_PBV.grid(row=7, column=0, padx=3, sticky=tk.W)
+        self.checkbox_PBV.grid(row=8, column=0, padx=3, sticky=tk.W)
 
     def analyseTable(self, stk):
         columns = ('หลักทรัพย์', 'งบ(ปี)ที่คำนวณ', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
