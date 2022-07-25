@@ -1,5 +1,5 @@
 from __Models.Stocks import Stock
-
+import datetime
 import pandas as pd
 
 class TableController():
@@ -74,6 +74,7 @@ class TableController():
     ## Substring Technic
     ## https://www.freecodecamp.org/news/how-to-substring-a-string-in-python/
     def StockStatementHeader(self, df) -> list:
+        x = datetime.datetime.now()
         stockstatement = df
         listOfColumn = []
         if not stockstatement.empty:
@@ -83,12 +84,12 @@ class TableController():
                 if i == 0:
                     listOfColumn.append(df.Name)
                 else:
-                    if "Unnamed" in str(ls[i][0]): 
+                    if "Unnamed" not in str(ls[i][0]) and "Unnamed" not in str(ls[i][1]):
                         listOfColumn.append(str(ls[i][1])[-10:])
-                    elif "Unnamed" in str(ls[1]): 
-                        listOfColumn.append(str(ls[i][0])[-10:])
+                    elif "Unnamed" in str(ls[i][0]) and "Unnamed" not in str(ls[i][1]): 
+                        listOfColumn.append(str(ls[i][1])[-10:])
                     else:
-                        listOfColumn.append(str(ls[i][1])[-10:])
+                        listOfColumn.append(str(ls[i][0])[-10:])
             # print(listOfColumn)
         return listOfColumn
 

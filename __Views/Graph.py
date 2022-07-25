@@ -23,47 +23,47 @@ class Graph(tk.Tk):
         self.frame = ttk.Frame(self)
         self.frame.pack(fill=tk.X)
 
-        self.LblframePeriod = ttk.LabelFrame(self.frame, text="Period of Charts")
-        self.LblframePeriod.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, padx=5, pady=5)
+        # self.LblframePeriod = ttk.LabelFrame(self.frame, text="Period of Charts")
+        # self.LblframePeriod.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, padx=5, pady=5)
 
-        self.LblframeIndicator = ttk.LabelFrame(self.frame, text="Indicators")
-        self.LblframeIndicator.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, padx=5, pady=5)
+        # self.LblframeIndicator = ttk.LabelFrame(self.frame, text="Indicators")
+        # self.LblframeIndicator.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, padx=5, pady=5)
 
-        selected_period = tk.StringVar()
-        period = (('1 Day', '1d'),
-                ('5 Days', '5d'),
-                ('1 Month', '1mo'),
-                ('3 Months', '3mo'),
-                ('6 Months', '6mo'),
-                ('1 Year', '1y'),
-                ('2 Year', '2y'),
-                ('5 Year', '5y'))
+        # selected_period = tk.StringVar()
+        # period = (('1 Day', '1d'),
+        #         ('5 Days', '5d'),
+        #         ('1 Month', '1mo'),
+        #         ('3 Months', '3mo'),
+        #         ('6 Months', '6mo'),
+        #         ('1 Year', '1y'),
+        #         ('2 Year', '2y'),
+        #         ('5 Year', '5y'))
 
-        for p in period:
-            r = ttk.Radiobutton(
-                self.LblframePeriod,
-                text=p[0],
-                value=p[1],
-                variable=selected_period
-            )
-            r.pack(side=tk.LEFT, padx=5, pady=5)
+        # for p in period:
+        #     r = ttk.Radiobutton(
+        #         self.LblframePeriod,
+        #         text=p[0],
+        #         value=p[1],
+        #         variable=selected_period
+        #     )
+        #     r.pack(side=tk.LEFT, padx=5, pady=5)
 
-        indicator = (
-                ('EMA 12,26', 'ema'),
-                ('SMA', 'sma'),
-                ('Bollinger Band', 'bol'),
-                ('MACD', 'macd'),
-                ('RSI', 'rsi'),
-                ('Renko', 'ren'),
-                )
+        # indicator = (
+        #         ('EMA 12,26', 'ema'),
+        #         ('SMA', 'sma'),
+        #         ('Bollinger Band', 'bol'),
+        #         ('MACD', 'macd'),
+        #         ('RSI', 'rsi'),
+        #         ('Renko', 'ren'),
+        #         )
         
-        for i in indicator:
-            c = ttk.Checkbutton(
-                self.LblframeIndicator,
-                text=i[0],
-                variable=i[1],
-            )
-            c.pack(side=tk.LEFT, padx=5, pady=5)
+        # for i in indicator:
+        #     c = ttk.Checkbutton(
+        #         self.LblframeIndicator,
+        #         text=i[0],
+        #         variable=i[1],
+        #     )
+        #     c.pack(side=tk.LEFT, padx=5, pady=5)
 
     def RemoveLabel(self, ax:axis):
         ax.grid(True)

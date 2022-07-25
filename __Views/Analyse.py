@@ -11,6 +11,7 @@ class StockAnalyse(tk.Toplevel):
 
         self.title('Analysis Mode')
         self.geometry('+1921+10')
+        self.state('zoomed')
         self.analyseTable(stk=[])
 
         self.labelheader = ttk.Label(self, text = 'Analyse')
@@ -55,26 +56,35 @@ class StockAnalyse(tk.Toplevel):
         offvalue='rm_roe')
         self.checkbox_ROE.grid(row=4, column=0, padx=3, sticky=tk.W)
 
+        self.checkbox_Yield_var = tk.StringVar()
+        self.checkbox_Yield = ttk.Checkbutton(self,
+        text=f'อัตราการเติบโตของเงินปันผลสูงกว่าค่าเฉลี่ย (Yield Growth) >> {None}',
+        # command=lambda:checkbox_roeSelected(self.checkbox_ROE_var.get()),
+        variable=self.checkbox_Yield_var,
+        onvalue='yield',
+        offvalue='rm_yield')
+        self.checkbox_Yield.grid(row=5, column=0, padx=3, sticky=tk.W)
+
         self.checkbox_PE_var = tk.StringVar()
         self.checkbox_PE = ttk.Checkbutton(self,
-        text=f'ค่า PE ต่ำกว่าตลาด >> {None}',
+        text=f'ค่า P/E ต่ำกว่าตลาด\n>> {None}',
         # command=lambda:checkbox_peSelected(self.checkbox_PE_var.get()),
         variable=self.checkbox_PE_var,
         onvalue='pe',
         offvalue='rm_pe')
-        self.checkbox_PE.grid(row=5, column=0, padx=3, sticky=tk.W)
+        self.checkbox_PE.grid(row=6, column=0, padx=3, sticky=tk.W)
 
         self.checkbox_PBV_var = tk.StringVar()
         self.checkbox_PBV = ttk.Checkbutton(self,
-        text=f'ค่า P/BV ต่ำกว่าตลาด >> {None}',
+        text=f'ค่า P/BV ต่ำกว่าตลาด\n>> {None}',
         # command=lambda:checkbox_pbvSelected(self.checkbox_PBV_var.get()),
         variable=self.checkbox_PBV_var,
         onvalue='pbv',
         offvalue='rm_pbv')
-        self.checkbox_PBV.grid(row=6, column=0, padx=3, sticky=tk.W)
+        self.checkbox_PBV.grid(row=7, column=0, padx=3, sticky=tk.W)
 
     def analyseTable(self, stk):
-        columns = ('หลักทรัพย์', 'งบ(ปี)ที่คำนวณ', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
+        columns = ('หลักทรัพย์', 'งบ(ปี)ที่คำนวณ', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
         self.tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=15)
 
         # define headings
