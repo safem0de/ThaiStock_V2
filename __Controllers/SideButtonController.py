@@ -35,14 +35,16 @@ class ButtonController():
         name = self.model.getSelected_StockName()
         if not name == None:
             try:
-                data = CandleController()
-                a = data.create_graph(name,'1y')
+                # data = CandleController()
+                # a = data.create_graph(name,'1y')
 
-                window = Graph()
-                window.geometry('+1921+10')
-                window.title('Candle Stick')
-                window.create_view(a)
+                # window = Graph()
+                # window.geometry('+1921+10')
+                # window.title('Candle Stick')
+                # window.create_view(a)
                 # window.protocol('WM_DELETE_WINDOW',func=lambda: window.destroy())
+                window = Graph()
+                window.create_view(CandleController,self.model)
             except Exception as e:
                 print(e)
             
