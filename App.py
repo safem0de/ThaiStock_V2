@@ -73,7 +73,7 @@ class App(tk.Tk):
         
         self.title('Safem0de Stock Version 0.3')
         self.geometry('+1910+0')
-        self.state('zoomed')
+        # self.state('zoomed')
 
         self.style = ThemedStyle(self)
         self.style.set_theme("clearlooks")

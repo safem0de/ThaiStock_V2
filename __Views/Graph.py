@@ -64,7 +64,7 @@ class Graph(tk.Tk):
             rsi_lower = pd.Series(30, index=df.index)
 
             fig = mpf.figure(style='yahoo', figsize=(9, 8))
-            fig.suptitle(name)
+            fig.suptitle(name.replace('.BK',''))
             gs0 = fig.add_gridspec(2, 2, left=0.05, right=0.95, wspace=0.05, hspace=0.02)
 
             gs00 = gs0[0].subgridspec(3, 1)
