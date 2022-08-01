@@ -67,7 +67,8 @@ class App(tk.Tk):
         super().__init__()
 
         if '_PYIBoot_SPLASH' in os.environ and importlib.util.find_spec("pyi_splash"):
-            import pyi_splash
+            import PyInstaller as pyi_splash
+            # import pyi_splash
             pyi_splash.update_text('UI Loaded ...')
             pyi_splash.close()
         
