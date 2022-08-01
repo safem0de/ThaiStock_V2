@@ -61,7 +61,7 @@ class Graph(tk.Tk):
             rsi_lower = pd.Series(30, index=df.index)
 
             fig = mpf.figure(style='yahoo', figsize=(10, 9))
-            # fig.suptitle(df.Name)
+            fig.suptitle(df.Name)
             gs0 = fig.add_gridspec(2, 2, left=0.05, right=0.95, wspace=0.05, hspace=0.02)
 
             gs00 = gs0[0].subgridspec(3, 1)
@@ -131,8 +131,9 @@ class Graph(tk.Tk):
 
         name = str(self.model.getSelected_StockName().replace('%26','&').replace('+',' '))
         
-        # self.state('zoomed')
-        # self.protocol("WM_DELETE_WINDOW",func=lambda: self.destroy())
+        self.geometry('+1921+10')
+        self.state('zoomed')
+        self.protocol("WM_DELETE_WINDOW",func=lambda: self.destroy())
 
         self.frame = ttk.Frame(self)
         self.frame.pack(fill=tk.X)
@@ -140,10 +141,7 @@ class Graph(tk.Tk):
         self.LblframePeriod = ttk.LabelFrame(self.frame, text="Period of Charts")
         self.LblframePeriod.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, padx=5, pady=5)
 
-        # self.LblframeIndicator = ttk.LabelFrame(self.frame, text="Indicators")
-        # self.LblframeIndicator.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, padx=5, pady=5)
-
-        selected_period = tk.StringVar()
+        selected_period = tk.StringVar(self,'1y')
         period = (('1 Day', '1d'),
                 ('5 Days', '5d'),
                 ('1 Month', '1mo'),
@@ -158,11 +156,11 @@ class Graph(tk.Tk):
                 self.LblframePeriod,
                 text=p[0],
                 value=p[1],
-                variable=selected_period
+                variable=selected_period,
+                command =lambda : print(selected_period.get())
             )
             r.pack(side=tk.LEFT, padx=5, pady=5)
 
-        selected_period.set('1y')
         a = CandleController.create_graph(self,st_Name=name,period='1y')
         print(a)
         create_candle(a)
