@@ -108,7 +108,7 @@ if __name__ == "__main__":
                 pass
 
         SET_name_label = ttk.Label(load, text="")
-        SET_name_label.grid(column=0, row=0, columnspan=5, padx=10, pady=20, sticky=tk.NSEW)
+        SET_name_label.grid(column=0, row=0, columnspan=5, padx=10, pady=20, sticky=tk.N+ tk.S+ tk.E+ tk.W)
 
         # progressbar
         pb_S = ttk.Progressbar(
@@ -119,11 +119,11 @@ if __name__ == "__main__":
             name='set'
         )
         # place the progressbar
-        pb_S.grid(column=0, row=1, columnspan=5, padx=10, sticky=tk.NSEW)
+        pb_S.grid(column=0, row=1, columnspan=5, padx=10, sticky=tk.N+ tk.S+ tk.E+ tk.W)
 
         # label
         value_label_SET = ttk.Label(load, text=update_progressSET_label())
-        value_label_SET.grid(column=0, row=2, columnspan=5, padx=10, pady=20, sticky=tk.NSEW)
+        value_label_SET.grid(column=0, row=2, columnspan=5, padx=10, pady=20, sticky=tk.N+ tk.S+ tk.E+ tk.W)
         
         def update(progressbar:ttk.Progressbar, MarketName):
             count = 0
@@ -164,7 +164,7 @@ if __name__ == "__main__":
                 pass
 
         mai_name_label = ttk.Label(load, text="")
-        mai_name_label.grid(column=0, row=3, columnspan=5, padx=10, pady=20, sticky=tk.NSEW)
+        mai_name_label.grid(column=0, row=3, columnspan=5, padx=10, pady=20, sticky=tk.N+ tk.S+ tk.E+ tk.W)
 
         pb_m = ttk.Progressbar(
             load,
@@ -174,10 +174,10 @@ if __name__ == "__main__":
             name='mai'
         )
         # place the progressbar
-        pb_m.grid(column=0, row=4, columnspan=5, padx=10, sticky=tk.NSEW)
+        pb_m.grid(column=0, row=4, columnspan=5, padx=10, sticky=tk.N+ tk.S+ tk.E+ tk.W)
 
         value_label_mai = ttk.Label(load, text=update_progressmai_label())
-        value_label_mai.grid(column=0, row=5, columnspan=5, padx=10, pady=20, sticky=tk.NSEW)
+        value_label_mai.grid(column=0, row=5, columnspan=5, padx=10, pady=20, sticky=tk.N+ tk.S+ tk.E+ tk.W)
         
         def update(progressbar:ttk.Progressbar, MarketName):
             count = 0
