@@ -20,9 +20,6 @@ class Graph(tk.Tk):
         self.model = model
         n = self.model.getSelected_StockName().replace('%26','&').replace('+',' ').replace('.BK','')
         self.title(f'Candle Stick : {n}')
-        self.geometry('+1921+10')
-        self.state('zoomed')
-        self.protocol("WM_DELETE_WINDOW",func=lambda: self.destroy())
 
     def create_view(self):
 
@@ -40,14 +37,17 @@ class Graph(tk.Tk):
             return np.r_[np.full(n, np.nan), y0, np.cumsum(ak * x) / ak / n + y0 * a**np.arange(1, len(x)+1)]
 
         def relative_strength(df:pd.DataFrame, dfName ,n = 14):
-            df['change'] = df[dfName].diff() # Calculate change
-            df['gain'] = df.change.mask(df.change < 0, 0.0)
-            df['loss'] = -df.change.mask(df.change > 0, -0.0)
-            df['avg_gain'] = rma(df.gain[n+1:].to_numpy(), n, np.nansum(df.gain.to_numpy()[:n+1])/n)
-            df['avg_loss'] = rma(df.loss[n+1:].to_numpy(), n, np.nansum(df.loss.to_numpy()[:n+1])/n)
-            df['rs'] = df.avg_gain / df.avg_loss
-            df['rsi_14'] = 100 - (100 / (1 + df.rs))
-            return df['rsi_14'].squeeze()
+            try:
+                df['change'] = df[dfName].diff() # Calculate change
+                df['gain'] = df.change.mask(df.change < 0, 0.0)
+                df['loss'] = -df.change.mask(df.change > 0, -0.0)
+                df['avg_gain'] = rma(df.gain[n+1:].to_numpy(), n, np.nansum(df.gain.to_numpy()[:n+1])/n)
+                df['avg_loss'] = rma(df.loss[n+1:].to_numpy(), n, np.nansum(df.loss.to_numpy()[:n+1])/n)
+                df['rs'] = df.avg_gain / df.avg_loss
+                df['rsi_14'] = 100 - (100 / (1 + df.rs))
+                return df['rsi_14'].squeeze()
+            except:
+                pass
 
         def create_candle(df:pd.DataFrame):
 
@@ -90,12 +90,19 @@ class Graph(tk.Tk):
             fontsize=20, color='gray', alpha=0.4,
             ha='center', va='center', rotation='20')
 
-            ax2.annotate("MACD",xy=(0.02,0.8),
+            ax0.annotate(
+                f'Open  : {round(df["Open"].iloc[-1],2)}\nClose : {round(df["Close"].iloc[-1],2)}\nHigh  : {round(df["High"].iloc[-1],2)}\nLow   : {round(df["Low"].iloc[-1],2)}',
+                xy=(0.02,0.8),
                 xycoords='axes fraction',
                 size=8,
                 bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9), ec="none"))
 
-            ax3.annotate("RSI",xy=(0.02,0.8),
+            ax2.annotate(f'MACD = {round(macd.values[-1],2)}',xy=(0.02,0.8),
+                xycoords='axes fraction',
+                size=8,
+                bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9), ec="none"))
+
+            ax3.annotate(f'RSI = {round(rsi.values[-1],2)}',xy=(0.02,0.8),
                 xycoords='axes fraction',
                 size=8,
                 bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9), ec="none"))
