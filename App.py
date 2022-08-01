@@ -72,8 +72,7 @@ class App(tk.Tk):
             pyi_splash.close()
         
         self.title('Safem0de Stock Version 0.3')
-        self.geometry(f'{int(self.winfo_screenwidth()*0.975)}x{int(self.winfo_screenheight()*0.7)}+1910+0')
-        # self.geometry(f'{int(self.winfo_screenwidth()*0.975)}x{int(self.winfo_screenheight()*0.7)}+10+0')
+        self.geometry('+1910+0')
         self.state('zoomed')
 
         self.style = ThemedStyle(self)

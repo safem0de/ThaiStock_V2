@@ -12,7 +12,7 @@ class Table(tk.Frame):
         self.model = model
         self.controller = controller
         self.grid(row=0, column=0, sticky=tk.N + tk.S + tk.E + tk.W)
-        self.create_button()
+        # self.create_button()
         
     def create_view(self, controller:TableController, model:Stock, Market):
 

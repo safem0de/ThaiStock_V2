@@ -20,7 +20,9 @@ class Graph(tk.Tk):
         self.model = model
         n = self.model.getSelected_StockName().replace('%26','&').replace('+',' ').replace('.BK','')
         self.title(f'Candle Stick : {n}')
-
+        self.geometry('+1921+10')
+        self.state('zoomed')
+        self.protocol("WM_DELETE_WINDOW",func=lambda: self.destroy())
 
     def create_view(self):
 
@@ -61,7 +63,7 @@ class Graph(tk.Tk):
             rsi_upper = pd.Series(70, index=df.index)
             rsi_lower = pd.Series(30, index=df.index)
 
-            fig = mpf.figure(style='yahoo', figsize=(10, 9))
+            fig = mpf.figure(style='yahoo', figsize=(9, 8))
             fig.suptitle(name)
             gs0 = fig.add_gridspec(2, 2, left=0.05, right=0.95, wspace=0.05, hspace=0.02)
 
@@ -136,25 +138,22 @@ class Graph(tk.Tk):
                 widgets.destroy()
             a = CandleController.create_graph(self, st_Name=name, period=p)
             # print(a)
-            print(p)
+            # print(p)
             create_candle(a)
 
         name = str(self.model.getSelected_StockName().replace('%26','&').replace('+',' '))
-        
-        self.geometry('+1921+10')
-        self.state('zoomed')
-        self.protocol("WM_DELETE_WINDOW",func=lambda: self.destroy())
 
         self.frame = ttk.Frame(self)
-        self.frame.pack(fill=tk.X)
+        self.frame.pack(expand=True, fill=tk.BOTH)
 
         self.LblframePeriod = ttk.LabelFrame(self.frame, text="Period of Charts")
-        self.LblframePeriod.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, padx=5, pady=5)
+        self.LblframePeriod.pack(expand=True, fill=tk.BOTH, side=tk.TOP, padx=5, pady=5)
 
         ### https://www.geeksforgeeks.org/radiobutton-in-tkinter-python/
         selected_period = tk.StringVar(self,'1y')
-        period = (('1 Day', '1d'),
-                ('5 Days', '5d'),
+        period = (
+                # ('1 Day', '1d'),
+                # ('5 Days', '5d'),
                 ('1 Month', '1mo'),
                 ('3 Months', '3mo'),
                 ('6 Months', '6mo'),
@@ -174,8 +173,5 @@ class Graph(tk.Tk):
             r.pack(side=tk.LEFT, padx=5, pady=5)
 
         self.frameChart = ttk.Frame(self.frame)
-        self.frameChart.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, padx=5, pady=5)
-
-        
-
-        
+        self.frameChart.pack(expand=True, fill=tk.BOTH, side=tk.TOP, padx=5, pady=5)
+        radioButton_selected('1y')
