@@ -21,6 +21,7 @@ class Graph(tk.Tk):
         n = self.model.getSelected_StockName().replace('%26','&').replace('+',' ').replace('.BK','')
         self.title(f'Candle Stick : {n}')
 
+
     def create_view(self):
 
         def RemoveLabel(ax:axis):
@@ -61,7 +62,7 @@ class Graph(tk.Tk):
             rsi_lower = pd.Series(30, index=df.index)
 
             fig = mpf.figure(style='yahoo', figsize=(10, 9))
-            fig.suptitle(df.Name)
+            fig.suptitle(name)
             gs0 = fig.add_gridspec(2, 2, left=0.05, right=0.95, wspace=0.05, hspace=0.02)
 
             gs00 = gs0[0].subgridspec(3, 1)
@@ -115,11 +116,11 @@ class Graph(tk.Tk):
             mpf.plot(df,ax=ax0,volume=ax1,type='candle', addplot=ap, xrotation=10)
             mpf.plot(df,ax=ax4,type='renko')
             
-            canvas = FigureCanvasTkAgg(fig, master=self)
+            canvas = FigureCanvasTkAgg(fig, master=self.frameChart)
             canvas.draw()
             canvas.get_tk_widget().pack(fill=tk.Y, expand=1, padx=5, pady=5)
 
-            toolbar = NavigationToolbar2Tk(canvas, self)
+            toolbar = NavigationToolbar2Tk(canvas, self.frameChart)
             toolbar.update()
             canvas.get_tk_widget().pack(fill=tk.X)
 
@@ -128,6 +129,15 @@ class Graph(tk.Tk):
                 key_press_handler(event, canvas, toolbar)
 
             canvas.mpl_connect("key_press_event", on_key_press)
+
+
+        def radioButton_selected(p):
+            for widgets in self.frameChart.winfo_children():
+                widgets.destroy()
+            a = CandleController.create_graph(self, st_Name=name, period=p)
+            # print(a)
+            print(p)
+            create_candle(a)
 
         name = str(self.model.getSelected_StockName().replace('%26','&').replace('+',' '))
         
@@ -141,6 +151,7 @@ class Graph(tk.Tk):
         self.LblframePeriod = ttk.LabelFrame(self.frame, text="Period of Charts")
         self.LblframePeriod.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, padx=5, pady=5)
 
+        ### https://www.geeksforgeeks.org/radiobutton-in-tkinter-python/
         selected_period = tk.StringVar(self,'1y')
         period = (('1 Day', '1d'),
                 ('5 Days', '5d'),
@@ -149,7 +160,8 @@ class Graph(tk.Tk):
                 ('6 Months', '6mo'),
                 ('1 Year', '1y'),
                 ('2 Year', '2y'),
-                ('5 Year', '5y'))
+                # ('5 Year', '5y'),
+                )
 
         for p in period:
             r = ttk.Radiobutton(
@@ -157,12 +169,13 @@ class Graph(tk.Tk):
                 text=p[0],
                 value=p[1],
                 variable=selected_period,
-                command =lambda : print(selected_period.get())
+                command = lambda : radioButton_selected(selected_period.get())
             )
             r.pack(side=tk.LEFT, padx=5, pady=5)
 
-        a = CandleController.create_graph(self,st_Name=name,period='1y')
-        print(a)
-        create_candle(a)
+        self.frameChart = ttk.Frame(self.frame)
+        self.frameChart.pack(expand=True, fill=tk.BOTH, side=tk.LEFT, padx=5, pady=5)
+
+        
 
         
