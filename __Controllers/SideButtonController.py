@@ -28,7 +28,7 @@ class ButtonController():
 
     def Stock_Analysis_Click(self):
         window = StockAnalyse()
-        window.grab_set()
+        window.create_view(self.model)
 
 
     def Candle_Stick_Click(self):
@@ -43,8 +43,8 @@ class ButtonController():
                 # window.title('Candle Stick')
                 # window.create_view(a)
                 # window.protocol('WM_DELETE_WINDOW',func=lambda: window.destroy())
-                window = Graph()
-                window.create_view(CandleController,self.model)
+                window = Graph(self.model)
+                window.create_view()
             except Exception as e:
                 print(e)
             

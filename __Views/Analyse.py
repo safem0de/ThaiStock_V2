@@ -2,6 +2,8 @@ from tkinter import ttk
 import tkinter as tk
 from tkinter.messagebox import showinfo
 
+from __Models import Stocks
+
 class StockAnalyse(tk.Toplevel):
 
     __stateOfFilter = []
@@ -9,10 +11,34 @@ class StockAnalyse(tk.Toplevel):
     def __init__(self):
         super().__init__()
 
+    def create_view(self, model:Stocks):
+
+        def analyseTable(stk):
+            columns = ('หลักทรัพย์', 'งบ(ปี)ที่คำนวณ', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
+            tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=15)
+
+            # define headings
+            for col in columns:
+                tree.heading(col, text = col)
+                tree.column(col, minwidth=0, width=100, stretch=True, anchor=tk.CENTER)
+
+            for s in stk:
+                tree.insert('', tk.END, values=s)
+
+            tree.grid(row=0, column=1, rowspan=20, pady=3, sticky=tk.NS)
+            scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=tree.yview)
+            tree.configure(yscroll=scrollbar.set)
+            scrollbar.grid(row=0, column=2, rowspan=20, pady=3, sticky=tk.NS)
+
+            labelfooter = ttk.Label(self, text = f'**ในตารางไม่นำ "หุ้น" ที่มีการขาดทุนในงบฯย้อนหลัง 3-5 ปี มาพิจารณา {len(stk)} ตัว', foreground='red')
+            labelfooter.grid(row=40, column=0, columnspan=3, pady=3, sticky=tk.SE)
+
+
+        # print(model.getMarket())
         self.title('Analysis Mode')
         self.geometry('+1921+10')
         self.state('zoomed')
-        self.analyseTable(stk=[])
+        analyseTable(stk=[])
 
         self.labelheader = ttk.Label(self, text = 'Analyse')
         self.labelheader['font'] = ("Impact", 16)
@@ -107,23 +133,3 @@ class StockAnalyse(tk.Toplevel):
         onvalue='pbv',
         offvalue='rm_pbv')
         self.checkbox_PBV.grid(row=8, column=0, padx=3, sticky=tk.W)
-
-    def analyseTable(self, stk):
-        columns = ('หลักทรัพย์', 'งบ(ปี)ที่คำนวณ', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
-        self.tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=15)
-
-        # define headings
-        for col in columns:
-            self.tree.heading(col, text = col)
-            self.tree.column(col, minwidth=0, width=100, stretch=True, anchor=tk.CENTER)
-
-        for s in stk:
-            self.tree.insert('', tk.END, values=s)
-
-        self.tree.grid(row=0, column=1, rowspan=20, pady=3, sticky=tk.NS)
-        scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=self.tree.yview)
-        self.tree.configure(yscroll=scrollbar.set)
-        scrollbar.grid(row=0, column=2, rowspan=20, pady=3, sticky=tk.NS)
-
-        self.labelfooter = ttk.Label(self, text = f'**ในตารางไม่นำ "หุ้น" ที่มีการขาดทุนในงบฯย้อนหลัง 3-5 ปี มาพิจารณา {len(stk)} ตัว', foreground='red')
-        self.labelfooter.grid(row=40, column=0, columnspan=3, pady=3, sticky=tk.SE)
