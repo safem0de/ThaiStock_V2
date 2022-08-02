@@ -88,7 +88,7 @@ class AnalyseController():
             else:
                 self.model.getMarket().get('SET').get(k).update(isSET100=False)
 
-        print(self.model.getMarket())
+        # print(self.model.getMarket())
 
     def checkSET50(self):
         df = pd.DataFrame()
@@ -96,13 +96,22 @@ class AnalyseController():
                     ,match='เครื่องหมาย')
         df = dfSET50[0]
         set50_data = df['หลักทรัพย์'].to_list()
-        # print(set100_data)
+
         for k,v in self.model.getMarket().get('SET').items():
             print(k,v)
             if k in set50_data:
-                # print(k,v)
                 self.model.getMarket().get('SET').get(k).update(isSET50=True)
             else:
                 self.model.getMarket().get('SET').get(k).update(isSET50=False)
 
-        print(self.model.getMarket())
+    
+    def getAll_FinData(self, x_name):
+        try :
+            dfstock = pd.read_html('https://classic.set.or.th/set/companyhighlight.do?symbol=' + x_name + '&language=th&country=TH'
+                       , match="งวดงบการเงิน")
+            df = dfstock[0]
+            df.fillna('-', inplace = True)
+            df.Name = x_name
+            return df
+        except:
+            return pd.DataFrame()

@@ -61,15 +61,20 @@ class TableController():
         return final_Info
 
     def StockStatement(self, x_name) -> pd.DataFrame:
+        df = pd.DataFrame()
         try :
             dfstock = pd.read_html('https://classic.set.or.th/set/companyhighlight.do?symbol=' + x_name + '&language=th&country=TH'
                        , match="งวดงบการเงิน")
             df = dfstock[0]
             df.fillna('-', inplace = True)
             df.Name = x_name
+            df.drop([0,9], inplace = True)
+            df.reset_index()
+            # print(df)
             return df
         except:
-            return pd.DataFrame()
+            return df
+
 
     ## Substring Technic
     ## https://www.freecodecamp.org/news/how-to-substring-a-string-in-python/

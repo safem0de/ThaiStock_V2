@@ -163,13 +163,13 @@ class Graph(tk.Tk):
         selected_period = tk.StringVar(self,'1y')
         period = (
                 # ('1 Day', '1d'),
-                # ('5 Days', '5d'),
+                # ('5 Days', '5d'), ## RSI Calculation Problem n = 14
                 ('1 Month', '1mo'),
                 ('3 Months', '3mo'),
                 ('6 Months', '6mo'),
                 ('1 Year', '1y'),
                 ('2 Year', '2y'),
-                # ('5 Year', '5y'),
+                # ('5 Year', '5y'), ## mpl too much data warning
                 )
 
         for p in period:
