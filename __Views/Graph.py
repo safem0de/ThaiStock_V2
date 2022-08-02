@@ -95,17 +95,17 @@ class Graph(tk.Tk):
                 xy=(0.02,0.8),
                 xycoords='axes fraction',
                 size=8,
-                bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9), ec="none"))
+                bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
 
             ax2.annotate(f'MACD = {round(macd.values[-1],2)}',xy=(0.02,0.8),
                 xycoords='axes fraction',
                 size=8,
-                bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9), ec="none"))
+                bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
 
             ax3.annotate(f'RSI = {round(rsi.values[-1],2)}',xy=(0.02,0.8),
                 xycoords='axes fraction',
                 size=8,
-                bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9), ec="none"))
+                bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
 
             ap = [
                 mpf.make_addplot(exp12, color='y', ax=ax0),

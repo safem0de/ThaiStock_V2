@@ -53,7 +53,7 @@ class Stock:
                 ]
             self.__Market['Crypto'].update(y)
 
-        # print(self.__Market)
+        print(self.__Market)
 
 
     def getMarket(self):
