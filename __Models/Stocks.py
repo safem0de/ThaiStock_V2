@@ -6,7 +6,7 @@ class Stock:
     __Market = {
         'SET' : {},
         'mai' : {},
-        'Crypto' :{}
+        'Crypto' : {}
     }
     __Selected_StockName = None
 

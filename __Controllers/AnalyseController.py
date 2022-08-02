@@ -8,4 +8,4 @@ class AnalyseController():
 
     def bind(self, model:Stock, view):
         self.view = view
-        
+        self.view.create_view(self, model,)
