@@ -15,7 +15,7 @@ class StockAnalyse(tk.Toplevel):
 
         def analyseTable(stk):
             columns = ('หลักทรัพย์', 'งบ(ปี)ที่คำนวณ', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
-            tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=15)
+            tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=20)
 
             # define headings
             for col in columns:
@@ -34,7 +34,8 @@ class StockAnalyse(tk.Toplevel):
             labelfooter.grid(row=40, column=0, columnspan=3, pady=3, sticky=tk.SE)
 
 
-        # print(model.getMarket())
+        print(model.getMarket())
+
         self.title('Analysis Mode')
         self.geometry('+1921+10')
         self.state('zoomed')
@@ -45,12 +46,13 @@ class StockAnalyse(tk.Toplevel):
         self.labelheader.grid(row=0, column=0, sticky=tk.W+tk.N)
 
         self.LblframeMarket = ttk.LabelFrame(self, text="Market")
-        self.LblframeMarket.grid(row=1, column=0, sticky=tk.W+tk.N)
+        self.LblframeMarket.grid(row=1, column=0, sticky=tk.N + tk.E + tk.W)
 
         selected_Market = tk.StringVar()
         mkt = (('SET & mai', 'all'),
                 ('SET', 'set'),
                 ('SET100', 'set100'),
+                ('SET50', 'set50'),
                 ('mai', 'mai'),)
 
         mkt_count = 0
