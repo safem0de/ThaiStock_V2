@@ -106,12 +106,15 @@ class AnalyseController():
 
     
     def getAll_FinData(self, x_name):
+        df = pd.DataFrame()
         try :
             dfstock = pd.read_html('https://classic.set.or.th/set/companyhighlight.do?symbol=' + x_name + '&language=th&country=TH'
                        , match="งวดงบการเงิน")
             df = dfstock[0]
             df.fillna('-', inplace = True)
             df.Name = x_name
+            df.drop([0,9], inplace = True)
+            df.reset_index()
             return df
         except:
-            return pd.DataFrame()
+            return df
