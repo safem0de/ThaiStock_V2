@@ -15,7 +15,7 @@ class StockAnalyse(tk.Toplevel):
 
         def analyseTable(stk):
             columns = ('หลักทรัพย์', 'งบ(ปี)ที่คำนวณ', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
-            tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=20)
+            tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=25)
 
             # define headings
             for col in columns:
@@ -25,7 +25,7 @@ class StockAnalyse(tk.Toplevel):
             for s in stk:
                 tree.insert('', tk.END, values=s)
 
-            tree.grid(row=0, column=1, rowspan=20, pady=3, sticky=tk.NS)
+            tree.grid(row=1, column=1, rowspan=20, pady=3, sticky=tk.NS)
             scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=tree.yview)
             tree.configure(yscroll=scrollbar.set)
             scrollbar.grid(row=0, column=2, rowspan=20, pady=3, sticky=tk.NS)
@@ -38,7 +38,7 @@ class StockAnalyse(tk.Toplevel):
 
         self.title('Analysis Mode')
         self.geometry('+1921+10')
-        self.state('zoomed')
+        # self.state('zoomed')
         analyseTable(stk=[])
 
         self.labelheader = ttk.Label(self, text = 'Analyse')

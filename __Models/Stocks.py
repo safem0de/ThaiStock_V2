@@ -37,7 +37,7 @@ class Stock:
 
         for r in x['data']:
             y = dict()
-            y[r.get('symbol')] = [
+            y[r.get('symbol')] = {'data':[
                 str(r.get('name')).upper(),
                 r.get('symbol'),
                 round(float(r.get('priceUsd')),4),
@@ -50,7 +50,7 @@ class Stock:
                 round(float(r.get('volumeUsd24Hr')),4),
                 round(float(r.get('marketCapUsd'))/1000000,4),
                 # round(float(r.get('vwap24Hr')),4),
-                ]
+                ]}
             self.__Market['Crypto'].update(y)
 
         # print(self.__Market)

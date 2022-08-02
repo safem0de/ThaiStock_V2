@@ -90,22 +90,25 @@ class Graph(tk.Tk):
             fontsize=20, color='gray', alpha=0.4,
             ha='center', va='center', rotation='20')
 
-            ax0.annotate(
-                f'Open  : {round(df["Open"].iloc[-1],2)}\nClose : {round(df["Close"].iloc[-1],2)}\nHigh  : {round(df["High"].iloc[-1],2)}\nLow   : {round(df["Low"].iloc[-1],2)}',
-                xy=(0.02,0.8),
+            try:
+                ax0.annotate(
+                    f'Open  : {round(df["Open"].iloc[-1],2)}\nClose : {round(df["Close"].iloc[-1],2)}\nHigh  : {round(df["High"].iloc[-1],2)}\nLow   : {round(df["Low"].iloc[-1],2)}',
+                    xy=(0.02,0.8),
+                    xycoords='axes fraction',
+                    size=8,
+                    bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
+
+                ax2.annotate(f'MACD = {round(macd.values[-1],2)}',xy=(0.02,0.8),
                 xycoords='axes fraction',
                 size=8,
                 bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
 
-            ax2.annotate(f'MACD = {round(macd.values[-1],2)}',xy=(0.02,0.8),
-                xycoords='axes fraction',
-                size=8,
-                bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
-
-            ax3.annotate(f'RSI = {round(rsi.values[-1],2)}',xy=(0.02,0.8),
-                xycoords='axes fraction',
-                size=8,
-                bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
+                ax3.annotate(f'RSI = {round(rsi.values[-1],2)}',xy=(0.02,0.8),
+                    xycoords='axes fraction',
+                    size=8,
+                    bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
+            except:
+                pass
 
             ap = [
                 mpf.make_addplot(exp12, color='y', ax=ax0),

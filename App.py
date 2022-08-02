@@ -134,10 +134,24 @@ if __name__ == "__main__":
                 val = progress_controller.createStock(k)
 
                 if MarketName == 'SET':
-                    stock.setMarket_SET({k : val})
+                    stock.setMarket_SET({
+                        k : {
+                            'data':val,
+                            'fin_data': None,
+                            'isSET50': None,
+                            'isSET100': None,
+                            }
+                        })
                     count += 1
                 else:
-                    stock.setMarket_mai({k : val})
+                    stock.setMarket_mai({
+                        k : {
+                            'data':val,
+                            'fin_data': None,
+                            'isSET50': None,
+                            'isSET100': None,
+                            }
+                        })
                     count += 1
 
                 progress(progressbar, (count/len(x))*100, MarketName, k)
@@ -188,10 +202,24 @@ if __name__ == "__main__":
                 val = progress_controller.createStock(k)
 
                 if MarketName == 'SET':
-                    stock.setMarket_SET({k : val})
+                    stock.setMarket_SET({
+                        k : {
+                            'data':val,
+                            'fin_data': None,
+                            'isSET50': None,
+                            'isSET100': None,
+                            }
+                        })
                     count += 1
                 else:
-                    stock.setMarket_mai({k : val})
+                    stock.setMarket_mai({
+                        k : {
+                            'data':val,
+                            'fin_data': None,
+                            'isSET50': None,
+                            'isSET100': None,
+                            }
+                        })
                     count += 1
 
                 progress(progressbar, (count/len(x))*100, MarketName, k)

@@ -84,7 +84,7 @@ class Table(tk.Frame):
 
         try:
             for data in model.getMarket().get(Market).values():
-                self.tree.insert('', tk.END, values=data)
+                self.tree.insert('', tk.END, values=data.get('data'))
         except:
             pass
         
