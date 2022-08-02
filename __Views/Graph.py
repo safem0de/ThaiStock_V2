@@ -107,40 +107,40 @@ class Graph(tk.Tk):
                     xycoords='axes fraction',
                     size=8,
                     bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
-            except:
-                pass
 
-            ap = [
-                mpf.make_addplot(exp12, color='y', ax=ax0),
-                mpf.make_addplot(exp26, color='c', ax=ax0),
-                
-                mpf.make_addplot(histogram,type='bar',
-                            alpha=1,secondary_y=False,
-                            color='black', ax=ax2),
-                mpf.make_addplot(macd, color='fuchsia', ax=ax2),
-                mpf.make_addplot(signal, color='b', ax=ax2),
+                ap = [
+                    mpf.make_addplot(exp12, color='y', ax=ax0),
+                    mpf.make_addplot(exp26, color='c', ax=ax0),
+                    
+                    mpf.make_addplot(histogram,type='bar',
+                                alpha=1,secondary_y=False,
+                                color='black', ax=ax2),
+                    mpf.make_addplot(macd, color='fuchsia', ax=ax2),
+                    mpf.make_addplot(signal, color='b', ax=ax2),
 
-                mpf.make_addplot(rsi_upper, color='mediumvioletred', ax=ax3),
-                mpf.make_addplot(rsi_lower, color='deeppink', ax=ax3),
-                mpf.make_addplot(rsi, color='indigo', ax=ax3),
+                    mpf.make_addplot(rsi_upper, color='mediumvioletred', ax=ax3),
+                    mpf.make_addplot(rsi_lower, color='deeppink', ax=ax3),
+                    mpf.make_addplot(rsi, color='indigo', ax=ax3),
                 ]
 
-            mpf.plot(df,ax=ax0,volume=ax1,type='candle', addplot=ap, xrotation=10)
-            mpf.plot(df,ax=ax4,type='renko')
-            
-            canvas = FigureCanvasTkAgg(fig, master=self.frameChart)
-            canvas.draw()
-            canvas.get_tk_widget().pack(fill=tk.Y, expand=1, padx=5, pady=5)
+                mpf.plot(df,ax=ax0,volume=ax1,type='candle', addplot=ap, xrotation=10)
+                mpf.plot(df,ax=ax4,type='renko')
+                
+                canvas = FigureCanvasTkAgg(fig, master=self.frameChart)
+                canvas.draw()
+                canvas.get_tk_widget().pack(fill=tk.Y, expand=1, padx=5, pady=5)
 
-            toolbar = NavigationToolbar2Tk(canvas, self.frameChart)
-            toolbar.update()
-            canvas.get_tk_widget().pack(fill=tk.X)
+                toolbar = NavigationToolbar2Tk(canvas, self.frameChart)
+                toolbar.update()
+                canvas.get_tk_widget().pack(fill=tk.X)
 
-            def on_key_press(event):
-                print("you pressed {}".format(event.key))
-                key_press_handler(event, canvas, toolbar)
+                def on_key_press(event):
+                    print("you pressed {}".format(event.key))
+                    key_press_handler(event, canvas, toolbar)
 
-            canvas.mpl_connect("key_press_event", on_key_press)
+                canvas.mpl_connect("key_press_event", on_key_press)
+            except:
+                pass
 
 
         def radioButton_selected(p):

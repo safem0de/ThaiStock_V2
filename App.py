@@ -72,7 +72,7 @@ class App(tk.Tk):
             pyi_splash.update_text('UI Loaded ...')
             pyi_splash.close()
         
-        self.title('Safem0de Stock Version 0.3')
+        self.title('Safem0de Stock Version 0.3.1')
         self.geometry('+1910+0')
         # self.state('zoomed')
 
@@ -148,8 +148,8 @@ if __name__ == "__main__":
                         k : {
                             'data':val,
                             'fin_data': None,
-                            'isSET50': None,
-                            'isSET100': None,
+                            'isSET50': False,
+                            'isSET100': False,
                             }
                         })
                     count += 1
@@ -216,8 +216,8 @@ if __name__ == "__main__":
                         k : {
                             'data':val,
                             'fin_data': None,
-                            'isSET50': None,
-                            'isSET100': None,
+                            'isSET50': False,
+                            'isSET100': False,
                             }
                         })
                     count += 1
@@ -257,11 +257,11 @@ if __name__ == "__main__":
 
     async def sequencial():
         task1 = asyncio.create_task(ShowLoading())
-        # task2 = asyncio.create_task(ShowProgress_SET())
-        task3 = asyncio.create_task(ShowProgress_mai())
+        task2 = asyncio.create_task(ShowProgress_SET())
+        # task3 = asyncio.create_task(ShowProgress_mai())
         task4 = asyncio.create_task(ShowMain())
         await task1
-        # await task2
-        await task3
+        await task2
+        # await task3
 
     asyncio.run(sequencial())

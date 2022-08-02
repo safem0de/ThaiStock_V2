@@ -6,7 +6,6 @@ from __Views.MagicFormula import magicFormula
 
 
 from __Models.Stocks import Stock
-from __Controllers.MplController import CandleController
 
 import pandas as pd
 
@@ -53,7 +52,9 @@ class ButtonController():
                 print(e)
             
         else:
-            showerror('Please select stock','to show the Graphs please select')
+            showerror(
+                'Please select stock',
+                'to show the Graphs please select\nกรุณาเลือกหุ้นที่ต้องการ เพื่อแสดงกราฟ 📈📊!!')
             return
 
     def Bibiology_Click(self):

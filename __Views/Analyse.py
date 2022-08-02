@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter.messagebox import showinfo
 
 from __Models import Stocks
+from __Controllers.AnalyseController import AnalyseController
 
 class StockAnalyse(tk.Toplevel):
 
@@ -34,7 +35,17 @@ class StockAnalyse(tk.Toplevel):
             labelfooter.grid(row=40, column=0, columnspan=3, pady=3, sticky=tk.SE)
 
 
-        print(model.getMarket())
+        # print(model.getMarket())
+        analyse = AnalyseController(model)
+        market_stat = analyse.setDetails()
+        pe_set = market_stat.get('SET').get('pe')
+        pe_mai = market_stat.get('mai').get('pe')
+        pbv_set = market_stat.get('SET').get('pbv')
+        pbv_mai = market_stat.get('mai').get('pbv')
+
+        analyse.checkSET100()
+        analyse.checkSET50()
+        # print(test)
 
         self.title('Analysis Mode')
         self.geometry('+1921+10')
@@ -120,7 +131,7 @@ class StockAnalyse(tk.Toplevel):
 
         self.checkbox_PE_var = tk.StringVar()
         self.checkbox_PE = ttk.Checkbutton(self,
-        text=f'ค่า P/E ต่ำกว่าตลาด\n>> {None}',
+        text=f'ค่า P/E ต่ำกว่าตลาด\n>> SET : {pe_set}, mai : {pe_mai}',
         # command=lambda:checkbox_peSelected(self.checkbox_PE_var.get()),
         variable=self.checkbox_PE_var,
         onvalue='pe',
@@ -129,7 +140,7 @@ class StockAnalyse(tk.Toplevel):
 
         self.checkbox_PBV_var = tk.StringVar()
         self.checkbox_PBV = ttk.Checkbutton(self,
-        text=f'ค่า P/BV ต่ำกว่าตลาด\n>> {None}',
+        text=f'ค่า P/BV ต่ำกว่าตลาด\n>> SET : {pbv_set}, mai : {pbv_mai}',
         # command=lambda:checkbox_pbvSelected(self.checkbox_PBV_var.get()),
         variable=self.checkbox_PBV_var,
         onvalue='pbv',

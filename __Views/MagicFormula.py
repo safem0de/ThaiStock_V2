@@ -12,4 +12,4 @@ class magicFormula(tk.Toplevel):
     def create_view(self, model:Stocks):
         self.title('Magic Formula requested by MJ & Friends')
         self.geometry('+1921+10')
-        self.state('zoomed')
+        # self.state('zoomed')
