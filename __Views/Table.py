@@ -48,9 +48,12 @@ class Table(tk.Frame):
 
                 grid_row += 1
 
-            financial = controller.StockStatement(record)
-            fin_header = controller.StockStatementHeader(financial)
-            fin_data = controller.StockStatementData(financial)
+            # financial = controller.StockStatement(record)
+            # fin_header = controller.StockStatementHeader(financial)
+            # fin_data = controller.StockStatementData(financial)
+
+            fin_header:list = list(model.getMarket().get(Market).get(record).get('fin_data').columns)
+            fin_data:list = model.getMarket().get(Market).get(record).get('fin_data').values.tolist()
 
             columns2 = fin_header
 

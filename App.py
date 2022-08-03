@@ -132,12 +132,13 @@ if __name__ == "__main__":
             x = stock.getMarket().get(MarketName)
             for k in x:
                 val = progress_controller.createStock(k)
+                fin = progress_controller.Fin_Dataframe(k)
 
                 if MarketName == 'SET':
                     stock.setMarket_SET({
                         k : {
                             'data':val,
-                            'fin_data': None,
+                            'fin_data': fin,
                             'isSET50': None,
                             'isSET100': None,
                             }
@@ -147,7 +148,7 @@ if __name__ == "__main__":
                     stock.setMarket_mai({
                         k : {
                             'data':val,
-                            'fin_data': None,
+                            'fin_data': fin,
                             'isSET50': False,
                             'isSET100': False,
                             }
@@ -200,12 +201,12 @@ if __name__ == "__main__":
             x = stock.getMarket().get(MarketName)
             for k in x:
                 val = progress_controller.createStock(k)
-
+                fin = progress_controller.Fin_Dataframe(k)
                 if MarketName == 'SET':
                     stock.setMarket_SET({
                         k : {
                             'data':val,
-                            'fin_data': None,
+                            'fin_data': fin,
                             'isSET50': None,
                             'isSET100': None,
                             }
@@ -215,7 +216,7 @@ if __name__ == "__main__":
                     stock.setMarket_mai({
                         k : {
                             'data':val,
-                            'fin_data': None,
+                            'fin_data': fin,
                             'isSET50': False,
                             'isSET100': False,
                             }

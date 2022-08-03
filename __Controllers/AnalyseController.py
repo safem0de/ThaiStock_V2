@@ -1,6 +1,6 @@
-from pyexpat import model
 import pandas as pd
 from __Models.Stocks import Stock
+from __Controllers.TableController import TableController
 
 class AnalyseController():
 
@@ -75,46 +75,35 @@ class AnalyseController():
 
     def checkSET100(self):
         df = pd.DataFrame()
-        dfSET100 = pd.read_html('https://classic.set.or.th/mkt/sectorquotation.do?sector=SET100'
-                    ,match='เครื่องหมาย')
-        df = dfSET100[0]
-        set100_data = df['หลักทรัพย์'].to_list()
-        # print(set100_data)
-        for k,v in self.model.getMarket().get('SET').items():
-            print(k,v)
-            if k in set100_data:
-                # print(k,v)
-                self.model.getMarket().get('SET').get(k).update(isSET100=True)
-            else:
-                self.model.getMarket().get('SET').get(k).update(isSET100=False)
+        try:
+            dfSET100 = pd.read_html('https://classic.set.or.th/mkt/sectorquotation.do?sector=SET100'
+                        ,match='เครื่องหมาย')
+            df = dfSET100[0]
+            set100_data = df['หลักทรัพย์'].to_list()
 
-        # print(self.model.getMarket())
+            for k,v in self.model.getMarket().get('SET').items():
+
+                if k in set100_data:
+                    self.model.getMarket().get('SET').get(k).update(isSET100=True)
+                else:
+                    self.model.getMarket().get('SET').get(k).update(isSET100=False)
+        except:
+            pass
 
     def checkSET50(self):
         df = pd.DataFrame()
-        dfSET50 = pd.read_html('https://classic.set.or.th/mkt/sectorquotation.do?sector=SET50'
-                    ,match='เครื่องหมาย')
-        df = dfSET50[0]
-        set50_data = df['หลักทรัพย์'].to_list()
+        try:
+            dfSET50 = pd.read_html('https://classic.set.or.th/mkt/sectorquotation.do?sector=SET50'
+                        ,match='เครื่องหมาย')
+            df = dfSET50[0]
+            set50_data = df['หลักทรัพย์'].to_list()
 
-        for k,v in self.model.getMarket().get('SET').items():
-            print(k,v)
-            if k in set50_data:
-                self.model.getMarket().get('SET').get(k).update(isSET50=True)
-            else:
-                self.model.getMarket().get('SET').get(k).update(isSET50=False)
+            for k,v in self.model.getMarket().get('SET').items():
 
-    
-    def getAll_FinData(self, x_name):
-        df = pd.DataFrame()
-        try :
-            dfstock = pd.read_html('https://classic.set.or.th/set/companyhighlight.do?symbol=' + x_name + '&language=th&country=TH'
-                       , match="งวดงบการเงิน")
-            df = dfstock[0]
-            df.fillna('-', inplace = True)
-            df.Name = x_name
-            df.drop([0,9], inplace = True)
-            df.reset_index()
-            return df
+                if k in set50_data:
+                    self.model.getMarket().get('SET').get(k).update(isSET50=True)
+                else:
+                    self.model.getMarket().get('SET').get(k).update(isSET50=False)
         except:
-            return df
+            pass
+

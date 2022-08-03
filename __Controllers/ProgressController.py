@@ -1,4 +1,5 @@
 import pandas as pd
+import datetime
 
 class ProgressController():
     def __init__(self) -> None:
@@ -27,3 +28,68 @@ class ProgressController():
             pass
 
         return ls
+
+    def StockStatement(self, x_name) -> pd.DataFrame:
+        df = pd.DataFrame()
+        try :
+            dfstock = pd.read_html('https://classic.set.or.th/set/companyhighlight.do?symbol=' + x_name + '&language=th&country=TH'
+                       , match="งวดงบการเงิน")
+            df = dfstock[0]
+            df.fillna('-', inplace = True)
+            df.Name = x_name
+            df.drop([0,9], inplace = True)
+            df.reset_index()
+            # print(df)
+            return df
+        except:
+            return df
+
+
+    ## Substring Technic
+    ## https://www.freecodecamp.org/news/how-to-substring-a-string-in-python/
+    def StockStatementHeader(self, df) -> list:
+        stockstatement = df
+        listOfColumn = []
+        if not stockstatement.empty:
+            ls = list(stockstatement.columns)
+            # print(ls)
+            for i in range(len(ls)):
+                if i == 0:
+                    listOfColumn.append(df.Name)
+                else:
+                    if "Unnamed" not in str(ls[i][0]) and "Unnamed" not in str(ls[i][1]):
+                        listOfColumn.append(str(ls[i][1])[-10:])
+                    elif "Unnamed" in str(ls[i][0]) and "Unnamed" not in str(ls[i][1]): 
+                        listOfColumn.append(str(ls[i][1])[-10:])
+                    else:
+                        listOfColumn.append(str(ls[i][0])[-10:])
+            # print(listOfColumn)
+        return listOfColumn
+
+    def StockStatementData(self, df) -> list:
+        stockstatement = df
+        if not stockstatement.empty:
+            stockstatement
+            return stockstatement.values.tolist()
+        return list()
+
+    def Fin_Dataframe(self, x_name):
+        dfx = pd.DataFrame()
+        try :
+            dfstock = pd.read_html('https://classic.set.or.th/set/companyhighlight.do?symbol=' + x_name + '&language=th&country=TH'
+                       , match="งวดงบการเงิน")
+            df = dfstock[0]
+            df.fillna('-', inplace = True)
+            df.Name = x_name
+            df.drop([0,9], inplace = True)
+            df.reset_index()
+
+            data = self.StockStatementData(df)
+            col = self.StockStatementHeader(df)
+            col_result  = [col[0] if i==0 else col[i][-7:] for i in range(len(col))]
+            dfx = pd.DataFrame(data,columns = col_result)
+            # print(x_name)
+            # print(dfx.columns)
+            return dfx
+        except:
+            return dfx
