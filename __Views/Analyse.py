@@ -1,8 +1,9 @@
+from threading import Thread
 from tkinter import ttk
 import tkinter as tk
 from tkinter.messagebox import showinfo
 
-from __Models import Stocks
+from __Models.Stocks import Stock
 from __Controllers.AnalyseController import AnalyseController
 
 class StockAnalyse(tk.Toplevel):
@@ -12,7 +13,7 @@ class StockAnalyse(tk.Toplevel):
     def __init__(self):
         super().__init__()
 
-    def create_view(self, model:Stocks):
+    def create_view(self, model:Stock, controller:AnalyseController):
 
         def analyseTable(stk):
             columns = ('หลักทรัพย์', 'งบ(ปี)ที่คำนวณ', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
@@ -36,15 +37,15 @@ class StockAnalyse(tk.Toplevel):
 
 
         # print(model.getMarket())
-        analyse = AnalyseController(model)
-        market_stat = analyse.setDetails()
+        controller = AnalyseController(model)
+        market_stat = controller.setDetails()
         pe_set = market_stat.get('SET').get('pe')
         pe_mai = market_stat.get('mai').get('pe')
         pbv_set = market_stat.get('SET').get('pbv')
         pbv_mai = market_stat.get('mai').get('pbv')
 
-        analyse.checkSET100()
-        analyse.checkSET50()
+        controller.checkSET100()
+        controller.checkSET50()
 
         self.title('Analysis Mode')
         self.geometry('+1921+10')
@@ -60,7 +61,7 @@ class StockAnalyse(tk.Toplevel):
 
         selected_Market = tk.StringVar()
         mkt = (('SET & mai', 'all'),
-                ('SET', 'set'),
+                ('SET', 'SET'),
                 ('SET100', 'set100'),
                 ('SET50', 'set50'),
                 ('mai', 'mai'),)
@@ -146,4 +147,6 @@ class StockAnalyse(tk.Toplevel):
         offvalue='rm_pbv')
         self.checkbox_PBV.grid(row=8, column=0, padx=3, sticky=tk.W)
         
-        analyse.CalculateGrowth()
+        # Thread(analyse.CreateFinancial('SET')).start()
+        # Thread(analyse.CreateFinancial('mai')).start()
+        controller.deleteMinusProfit()

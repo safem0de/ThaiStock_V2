@@ -87,7 +87,7 @@ class ProgressController():
             col = self.StockStatementHeader(df)
             col_result  = [col[0] if i==0 else col[i][-7:] for i in range(len(col))]
             dfx = pd.DataFrame(data,columns = col_result)
-            print(x_name, df.Name)
+            # print(x_name, df.Name)
             return dfx
         except:
             return dfx

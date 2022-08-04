@@ -2,7 +2,8 @@ from tkinter.messagebox import showerror
 from __Views.Form import Form
 from __Views.Analyse import StockAnalyse
 from __Views.Graph import Graph
-from __Views.MagicFormula import magicFormula 
+from __Views.MagicFormula import magicFormula
+from __Controllers.AnalyseController import AnalyseController
 
 
 from __Models.Stocks import Stock
@@ -31,7 +32,7 @@ class ButtonController():
 
     def Stock_Analysis_Click(self):
         window = StockAnalyse()
-        window.create_view(self.model)
+        window.create_view(self.model,controller=AnalyseController)
 
 
     def Magic_Formula_Click(self):

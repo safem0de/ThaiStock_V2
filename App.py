@@ -6,6 +6,7 @@ from __Controllers.ProgressController import ProgressController
 from __Views.Form import Form
 from __Views.Table import Table
 from __Models.Stocks import Stock
+from __Models.Financial import Financial
 from tkinter import Frame, Label, ttk
 
 import importlib, os, asyncio, random
@@ -205,6 +206,7 @@ if __name__ == "__main__":
                             'fin_data': fin,
                             'isSET50': None,
                             'isSET100': None,
+                            'financial': None,
                             }
                         })
                     count += 1
@@ -215,6 +217,7 @@ if __name__ == "__main__":
                             'fin_data': fin,
                             'isSET50': False,
                             'isSET100': False,
+                            'financial': None,
                             }
                         })
                     count += 1
@@ -225,8 +228,6 @@ if __name__ == "__main__":
         Thread(update(pb_S,'SET')).start()
     
     async def ShowProgress_mai():
-        load.withdraw()
-        load.update()
 
         def update_progressmai_label():
             return f"Current Progress: {round(pb_m['value'],1)}%"
@@ -275,6 +276,7 @@ if __name__ == "__main__":
                             'fin_data': fin,
                             'isSET50': None,
                             'isSET100': None,
+                            'financial': None,
                             }
                         })
                     count += 1
@@ -285,6 +287,7 @@ if __name__ == "__main__":
                             'fin_data': fin,
                             'isSET50': False,
                             'isSET100': False,
+                            'financial': None,
                             }
                         })
                     count += 1
@@ -325,10 +328,10 @@ if __name__ == "__main__":
     async def sequencial():
         task1 = asyncio.create_task(ShowLoading())
         # task2 = asyncio.create_task(ShowProgress_SET())
-        task3 = asyncio.create_task(ShowProgress_mai())
+        # task3 = asyncio.create_task(ShowProgress_mai())
         task4 = asyncio.create_task(ShowMain())
         await task1
         # await task2
-        await task3
+        # await task3
 
     asyncio.run(sequencial())
