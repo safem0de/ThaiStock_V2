@@ -3,6 +3,7 @@ from tkinter import ttk
 
 import numpy as np
 from matplotlib import axis
+import statistics
 
 import mplfinance as mpf
 import pandas as pd
@@ -48,6 +49,10 @@ class Graph(tk.Tk):
                 return df['rsi_14'].squeeze()
             except:
                 pass
+
+        def BollingerBand(df):
+            df['Close'].rolling(window =20).mean()
+
 
         def create_candle(df:pd.DataFrame):
 
@@ -147,7 +152,7 @@ class Graph(tk.Tk):
             for widgets in self.frameChart.winfo_children():
                 widgets.destroy()
             a = CandleController.create_graph(self, st_Name=name, period=p)
-            # print(a)
+            print(a)
             # print(p)
             create_candle(a)
 
