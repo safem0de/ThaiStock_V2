@@ -14,13 +14,6 @@ class StockAnalyse(tk.Toplevel):
 
     def create_view(self, model:Stocks):
 
-        def update_progress_label():
-            return f"{pb['value']}%"
-
-        def progress():
-            if pb['value'] < 100:
-                pb['value'] += 20
-
         def analyseTable(stk):
             columns = ('หลักทรัพย์', 'งบ(ปี)ที่คำนวณ', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
             tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=25)
@@ -152,19 +145,5 @@ class StockAnalyse(tk.Toplevel):
         onvalue='pbv',
         offvalue='rm_pbv')
         self.checkbox_PBV.grid(row=8, column=0, padx=3, sticky=tk.W)
-
-        loading_frame = tk.Frame(self)
-        loading_frame.grid(row=40, column=0, padx=3, sticky=tk.E + tk.W)
-        # self.wm_attributes('-transparentcolor','pink')
-
-        pb = ttk.Progressbar(
-            loading_frame,
-            orient='horizontal',
-            length=280
-        )
-        # place the progressbar
-        pb.grid(row=0, column=0, padx=3, sticky=tk.E + tk.W)
-
-        value_label = ttk.Label(loading_frame, text=update_progress_label())
-        value_label.grid(row=0, column=1, padx=3, sticky=tk.W)
         
+        analyse.CalculateGrowth()

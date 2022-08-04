@@ -11,7 +11,7 @@ class ProgressController():
             dfy = pd.read_html('https://classic.set.or.th/mkt/stockquotation.do?symbol='+ st_Name +'&ssoPageId=1&language=th&country=TH', match='เครื่องหมาย', encoding='utf8')
             df = dfy[0]
             df.fillna("-", inplace= True)
-            ls.append(st_Name)
+            ls.append(str(st_Name).replace('+',' ').replace('%26','&'))
             ls.append(df.iloc[0,1])
             ls.append(df.iloc[1,1] if (df.iloc[1,1]) == '-' else float(df.iloc[1,1]))
             ls.append(df.iloc[2,1] if (df.iloc[2,1]) == '-' else float(df.iloc[2,1]))
@@ -23,11 +23,11 @@ class ProgressController():
             ls.append(df.iloc[8,1] if (df.iloc[8,1]) == '-' else float(df.iloc[8,1]))
             ls.append(df.iloc[9,1] if (df.iloc[9,1]) == '-' else float(df.iloc[9,1]))
             ls.append(df.iloc[10,1] if (df.iloc[10,1]) == '-' else float(df.iloc[10,1]))
+            return ls
         except Exception as e:
             print(st_Name, e, sep='\n')
-            pass
+            return None
 
-        return ls
 
     def StockStatement(self, x_name) -> pd.DataFrame:
         df = pd.DataFrame()
@@ -39,7 +39,6 @@ class ProgressController():
             df.Name = x_name
             df.drop([0,9], inplace = True)
             df.reset_index()
-            # print(df)
             return df
         except:
             return df
@@ -80,7 +79,7 @@ class ProgressController():
                        , match="งวดงบการเงิน")
             df = dfstock[0]
             df.fillna('-', inplace = True)
-            df.Name = x_name
+            df.Name = str(x_name).replace('+','-').replace('%26','&')
             df.drop([0,9], inplace = True)
             df.reset_index()
 
@@ -88,8 +87,7 @@ class ProgressController():
             col = self.StockStatementHeader(df)
             col_result  = [col[0] if i==0 else col[i][-7:] for i in range(len(col))]
             dfx = pd.DataFrame(data,columns = col_result)
-            # print(x_name)
-            # print(dfx.columns)
+            print(x_name, df.Name)
             return dfx
         except:
             return dfx

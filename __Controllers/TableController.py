@@ -1,5 +1,4 @@
 from __Models.Stocks import Stock
-import datetime
 import pandas as pd
 
 class TableController():
@@ -12,8 +11,9 @@ class TableController():
         self.view.create_view(self, model, Market)
 
     def getStockInfo(self, x_name:str):
+        z = x_name.replace('&','%26')
         try:
-            dflist = pd.read_html('https://classic.set.or.th/set/companyprofile.do?symbol='+ x_name +'&country=TH'
+            dflist = pd.read_html('https://classic.set.or.th/set/companyprofile.do?symbol='+ z +'&country=TH'
                             , match="ชื่อบริษัท" ,encoding='utf8')
             df0 = dflist[0]
             x = df0.values.tolist()
@@ -33,7 +33,6 @@ class TableController():
             data_Info = []
             final_Info = []
 
-
             for i in range(len(x)):
                 y = str(x[i][0]).strip()
                 txt += y
@@ -48,13 +47,17 @@ class TableController():
                     data_Info.append(str(txt[index[k]:index[k+1]]).strip())
 
             for l in data_Info:
-                # print(l)
+
                 for m in delete_list:
-                    # print(m)
+
                     if not l.find(m) == -1:
                         l = l[:l.find(m)]
 
                 final_Info.append(str(l).strip())
+
+            x0 = str(final_Info[-1])
+            y = x0.rfind(' ')
+            final_Info[-1] = x0[:y]+'\n'+x0[y:].strip()
         except:
             pass
 

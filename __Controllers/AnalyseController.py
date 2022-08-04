@@ -107,3 +107,15 @@ class AnalyseController():
         except:
             pass
 
+    
+    def DataframeToModel(self,df):
+        cleanDatas = {}
+        for row_index,row in df.iterrows():
+            m = pd.to_numeric(row[1:], errors='ignore')
+            cleanDatas[row[0]] = m.to_dict()
+        return cleanDatas
+
+
+    def CalculateGrowth(self):
+        testz = self.model.getMarket().get('mai').get('ZIGA').get('fin_data')
+        print(self.DataframeToModel(testz))

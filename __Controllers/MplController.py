@@ -18,7 +18,7 @@ class CandleController():
         try:
             ### https://aroussi.com/post/python-yahoo-finance
             ### period => 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max
-            ticker = yf.Ticker(st_Name.upper())
+            ticker = yf.Ticker(st_Name.replace('%26','&').replace(' ','-').upper())
             __df = ticker.history(period=period)
             __df.Name = st_Name.upper()
         except Exception as e:
