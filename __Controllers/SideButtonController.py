@@ -36,9 +36,14 @@ class ButtonController():
 
 
     def Magic_Formula_Click(self):
-        window = magicFormula()
-        window.create_view(self.model)
-
+        try:
+            window = magicFormula()
+            window.create_view(self.model)
+            
+            window.title('Analysis Mode')
+            window.geometry('+21+10')
+        except:
+            pass
 
     def Candle_Stick_Click(self):
         name = self.model.getSelected_StockName()
@@ -46,8 +51,9 @@ class ButtonController():
             try:
                 window = Graph(self.model)
                 window.create_view()
-                window.geometry('+1921+10')
-                window.state('zoomed')
+                # window.geometry('+1921+10')
+                window.geometry('+21+10')
+                # window.state('zoomed')
                 window.protocol('WM_DELETE_WINDOW',func=lambda: window.destroy())
             except Exception as e:
                 print(e)

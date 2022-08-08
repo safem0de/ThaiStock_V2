@@ -47,9 +47,6 @@ class StockAnalyse(tk.Toplevel):
         controller.checkSET100()
         controller.checkSET50()
 
-        self.title('Analysis Mode')
-        self.geometry('+1921+10')
-        # self.state('zoomed')
         analyseTable(stk=[])
 
         self.labelheader = ttk.Label(self, text = 'Analyse')

@@ -54,7 +54,7 @@ class Graph(tk.Tk):
             df['Close'].rolling(window =20).mean()
 
 
-        def create_candle(df:pd.DataFrame):
+        def create_candle(df:pd.DataFrame, df1:pd.DataFrame):
 
             exp12 = df['Close'].ewm(span=12, adjust=False).mean() ## pd.Series
             exp26 = df['Close'].ewm(span=26, adjust=False).mean()
@@ -86,12 +86,20 @@ class Graph(tk.Tk):
             ax1 = fig.add_subplot(gs02[0, 0],sharex = ax0)
             ax2 = fig.add_subplot(gs02[1, 0],sharex = ax0)
             ax3 = fig.add_subplot(gs02[2, 0],sharex = ax0)
+            ax3.tick_params(labelrotation=45)
 
             RemoveLabel(ax1)
             RemoveLabel(ax2)
 
             ax4 = fig.add_subplot(gs01[0:, 0], sharey=ax0)
             ax4.text(0.5, 0.5, 'Safem0de\nrenko (movement)', transform=ax4.transAxes,
+            fontsize=20, color='gray', alpha=0.4,
+            ha='center', va='center', rotation='20')
+
+            ax4.xaxis.tick_top()
+
+            ax5 = fig.add_subplot(gs03[0:, 0])
+            ax5.text(0.5, 0.5, 'Safem0de\nShort-term Trading', transform=ax5.transAxes,
             fontsize=20, color='gray', alpha=0.4,
             ha='center', va='center', rotation='20')
 
@@ -113,6 +121,11 @@ class Graph(tk.Tk):
                     size=8,
                     bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
 
+                ax5.annotate(f'period : 1 day\ninterval : 1 min',xy=(0.02,0.8),
+                    xycoords='axes fraction',
+                    size=8,
+                    bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
+
                 ap = [
                     mpf.make_addplot(exp12, color='y', ax=ax0),
                     mpf.make_addplot(exp26, color='c', ax=ax0),
@@ -128,8 +141,9 @@ class Graph(tk.Tk):
                     mpf.make_addplot(rsi, color='indigo', ax=ax3),
                 ]
 
-                mpf.plot(df,ax=ax0,volume=ax1,type='candle', addplot=ap, xrotation=10)
+                mpf.plot(df,ax=ax0,volume=ax1,type='candle', addplot=ap)
                 mpf.plot(df,ax=ax4,type='renko')
+                mpf.plot(df1,ax=ax5,type='renko')
                 
                 canvas = FigureCanvasTkAgg(fig, master=self.frameChart)
                 canvas.draw()
@@ -151,10 +165,12 @@ class Graph(tk.Tk):
         def radioButton_selected(p):
             for widgets in self.frameChart.winfo_children():
                 widgets.destroy()
-            a = CandleController.create_graph(self, st_Name=name, period=p)
-            print(a)
+            a = CandleController.create_graph_longterm(self, st_Name=name, period=p)
+            b = CandleController.create_graph_shorterm(self, st_Name=name, period='1d')
+            # print(b)
+            # print(a)
             # print(p)
-            create_candle(a)
+            create_candle(a,b)
 
         name = str(self.model.getSelected_StockName().replace('%26','&').replace('+',' '))
 
