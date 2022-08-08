@@ -1,7 +1,7 @@
 from cProfile import label
 import sys
 import tkinter as tk
-from tkinter import ttk
+from tkinter import Frame, Menu, ttk
 
 import numpy as np
 from matplotlib import axis
@@ -23,6 +23,12 @@ class Graph(tk.Tk):
         self.model = model
         n = self.model.getSelected_StockName().replace('%26','&').replace('+',' ').replace('.BK','')
         self.title(f'Candle Stick : {n}')
+
+    def popup(self, event):
+        try:
+            self.popup_menu.tk_popup(event.x_root, event.y_root, 0)
+        finally:
+            self.popup_menu.grab_release()
 
     def create_view(self):
 
@@ -70,16 +76,16 @@ class Graph(tk.Tk):
             rsi_upper = pd.Series(70, index=df.index)
             rsi_lower = pd.Series(30, index=df.index)
 
-            fig = mpf.figure(style='yahoo', figsize=(12.8, 7.2), dpi=85)
-            fig.suptitle(name.replace('.BK',''))
-            gs0 = fig.add_gridspec(2, 2, left=0.05, right=0.95, wspace=0.05, hspace=0.02)
+            # fig = mpf.figure(style='yahoo', figsize=(12.8, 7.2), dpi=85)
+            self.fig.suptitle(name.replace('.BK',''))
+            gs0 = self.fig.add_gridspec(2, 2, left=0.05, right=0.95, wspace=0.05, hspace=0.02)
 
             gs00 = gs0[0].subgridspec(3, 1)
             gs01 = gs0[1].subgridspec(3, 1)
             gs02 = gs0[2].subgridspec(3, 1, hspace=0.02)
             gs03 = gs0[3].subgridspec(2, 1)
 
-            ax0 = fig.add_subplot(gs00[0:, 0])
+            ax0 = self.fig.add_subplot(gs00[0:, 0])
             ax0.text(0.5, 0.5, 'Safem0de\ncandle stick', transform=ax0.transAxes,
             fontsize=20, color='gray', alpha=0.4,
             ha='center', va='center', rotation='20')
@@ -87,15 +93,15 @@ class Graph(tk.Tk):
             RemoveLabel(ax0)
             ax0.tick_params('y', labelleft=False, labelright=False)
 
-            ax1 = fig.add_subplot(gs02[0, 0],sharex = ax0)
-            ax2 = fig.add_subplot(gs02[1, 0],sharex = ax0)
-            ax3 = fig.add_subplot(gs02[2, 0],sharex = ax0)
+            ax1 = self.fig.add_subplot(gs02[0, 0],sharex = ax0)
+            ax2 = self.fig.add_subplot(gs02[1, 0],sharex = ax0)
+            ax3 = self.fig.add_subplot(gs02[2, 0],sharex = ax0)
             ax3.tick_params(labelrotation=20)
 
             RemoveLabel(ax1)
             RemoveLabel(ax2)
 
-            ax4 = fig.add_subplot(gs01[0:, 0], sharey=ax0)
+            ax4 = self.fig.add_subplot(gs01[0:, 0], sharey=ax0)
             ax4.text(0.5, 0.5, 'Safem0de\nrenko (movement)', transform=ax4.transAxes,
             fontsize=20, color='gray', alpha=0.4,
             ha='center', va='center', rotation='20')
@@ -103,8 +109,8 @@ class Graph(tk.Tk):
             ax4.tick_params(axis='x', labelrotation=20)
             ax4.xaxis.tick_top()
 
-            ax5 = fig.add_subplot(gs03[0, 0])
-            ax6 = fig.add_subplot(gs03[1, 0])
+            ax5 = self.fig.add_subplot(gs03[0, 0])
+            ax6 = self.fig.add_subplot(gs03[1, 0])
             # ax5.text(0.5, 0.5, 'Safem0de\nShort-term Trading', transform=ax5.transAxes,
             # fontsize=20, color='gray', alpha=0.4,
             # ha='center', va='center', rotation='20')
@@ -157,7 +163,7 @@ class Graph(tk.Tk):
                 mpf.plot(df1,ax=ax5,type='renko')
                 mpf.plot(df2,ax=ax6,type='renko')
                 
-                canvas = FigureCanvasTkAgg(fig, master=self.frameChart)
+                canvas = FigureCanvasTkAgg(self.fig, master=self.frameChart)
                 canvas.draw()
                 canvas.get_tk_widget().pack(fill=tk.Y, expand=1, padx=5, pady=5)
 
@@ -212,7 +218,7 @@ class Graph(tk.Tk):
             )
             r.pack(side=tk.LEFT, padx=5, pady=5)
 
-        refresh_Btn = ttk.Button(self.LblframePeriod, text='Refresh')
+        refresh_Btn = ttk.Button(self.LblframePeriod, text='Refresh', command=radioButton_selected(selected_period.get()))
         refresh_Btn.pack(side=tk.RIGHT, padx=5, pady=5)
 
         self.frameChart = ttk.Frame(self.frame)
