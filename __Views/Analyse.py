@@ -145,5 +145,5 @@ class StockAnalyse(tk.Toplevel):
         self.checkbox_PBV.grid(row=8, column=0, padx=3, sticky=tk.W)
         
         # Thread(analyse.CreateFinancial('SET')).start()
-        # Thread(analyse.CreateFinancial('mai')).start()
+        Thread(controller.CreateFinancial('mai')).start()
         controller.deleteMinusProfit()

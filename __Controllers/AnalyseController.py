@@ -148,10 +148,22 @@ class AnalyseController():
     def deleteMinusProfit(self, Market='all'):
         cal = self.model.getMarket().get('SET').copy()
         cal.update(self.model.getMarket().get('mai'))
-        print(cal)
+        # print(cal)
 
-        # for c in cal:
-        #     financials:Financial = cal.get(c).get('financial')
-        #     netprofit = financials.getNetProfit()
-        #     print(netprofit)
+        for k,v in cal.items():
+            try:
+                print(k,v.get('financial'))
+                financials:Financial = v.get('financial')
+                netprofit = financials.getNetProfit(self)
+                print(netprofit)
+            except Exception as e:
+                print(e)
+
+            # try:
+            #     financials:Financial = cal.get(c).get('financial')
+            #     netprofit = financials.getNetProfit()
+            #     print(netprofit)
+            # except Exception as e:
+            #     print(e)
+
 
