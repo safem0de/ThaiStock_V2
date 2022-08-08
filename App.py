@@ -137,10 +137,9 @@ class App(tk.Tk):
             pyi_splash.close()
         
         self.title('Safem0de Stock Version 0.3.1')
-        # self.geometry('+1910+0')
-        self.geometry('+20+10')
+        self.geometry('+1921+0')
+        # self.geometry('+20+10')
         self.iconbitmap(default=ICON_PATH)
-        # self.state('zoomed')
 
         self.style = ThemedStyle(self)
         self.style.set_theme("clearlooks")

@@ -127,8 +127,6 @@ class Table(tk.Frame):
         m.add_separator()
         m.add_command(label ="Export excel file", command=lambda :showinfo('Please wait','Developer will release on V0.4'))
 
-
-
     def create_button(self):
         frame = tk.Frame(self)
         self.button = ttk.Button(frame)

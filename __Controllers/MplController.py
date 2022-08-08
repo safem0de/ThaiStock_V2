@@ -29,14 +29,14 @@ class CandleController():
 
     # fetch data by interval (including intraday if period < 60 days)
     # valid intervals: 1m,2m,5m,15m,30m,60m,90m,1h,1d,5d,1wk,1mo,3mo
-    def create_graph_shorterm(self, st_Name:str, period:str = '1d') -> pd.DataFrame:
+    def create_graph_shorterm(self, st_Name:str, interval:str) -> pd.DataFrame:
         __df = pd.DataFrame()
         try:
             ### https://aroussi.com/post/python-yahoo-finance
             ### period => 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max
             ticker = yf.Ticker(st_Name.replace('%26','&').replace(' ','-').upper())
-            __df = ticker.history(period=period, interval='1m')
-            __df.Name = st_Name.upper()
+            __df = ticker.history(period='1d', interval=interval)
+            __df.Name = interval.replace('m', ' minutes')
         except Exception as e:
             print('err: ',e)
             pass

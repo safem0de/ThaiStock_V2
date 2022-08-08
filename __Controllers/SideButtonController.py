@@ -24,6 +24,7 @@ class ButtonController():
         self.view.buttons["Stock_Analysis"].configure(command=self.Stock_Analysis_Click)
         self.view.buttons["Candle_Stick"].configure(command=lambda:self.Candle_Stick_Click())
         self.view.buttons["Magic_Formula"].configure(command=self.Magic_Formula_Click)
+        self.view.buttons["Preferences"].configure(command= lambda: print('setting panels'))
         self.view.buttons["Bibiology"].configure(command=self.Bibiology_Click)
 
     def Stock_NEWS_Click(self):
@@ -41,7 +42,8 @@ class ButtonController():
             window.create_view(self.model)
             
             window.title('Analysis Mode')
-            window.geometry('+21+10')
+            window.geometry('+1921+10')
+            # window.geometry('+21+10')
         except:
             pass
 
@@ -51,9 +53,8 @@ class ButtonController():
             try:
                 window = Graph(self.model)
                 window.create_view()
-                # window.geometry('+1921+10')
-                window.geometry('+21+10')
-                # window.state('zoomed')
+                window.geometry('+1921+10')
+                # window.geometry('+21+10')
                 window.protocol('WM_DELETE_WINDOW',func=lambda: window.destroy())
             except Exception as e:
                 print(e)

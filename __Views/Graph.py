@@ -1,3 +1,5 @@
+from cProfile import label
+import sys
 import tkinter as tk
 from tkinter import ttk
 
@@ -54,7 +56,7 @@ class Graph(tk.Tk):
             df['Close'].rolling(window =20).mean()
 
 
-        def create_candle(df:pd.DataFrame, df1:pd.DataFrame):
+        def create_candle(df:pd.DataFrame, df1:pd.DataFrame=None, df2:pd.DataFrame=None):
 
             exp12 = df['Close'].ewm(span=12, adjust=False).mean() ## pd.Series
             exp26 = df['Close'].ewm(span=26, adjust=False).mean()
@@ -68,25 +70,27 @@ class Graph(tk.Tk):
             rsi_upper = pd.Series(70, index=df.index)
             rsi_lower = pd.Series(30, index=df.index)
 
-            fig = mpf.figure(style='yahoo', figsize=(9, 8))
+            fig = mpf.figure(style='yahoo', figsize=(12.8, 7.2), dpi=85)
             fig.suptitle(name.replace('.BK',''))
             gs0 = fig.add_gridspec(2, 2, left=0.05, right=0.95, wspace=0.05, hspace=0.02)
 
             gs00 = gs0[0].subgridspec(3, 1)
             gs01 = gs0[1].subgridspec(3, 1)
             gs02 = gs0[2].subgridspec(3, 1, hspace=0.02)
-            gs03 = gs0[3].subgridspec(3, 1)
+            gs03 = gs0[3].subgridspec(2, 1)
 
             ax0 = fig.add_subplot(gs00[0:, 0])
             ax0.text(0.5, 0.5, 'Safem0de\ncandle stick', transform=ax0.transAxes,
             fontsize=20, color='gray', alpha=0.4,
             ha='center', va='center', rotation='20')
+
             RemoveLabel(ax0)
+            ax0.tick_params('y', labelleft=False, labelright=False)
 
             ax1 = fig.add_subplot(gs02[0, 0],sharex = ax0)
             ax2 = fig.add_subplot(gs02[1, 0],sharex = ax0)
             ax3 = fig.add_subplot(gs02[2, 0],sharex = ax0)
-            ax3.tick_params(labelrotation=45)
+            ax3.tick_params(labelrotation=20)
 
             RemoveLabel(ax1)
             RemoveLabel(ax2)
@@ -96,12 +100,14 @@ class Graph(tk.Tk):
             fontsize=20, color='gray', alpha=0.4,
             ha='center', va='center', rotation='20')
 
+            ax4.tick_params(axis='x', labelrotation=20)
             ax4.xaxis.tick_top()
 
-            ax5 = fig.add_subplot(gs03[0:, 0])
-            ax5.text(0.5, 0.5, 'Safem0de\nShort-term Trading', transform=ax5.transAxes,
-            fontsize=20, color='gray', alpha=0.4,
-            ha='center', va='center', rotation='20')
+            ax5 = fig.add_subplot(gs03[0, 0])
+            ax6 = fig.add_subplot(gs03[1, 0])
+            # ax5.text(0.5, 0.5, 'Safem0de\nShort-term Trading', transform=ax5.transAxes,
+            # fontsize=20, color='gray', alpha=0.4,
+            # ha='center', va='center', rotation='20')
 
             try:
                 ax0.annotate(
@@ -121,7 +127,12 @@ class Graph(tk.Tk):
                     size=8,
                     bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
 
-                ax5.annotate(f'period : 1 day\ninterval : 1 min',xy=(0.02,0.8),
+                ax5.annotate(f'period : 1 day\ninterval : {df1.Name}',xy=(0.02,0.75),
+                    xycoords='axes fraction',
+                    size=8,
+                    bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
+
+                ax6.annotate(f'period : 1 day\ninterval : {df2.Name}',xy=(0.02,0.75),
                     xycoords='axes fraction',
                     size=8,
                     bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
@@ -144,6 +155,7 @@ class Graph(tk.Tk):
                 mpf.plot(df,ax=ax0,volume=ax1,type='candle', addplot=ap)
                 mpf.plot(df,ax=ax4,type='renko')
                 mpf.plot(df1,ax=ax5,type='renko')
+                mpf.plot(df2,ax=ax6,type='renko')
                 
                 canvas = FigureCanvasTkAgg(fig, master=self.frameChart)
                 canvas.draw()
@@ -161,16 +173,13 @@ class Graph(tk.Tk):
             except:
                 pass
 
-
         def radioButton_selected(p):
             for widgets in self.frameChart.winfo_children():
                 widgets.destroy()
             a = CandleController.create_graph_longterm(self, st_Name=name, period=p)
-            b = CandleController.create_graph_shorterm(self, st_Name=name, period='1d')
-            # print(b)
-            # print(a)
-            # print(p)
-            create_candle(a,b)
+            b = CandleController.create_graph_shorterm(self, st_Name=name, interval='2m')
+            c = CandleController.create_graph_shorterm(self, st_Name=name, interval='15m')
+            create_candle(a,b,c)
 
         name = str(self.model.getSelected_StockName().replace('%26','&').replace('+',' '))
 
@@ -189,8 +198,8 @@ class Graph(tk.Tk):
                 ('3 Months', '3mo'),
                 ('6 Months', '6mo'),
                 ('1 Year', '1y'),
-                ('2 Year', '2y'),
-                # ('5 Year', '5y'), ## mpl too much data warning
+                # ('2 Year', '2y'), ## https://github.com/matplotlib/mplfinance/wiki/Plotting-Too-Much-Data
+                # ('5 Year', '5y'), ## mpl too much data warning : The Above image shows 500 candles.
                 )
 
         for p in period:
@@ -202,6 +211,9 @@ class Graph(tk.Tk):
                 command = lambda : radioButton_selected(selected_period.get())
             )
             r.pack(side=tk.LEFT, padx=5, pady=5)
+
+        refresh_Btn = ttk.Button(self.LblframePeriod, text='Refresh')
+        refresh_Btn.pack(side=tk.RIGHT, padx=5, pady=5)
 
         self.frameChart = ttk.Frame(self.frame)
         self.frameChart.pack(expand=True, fill=tk.BOTH, side=tk.TOP, padx=5, pady=5)
