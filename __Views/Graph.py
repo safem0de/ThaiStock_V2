@@ -111,6 +111,8 @@ class Graph(tk.Tk):
 
             ax5 = fig.add_subplot(gs03[0, 0])
             ax6 = fig.add_subplot(gs03[1, 0])
+            ax5.tick_params(axis='x', labelrotation=20)
+            ax6.tick_params(axis='x', labelrotation=20)
             # ax5.text(0.5, 0.5, 'Safem0de\nShort-term Trading', transform=ax5.transAxes,
             # fontsize=20, color='gray', alpha=0.4,
             # ha='center', va='center', rotation='20')
@@ -144,8 +146,8 @@ class Graph(tk.Tk):
                     bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
 
                 ap = [
-                    mpf.make_addplot(exp12, color='y', ax=ax0),
-                    mpf.make_addplot(exp26, color='c', ax=ax0),
+                    # mpf.make_addplot(exp12, color='y', ax=ax0),
+                    # mpf.make_addplot(exp26, color='c', ax=ax0),
                     
                     mpf.make_addplot(histogram,type='bar',
                                 alpha=1,secondary_y=False,
@@ -183,8 +185,8 @@ class Graph(tk.Tk):
             for widgets in self.frameChart.winfo_children():
                 widgets.destroy()
             a = CandleController.create_graph_longterm(self, st_Name=name, period=p)
-            b = CandleController.create_graph_shorterm(self, st_Name=name, interval='2m')
-            c = CandleController.create_graph_shorterm(self, st_Name=name, interval='15m')
+            b = CandleController.create_graph_shorterm(self, st_Name=name, interval='1m')
+            c = CandleController.create_graph_shorterm(self, st_Name=name, interval='5m')
             create_candle(a,b,c)
 
         name = str(self.model.getSelected_StockName().replace('%26','&').replace('+',' '))
@@ -223,4 +225,4 @@ class Graph(tk.Tk):
 
         self.frameChart = ttk.Frame(self.frame)
         self.frameChart.pack(expand=True, fill=tk.BOTH, side=tk.TOP, padx=5, pady=5)
-        radioButton_selected('1y')
+        radioButton_selected('3mo')

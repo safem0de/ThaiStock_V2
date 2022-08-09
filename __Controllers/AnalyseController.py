@@ -1,5 +1,4 @@
 import pandas as pd
-from __Models.Financial import Financial
 from __Models.Stocks import Stock
 
 class AnalyseController():
@@ -107,63 +106,22 @@ class AnalyseController():
         except:
             pass
 
-    
-    def DataframeToModel(self,df):
-        cleanDatas = {}
-        for row_index,row in df.iterrows():
-            m = pd.to_numeric(row[1:], errors='ignore')
-            cleanDatas[row[0]] = m.to_dict() ### row[0] is column header
-        return cleanDatas
 
-
-    def CreateFinancial(self,Market:str):
-        s : dict = self.model.getMarket().get(Market)
-
-        for k,v in s.items():
-            x = s.get(k)
-            y = x.get('fin_data')
-            data = self.DataframeToModel(y)
-            analyseModel = Financial
-            analyseModel.setAssets(self, param=data['สินทรัพย์รวม'])
-            analyseModel.setLiabilities(self, param=data['หนี้สินรวม'])
-            analyseModel.setEquity(self, param=data['ส่วนของผู้ถือหุ้น'])
-            analyseModel.setCapital(self, param=data['มูลค่าหุ้นที่เรียกชำระแล้ว'])
-            analyseModel.setRevenue(self, param=data['รายได้รวม'])
-            analyseModel.setProfit_Loss(self, param=data['กำไร (ขาดทุน) จากกิจกรรมอื่น'])
-            analyseModel.setNetProfit(self, param=data['กำไรสุทธิ'])
-            analyseModel.setEPS(self, param=data['กำไรต่อหุ้น (บาท)'])
-            analyseModel.setROA(self, param=data['ROA(%)'])
-            analyseModel.setROE(self, param=data['ROE(%)'])
-            analyseModel.setMargin(self, param=data['อัตรากำไรสุทธิ(%)'])
-            analyseModel.setLastPrice(self, param=data['ราคาล่าสุด(บาท)'])
-            analyseModel.setMarketCap(self, param=data['มูลค่าหลักทรัพย์ตามราคาตลาด'])
-            analyseModel.setFSPeriod(self, param=data['วันที่ของงบการเงินที่ใช้คำนวณค่าสถิติ'])
-            analyseModel.setPE(self, param=data['P/E (เท่า)'])
-            analyseModel.setPBV(self, param=data['P/BV (เท่า)'])
-            analyseModel.setBookValuepershare(self, param=data['มูลค่าหุ้นทางบัญชีต่อหุ้น (บาท)'])
-            analyseModel.setDvdYield(self, param=data['อัตราส่วนเงินปันผลตอบแทน(%)'])
-            x.update(financial=analyseModel)
-
-    
     def deleteMinusProfit(self, Market='all'):
-        cal = self.model.getMarket().get('SET').copy()
+        cal:dict = self.model.getMarket().get('SET').copy()
         cal.update(self.model.getMarket().get('mai'))
-        # print(cal)
 
-        for k,v in cal.items():
+        for c in cal:
             try:
-                print(k,v.get('financial'))
-                financials:Financial = v.get('financial')
-                netprofit = financials.getNetProfit(self)
-                print(netprofit)
-            except Exception as e:
-                print(e)
+                x:pd.DataFrame = cal.get(c).get('fin_data')
+                x.set_index(c, inplace=True)
+                netProfit = x.loc['กำไรสุทธิ']
 
-            # try:
-            #     financials:Financial = cal.get(c).get('financial')
-            #     netprofit = financials.getNetProfit()
-            #     print(netprofit)
-            # except Exception as e:
-            #     print(e)
-
-
+                for k,v in netProfit.items():
+                    if float(v) < 0:
+                        pass
+                    else:
+                        print(c)
+                        print(k, v)
+            except:
+                pass
