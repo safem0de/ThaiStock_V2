@@ -195,7 +195,7 @@ class Graph(tk.Tk):
         self.LblframePeriod.pack(expand=True, fill=tk.BOTH, side=tk.TOP, padx=5, pady=5)
 
         ### https://www.geeksforgeeks.org/radiobutton-in-tkinter-python/
-        selected_period = tk.StringVar(self,'1y')
+        selected_period = tk.StringVar(self,'3mo')
         period = (
                 # ('1 Day', '1d'),
                 # ('5 Days', '5d'), ## RSI Calculation Problem n = 14
