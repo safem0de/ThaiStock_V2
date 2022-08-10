@@ -1,7 +1,7 @@
 from tkinter.messagebox import showerror
 from __Views.Form import Form
 from __Views.Analyse import StockAnalyse
-from __Views.Graph import Graph
+
 from __Views.MagicFormula import magicFormula
 from __Controllers.AnalyseController import AnalyseController
 
@@ -48,22 +48,7 @@ class ButtonController():
             pass
 
     def Candle_Stick_Click(self):
-        name = self.model.getSelected_StockName()
-        if not name == None:
-            try:
-                window = Graph(self.model)
-                window.create_view()
-                window.geometry('+1921+10')
-                # window.geometry('+21+10')
-                window.protocol('WM_DELETE_WINDOW',func=lambda: window.destroy())
-            except Exception as e:
-                print(e)
-            
-        else:
-            showerror(
-                'Please select stock',
-                'to show the Graphs please select\nกรุณาเลือกหุ้นที่ต้องการ เพื่อแสดงกราฟ 📈📊!!')
-            return
+        pass
 
     def Bibiology_Click(self):
         print('test Bibiology')

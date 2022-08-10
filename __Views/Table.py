@@ -1,9 +1,10 @@
 import tkinter as tk
-from tkinter import ttk
-from tkinter.messagebox import showinfo
+from tkinter import DISABLED, ttk
+from tkinter.messagebox import showinfo,showerror
 import webbrowser
 from __Models.Stocks import Stock
 from __Controllers.TableController import TableController
+from __Views.Graph import Graph
 
 class Table(tk.Frame):
 
@@ -32,6 +33,25 @@ class Table(tk.Frame):
                 self.clipboard_append(str(record)+'\n')
 
             self.update()
+
+
+        def CandleStick():
+            name = self.model.getSelected_StockName()
+            if not name == None:
+                try:
+                    window = Graph(self.model)
+                    window.create_view()
+                    window.geometry('+1921+10')
+                    # window.geometry('+21+10')
+                    window.protocol('WM_DELETE_WINDOW',func=lambda: window.destroy())
+                except Exception as e:
+                    print(e)
+                
+            else:
+                showerror(
+                    'Please select stock',
+                    'to show the Graphs please select\nกรุณาเลือกหุ้นที่ต้องการ เพื่อแสดงกราฟ 📈📊!!')
+                return
 
 
         def item_selected(event):
@@ -124,8 +144,11 @@ class Table(tk.Frame):
 
         m = tk.Menu(self.tree, tearoff = 0, activebackground='SteelBlue1',)
         m.add_command(label ="Copy as text", command=right_click_copy_text)
-        m.add_separator()
         m.add_command(label ="Export excel file", command=lambda :showinfo('Please wait','Developer will release on V0.4'))
+        m.add_separator()
+        m.add_command(label='Open Stock Realtime Chart',state=DISABLED)
+        m.add_command(label='Open Stock CandleStick History', command=lambda: CandleStick())
+        
 
     def create_button(self):
         frame = tk.Frame(self)

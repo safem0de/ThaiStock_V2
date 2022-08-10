@@ -1,11 +1,8 @@
-from cProfile import label
-import sys
 import tkinter as tk
 from tkinter import Frame, Menu, ttk
 
 import numpy as np
 from matplotlib import axis
-import statistics
 
 import mplfinance as mpf
 import pandas as pd
