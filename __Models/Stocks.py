@@ -32,9 +32,6 @@ class Stock:
         url = 'https://api.coincap.io/v2/assets'
         response = requests.get(url)
         x = dict(response.json())
-        # y = pd.DataFrame(x['data'])
-        # print(y)
-
         for r in x['data']:
             y = dict()
             y[r.get('symbol')] = {'data':[

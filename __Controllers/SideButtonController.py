@@ -5,13 +5,16 @@ from __Views.Analyse import StockAnalyse
 from __Views.MagicFormula import magicFormula
 from __Controllers.AnalyseController import AnalyseController
 from __Models.Stocks import Stock
+from __Models.Settings import Setting
+
 
 import tkinter as tk
 
 class ButtonController():
-    def __init__(self, model: Stock) -> None:
+    def __init__(self, model: Stock, setting:Setting) -> None:
         super().__init__()
         self.model = model
+        self.setting = setting
 
     def bind(self, view:Form, frame:tk.Frame):
         self.view = view
@@ -28,7 +31,7 @@ class ButtonController():
 
     def Stock_Analysis_Click(self):
         window = StockAnalyse()
-        window.create_view(self.model,controller=AnalyseController)
+        window.create_view(model=self.model, controller=AnalyseController)
 
 
     def Magic_Formula_Click(self):
@@ -42,8 +45,7 @@ class ButtonController():
     def Preference(self):
         try:
             window = Preference()
-            window.create_view()
-            
+            window.create_view(model=self.setting)
         except:
             pass
         

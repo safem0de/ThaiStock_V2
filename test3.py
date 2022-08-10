@@ -6,6 +6,8 @@ x = {
     "mai_download" : False,
     "start_screen_x": 1925,
     "start_screen_y" : 10,
+    "load_screen_x": 1925,
+    "load_screen_y" : 10,
 }
 
 y = str(x)

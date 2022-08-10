@@ -8,6 +8,7 @@ from __Views.Form import Form
 from __Views.Table import Table
 from __Views.Images import ICON
 from __Models.Stocks import Stock
+from __Models.Settings import Setting
 from tkinter import Frame, Label, ttk
 
 import importlib, os, asyncio, random
@@ -21,15 +22,14 @@ with open(ICON_PATH, 'wb') as icon_file:
 
 class Loading(tk.Tk):
 
-    def __init__(self):
+    def __init__(self, model:Setting):
         super().__init__()
 
         def disable_event():
             pass
 
         self.protocol("WM_DELETE_WINDOW", func=disable_event)
-        # self.geometry('+1921+10')
-        self.geometry('+10+10')
+        self.geometry(f'+{model.getload_screen_x()}+{model.getload_screen_y()}')
         self.title('Download Stock Data')
         self.iconbitmap(default=ICON_PATH)
         self.resizable(0, 0)
@@ -72,7 +72,7 @@ class LblFrame(tk.LabelFrame):
         self.grid(row=1, column=0, sticky=tk.N + tk.S + tk.E + tk.W)
 
 class App(tk.Tk):
-    def __init__(self):
+    def __init__(self, model:Setting):
         super().__init__()
 
         if '_PYIBoot_SPLASH' in os.environ and importlib.util.find_spec("pyi_splash"):
@@ -83,6 +83,7 @@ class App(tk.Tk):
         
         self.title('Safem0de Stock Version 0.3.1')
         self.iconbitmap(default=ICON_PATH)
+        self.geometry(f'+{model.getstart_screen_x()}+{model.getstart_screen_y()}')
 
         self.style = ThemedStyle(self)
         self.style.set_theme("clearlooks")
@@ -90,12 +91,24 @@ class App(tk.Tk):
 
 if __name__ == "__main__":
 
-    f = open("App_Safem0de.config", "r")
-    str_decoded = cryptocode.decrypt(f.read(), 'S@fem0de')
-    res = ast.literal_eval(str_decoded)
+    setting = Setting()
+    try:
+        f = open("App_Safem0de.config", "r")
+        str_decoded = cryptocode.decrypt(f.read(), 'S@fem0de')
+        res = ast.literal_eval(str_decoded)
+
+        if res:
+            setting.setSET_download(res['SET_download'])
+            setting.setmai_download(res['mai_download'])
+            setting.setstart_screen_x(res['start_screen_x'])
+            setting.setstart_screen_y(res['start_screen_y'])
+            setting.setload_screen_x(res['load_screen_x'])
+            setting.setload_screen_y(res['load_screen_y'])
+    except:
+        pass
 
     stock = Stock()
-    load = Loading()
+    load = Loading(setting)
 
     async def ShowLoading():
         await asyncio.sleep(delay=random.uniform(0, 0.0001))
@@ -248,9 +261,7 @@ if __name__ == "__main__":
         BtnClose.focus()
 
         await asyncio.sleep(delay=random.uniform(0.0001, 0.0002))
-        root = App()
-        coor:str = f"+{str(res.get('start_screen_x'))}+{str(res['start_screen_y'])}"
-        root.geometry(coor)
+        root = App(setting)
         root.protocol("WM_DELETE_WINDOW",func=lambda:root.quit())
 
         lb = Label(master=root)
@@ -260,7 +271,7 @@ if __name__ == "__main__":
         label_frame = LblFrame(master=root)
 
         button = Button(master=label_frame)
-        button_controller = ButtonController(stock)
+        button_controller = ButtonController(stock, setting)
         
         button.add_button(view=Form, controller=button_controller, frame=label_frame)
 
@@ -276,11 +287,12 @@ if __name__ == "__main__":
 
         task1 = asyncio.create_task(ShowLoading())
 
-        if res['SET_download']:
+        if setting.getSET_download():
             task2 = asyncio.create_task(ShowProgress_SET())
             await task2
+        
 
-        if res['mai_download']:
+        if setting.getmai_download():
             task3 = asyncio.create_task(ShowProgress_mai())
             await task3
 
