@@ -12,9 +12,9 @@ class Setting:
 
     def getSET_download(self):
         return self.setting.get('SET_download')
-
+        
     def getmai_download(self):
-        return str(self.setting.get('mai_download'))
+        return self.setting.get('mai_download')
 
     def getstart_screen_x(self):
         return str(self.setting.get('start_screen_x'))

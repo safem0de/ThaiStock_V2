@@ -97,6 +97,8 @@ if __name__ == "__main__":
         str_decoded = cryptocode.decrypt(f.read(), 'S@fem0de')
         res = ast.literal_eval(str_decoded)
 
+        print(res)
+
         if res:
             setting.setSET_download(res['SET_download'])
             setting.setmai_download(res['mai_download'])
@@ -104,8 +106,10 @@ if __name__ == "__main__":
             setting.setstart_screen_y(res['start_screen_y'])
             setting.setload_screen_x(res['load_screen_x'])
             setting.setload_screen_y(res['load_screen_y'])
-    except:
-        pass
+        else:
+            pass
+    except Exception as e:
+        print(e)
 
     stock = Stock()
     load = Loading(setting)
@@ -287,14 +291,17 @@ if __name__ == "__main__":
 
         task1 = asyncio.create_task(ShowLoading())
 
-        if setting.getSET_download():
+        if bool(setting.getSET_download()):
             task2 = asyncio.create_task(ShowProgress_SET())
             await task2
-        
+        else:
+            pass
 
-        if setting.getmai_download():
+        if bool(setting.getmai_download()):
             task3 = asyncio.create_task(ShowProgress_mai())
             await task3
+        else:
+            pass
 
         task4 = asyncio.create_task(ShowMain())
 
