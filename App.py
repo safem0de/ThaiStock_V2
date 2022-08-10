@@ -1,3 +1,4 @@
+import ast
 from threading import Thread
 import tkinter as tk
 from __Controllers.SideButtonController import ButtonController
@@ -12,6 +13,7 @@ from tkinter import Frame, Label, ttk
 import importlib, os, asyncio, random
 from ttkthemes import ThemedStyle
 import tempfile
+import cryptocode
 
 _, ICON_PATH = tempfile.mkstemp()
 with open(ICON_PATH, 'wb') as icon_file:
@@ -80,8 +82,6 @@ class App(tk.Tk):
             pyi_splash.close()
         
         self.title('Safem0de Stock Version 0.3.1')
-        self.geometry('+1921+0')
-        # self.geometry('+20+10')
         self.iconbitmap(default=ICON_PATH)
 
         self.style = ThemedStyle(self)
@@ -89,6 +89,10 @@ class App(tk.Tk):
         print('MainMenu')
 
 if __name__ == "__main__":
+
+    f = open("App_Safem0de.config", "r")
+    str_decoded = cryptocode.decrypt(f.read(), 'S@fem0de')
+    res = ast.literal_eval(str_decoded)
 
     stock = Stock()
     load = Loading()
@@ -245,6 +249,8 @@ if __name__ == "__main__":
 
         await asyncio.sleep(delay=random.uniform(0.0001, 0.0002))
         root = App()
+        coor:str = f"+{str(res.get('start_screen_x'))}+{str(res['start_screen_y'])}"
+        root.geometry(coor)
         root.protocol("WM_DELETE_WINDOW",func=lambda:root.quit())
 
         lb = Label(master=root)
@@ -267,13 +273,19 @@ if __name__ == "__main__":
         root.mainloop()
 
     async def sequencial():
+
         task1 = asyncio.create_task(ShowLoading())
-        # task2 = asyncio.create_task(ShowProgress_SET())
-        # task3 = asyncio.create_task(ShowProgress_mai())
+
+        if res['SET_download']:
+            task2 = asyncio.create_task(ShowProgress_SET())
+            await task2
+
+        if res['mai_download']:
+            task3 = asyncio.create_task(ShowProgress_mai())
+            await task3
+
         task4 = asyncio.create_task(ShowMain())
 
         await task1
-        # await task2
-        # await task3
 
     asyncio.run(sequencial())
