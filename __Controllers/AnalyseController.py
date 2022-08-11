@@ -3,6 +3,8 @@ from __Models.Stocks import Stock
 
 class AnalyseController():
 
+    __growth_Calculated = []
+
     def __init__(self, model:Stock) -> None:
         super().__init__()
         self.model = model
@@ -113,15 +115,46 @@ class AnalyseController():
 
         for c in cal:
             try:
-                x:pd.DataFrame = cal.get(c).get('fin_data')
-                x.set_index(c, inplace=True)
-                netProfit = x.loc['กำไรสุทธิ']
-
-                for k,v in netProfit.items():
-                    if float(v) < 0:
-                        pass
-                    else:
-                        print(c)
-                        print(k, v)
+                x : pd.DataFrame = cal.get(c).get('fin_data')
+                y = {
+                    c : {}
+                    }
+                # print(c)
+                # __Assets  = x.iloc[0].tolist()
+                # __Liabilities = x.iloc[1].tolist()
+                # __Equity = x.iloc[2].tolist()
+                # __Capital = x.iloc[3].tolist()
+                # __Revenue = x.iloc[4].tolist()
+                # __Profit_Loss = x.iloc[5].tolist()
+                # __NetProfit = x.iloc[6].tolist()
+                # __EPS = x.iloc[7].tolist()
+                # __ROA = x.iloc[8].tolist()
+                # __ROE = x.iloc[9].tolist()
+                # __Margin = x.iloc[10].tolist()
+                # __LastPrice = x.iloc[12].tolist()
+                # __MarketCap = x.iloc[13].tolist()
+                # __FSPeriod = x.iloc[14].tolist()
+                # __PE = x.iloc[15].tolist()
+                # __PBV = x.iloc[16].tolist()
+                # __BookValuepershare = x.iloc[17].tolist()
+                # __DvdYield = x.iloc[18].tolist()
+                # print(__Assets)
+                # print(__Liabilities)
+                # print(__Equity)
+                # print(__Capital)
+                # print(__Revenue)
+                # print(__Profit_Loss)
+                # print(__NetProfit)
+                # print(__EPS)
+                # print(__ROA)
+                # print(__ROE)
+                # print(__Margin)
+                # print(__LastPrice)
+                # print(__MarketCap)
+                # print(__FSPeriod)
+                # print(__PE)
+                # print(__PBV)
+                # print(__BookValuepershare)
+                # print(__DvdYield)
             except:
                 pass

@@ -21,12 +21,12 @@ class Preference(tk.Toplevel):
         self.SETDownload_var = tk.StringVar()
         self.ComboSET = ttk.Combobox(self.LblframeSetting, textvariable = self.SETDownload_var)
         self.ComboSET.grid(row=0, column=1, padx=5, pady=5, sticky=tk.N + tk.S + tk.E)
-        self.ComboSET['values'] = ('YES', 'NO')
+        self.ComboSET['values'] = ('✔ YES', '❌ NO')
         self.ComboSET['state'] = 'readonly'
         if model.getSET_download():
-            self.ComboSET.set('YES')
+            self.ComboSET.set('✔ YES')
         else:
-            self.ComboSET.set('NO')
+            self.ComboSET.set('❌ NO')
 
         ######## Download mai ########
 
@@ -36,12 +36,12 @@ class Preference(tk.Toplevel):
         self.maiDownload_var = tk.StringVar()
         self.Combomai = ttk.Combobox(self.LblframeSetting, textvariable = self.maiDownload_var)
         self.Combomai.grid(row=1, column=1, padx=5, pady=5, sticky=tk.N + tk.S + tk.E)
-        self.Combomai['values'] = ('YES', 'NO')
+        self.Combomai['values'] = ('✔ YES', '❌ NO')
         self.Combomai['state'] = 'readonly'
         if model.getmai_download():
-            self.Combomai.set('YES')
+            self.Combomai.set('✔ YES')
         else:
-            self.Combomai.set('NO')
+            self.Combomai.set('❌ NO')
 
         ######## Main Screen Position ########
 
@@ -88,6 +88,7 @@ class Preference(tk.Toplevel):
         self.Txt_BNB_APi = ttk.Entry(self.LblframeSetting, textvariable = self.BNB_APi)
         self.Txt_BNB_APi.grid(row=6, column=1, columnspan=2, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
         self.Txt_BNB_APi.insert(tk.END, '')
+        self.Txt_BNB_APi.config(show="*")
 
         ######## BNB Secret ########
 
@@ -98,6 +99,7 @@ class Preference(tk.Toplevel):
         self.Txt_BNB_Secret = ttk.Entry(self.LblframeSetting, textvariable = self.BNB_Secret)
         self.Txt_BNB_Secret.grid(row=7, column=1, columnspan=2, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
         self.Txt_BNB_Secret.insert(tk.END, '')
+        self.Txt_BNB_Secret.config(show="*")
 
         ####### Main Screen Position ########
 
