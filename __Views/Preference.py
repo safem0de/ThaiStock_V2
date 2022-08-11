@@ -23,6 +23,10 @@ class Preference(tk.Toplevel):
         self.ComboSET.grid(row=0, column=1, padx=5, pady=5, sticky=tk.N + tk.S + tk.E)
         self.ComboSET['values'] = ('YES', 'NO')
         self.ComboSET['state'] = 'readonly'
+        if model.getSET_download():
+            self.ComboSET.set('YES')
+        else:
+            self.ComboSET.set('NO')
 
         ######## Download mai ########
 
@@ -34,6 +38,10 @@ class Preference(tk.Toplevel):
         self.Combomai.grid(row=1, column=1, padx=5, pady=5, sticky=tk.N + tk.S + tk.E)
         self.Combomai['values'] = ('YES', 'NO')
         self.Combomai['state'] = 'readonly'
+        if model.getmai_download():
+            self.Combomai.set('YES')
+        else:
+            self.Combomai.set('NO')
 
         ######## Main Screen Position ########
 
@@ -43,10 +51,12 @@ class Preference(tk.Toplevel):
         self.posMain_x = tk.StringVar()
         self.Txt_main_x = ttk.Entry(self.LblframeSetting, textvariable = self.posMain_x)
         self.Txt_main_x.grid(row=2, column=1, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
+        self.Txt_main_x.insert(tk.END, model.getstart_screen_x())
 
         self.posMain_y = tk.StringVar()
         self.Txt_main_y = ttk.Entry(self.LblframeSetting, textvariable = self.posMain_y)
         self.Txt_main_y.grid(row=2, column=2, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
+        self.Txt_main_y.insert(tk.END, model.getstart_screen_y())
         
         ######## Main Screen Position ########
 
@@ -56,7 +66,12 @@ class Preference(tk.Toplevel):
         self.posLoad_x = tk.StringVar()
         self.Txt_Load_x = ttk.Entry(self.LblframeSetting, textvariable = self.posLoad_x)
         self.Txt_Load_x.grid(row=3, column=1, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
+        self.Txt_Load_x.insert(tk.END, model.getload_screen_x())
 
         self.posLoad_y = tk.StringVar()
         self.Txt_Load_y = ttk.Entry(self.LblframeSetting, textvariable = self.posLoad_y)
         self.Txt_Load_y.grid(row=3, column=2, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
+        self.Txt_Load_y.insert(tk.END, model.getload_screen_y())
+
+        self.SavePreference = ttk.Button(self, text='Save Preference')
+        self.SavePreference.grid(row=1, column=0, padx=5, pady=5, sticky=tk.N + tk.S + tk.E)
