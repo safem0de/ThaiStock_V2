@@ -8,6 +8,8 @@ class Setting:
         'start_screen_y' : 0,
         'load_screen_x' : 0,
         'load_screen_y' : 0,
+        'BNB_API': '',
+        'BNB_Secret_key': '',
     }
 
     def getSET_download(self):
@@ -28,6 +30,9 @@ class Setting:
     def getload_screen_y(self):
         return str(self.setting.get('load_screen_y'))
 
+    def getsettingModel(self):
+        return self.setting
+
     def setSET_download(self, param):
         self.setting.update({'SET_download':param})
 
@@ -45,5 +50,3 @@ class Setting:
 
     def setload_screen_y(self, param):
         self.setting.update({'load_screen_y':param})
-
-    

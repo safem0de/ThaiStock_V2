@@ -8,3 +8,6 @@ class PreferenceController():
     def bind(self, view:Preference):
         self.view = view
         self.view.create_view()
+
+    def SavePreferences():
+        pass

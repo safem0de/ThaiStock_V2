@@ -57,21 +57,49 @@ class Preference(tk.Toplevel):
         self.Txt_main_y = ttk.Entry(self.LblframeSetting, textvariable = self.posMain_y)
         self.Txt_main_y.grid(row=2, column=2, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
         self.Txt_main_y.insert(tk.END, model.getstart_screen_y())
+
+        self.LblposMainalert = ttk.Label(self.LblframeSetting, text="")
+        self.LblposMainalert.grid(row=3, column=1, columnspan=2, padx=5, pady=5, sticky=tk.N + tk.S + tk.E)
         
         ######## Main Screen Position ########
 
         self.LblposLoad = ttk.Label(self.LblframeSetting, text="Load Progress Position (x,y) : ")
-        self.LblposLoad.grid(row=3, column=0, padx=5, pady=5, sticky=tk.N + tk.S + tk.E)
+        self.LblposLoad.grid(row=4, column=0, padx=5, pady=5, sticky=tk.N + tk.S + tk.E)
 
         self.posLoad_x = tk.StringVar()
         self.Txt_Load_x = ttk.Entry(self.LblframeSetting, textvariable = self.posLoad_x)
-        self.Txt_Load_x.grid(row=3, column=1, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
+        self.Txt_Load_x.grid(row=4, column=1, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
         self.Txt_Load_x.insert(tk.END, model.getload_screen_x())
 
         self.posLoad_y = tk.StringVar()
         self.Txt_Load_y = ttk.Entry(self.LblframeSetting, textvariable = self.posLoad_y)
-        self.Txt_Load_y.grid(row=3, column=2, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
+        self.Txt_Load_y.grid(row=4, column=2, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
         self.Txt_Load_y.insert(tk.END, model.getload_screen_y())
 
+        self.LblposLoadalert = ttk.Label(self.LblframeSetting, text="")
+        self.LblposLoadalert.grid(row=5, column=1, columnspan=2, padx=5, pady=5, sticky=tk.N + tk.S + tk.E)
+
+        ######## BNB APi ########
+
+        self.LblBNB_APi = ttk.Label(self.LblframeSetting, text="Binance Api : ")
+        self.LblBNB_APi.grid(row=6, column=0, padx=5, pady=5, sticky=tk.N + tk.S + tk.E)
+
+        self.BNB_APi = tk.StringVar()
+        self.Txt_BNB_APi = ttk.Entry(self.LblframeSetting, textvariable = self.BNB_APi)
+        self.Txt_BNB_APi.grid(row=6, column=1, columnspan=2, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
+        self.Txt_BNB_APi.insert(tk.END, '')
+
+        ######## BNB Secret ########
+
+        self.LblBNB_Secret = ttk.Label(self.LblframeSetting, text="Secret key : ")
+        self.LblBNB_Secret.grid(row=7, column=0, padx=5, pady=5, sticky=tk.N + tk.S + tk.E)
+
+        self.BNB_Secret = tk.StringVar()
+        self.Txt_BNB_Secret = ttk.Entry(self.LblframeSetting, textvariable = self.BNB_Secret)
+        self.Txt_BNB_Secret.grid(row=7, column=1, columnspan=2, padx=5, pady=5, sticky=tk.N + tk.S + tk.E + tk.W)
+        self.Txt_BNB_Secret.insert(tk.END, '')
+
+        ####### Main Screen Position ########
+
         self.SavePreference = ttk.Button(self, text='Save Preference')
-        self.SavePreference.grid(row=1, column=0, padx=5, pady=5, sticky=tk.N + tk.S + tk.E)
+        self.SavePreference.grid(row=1, column=0, padx=5, pady=5, sticky=tk.S + tk.E)
