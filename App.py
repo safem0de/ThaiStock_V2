@@ -171,6 +171,7 @@ if __name__ == "__main__":
                             'fin_data': fin,
                             'isSET50': None,
                             'isSET100': None,
+                            'ismai': False,
                             }
                         })
                     count += 1
@@ -181,6 +182,7 @@ if __name__ == "__main__":
                             'fin_data': fin,
                             'isSET50': False,
                             'isSET100': False,
+                            'ismai': True,
                             }
                         })
                     count += 1
@@ -240,6 +242,7 @@ if __name__ == "__main__":
                             'fin_data': fin,
                             'isSET50': None,
                             'isSET100': None,
+                            'ismai': False,
                             }
                         })
                     count += 1
@@ -250,6 +253,7 @@ if __name__ == "__main__":
                             'fin_data': fin,
                             'isSET50': False,
                             'isSET100': False,
+                            'ismai': True,
                             }
                         })
                     count += 1

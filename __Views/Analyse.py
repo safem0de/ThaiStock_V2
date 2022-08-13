@@ -58,7 +58,7 @@ class StockAnalyse(tk.Toplevel):
 
         selected_Market = tk.StringVar()
         mkt = (('SET & mai', 'all'),
-                ('SET', 'SET'),
+                ('SET', 'set'),
                 ('SET100', 'set100'),
                 ('SET50', 'set50'),
                 ('mai', 'mai'),)
@@ -144,4 +144,4 @@ class StockAnalyse(tk.Toplevel):
         offvalue='rm_pbv')
         self.checkbox_PBV.grid(row=8, column=0, padx=3, sticky=tk.W)
         
-        controller.deleteMinusProfit()
+        controller.InitialTable()
