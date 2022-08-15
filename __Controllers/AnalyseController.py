@@ -1,10 +1,12 @@
+from collections import OrderedDict
+from statistics import mean
 import pandas as pd
 from __Models.Stocks import Stock
-from __Models.Financials import Financial
 
 class AnalyseController():
 
     all_findata = {}
+    # calculated = {}
 
     def __init__(self, model:Stock) -> None:
         super().__init__()
@@ -194,25 +196,21 @@ class AnalyseController():
 
 
     def calculateGrowth(self, Growth_type:str, data:dict):
-        
+        calculated = {}
+
         for k, v in data.items():
             x = None
-            result_growth = []
             y = []
             if Growth_type == 'assets':
                 x = v.get('data').get('สินทรัพย์รวม')
             elif Growth_type == 'revenue':
                 x = v.get('data').get('รายได้รวม')
-                print(Growth_type, x)
             elif Growth_type == 'netprofit':
                 x = v.get('data').get('กำไรสุทธิ')
-                print(Growth_type, x)
             elif Growth_type == 'roe':
                 x = v.get('data').get('ROE(%)')
-                print(Growth_type, )
             elif Growth_type == 'yield':
                 x = v.get('data').get('อัตราส่วนเงินปันผลตอบแทน(%)')
-                print(Growth_type, x)
             else:
                 pass
 
@@ -221,28 +219,48 @@ class AnalyseController():
                     y.append(float(x[i]))
                 except ValueError:
                     y.append(float(0))
+                
                 z = y[::-1]
-                print(z)
+                result_growth = []
                 for i in range(len(z)):
                     # print(f"((สินทรัพย์ปี {year_asset[i][0]} - สินทรัพย์ปี {year_asset[i+1][0]})/ สินทรัพย์ปี {year_asset[i+1][0]})*100")
-                    # print("อัตราการเติบโตของทรัพย์สิน (ต่อปี)")
                     if (i+1) < len(z):
                         # print((i+1), len(z))
+                        a = 0
                         try:
-                            a = ((z[i]-z[i+1])/z[i+1])*100
-                            # print(f'({z[i]}-{z[i+1]}/{z[i+1]})*100')
+                            a = ((z[i]-z[i+1])*100)/z[i+1]
                         except ZeroDivisionError:
                             a = 0
 
-                        if len(result_growth) < 3:
-                            result_growth.append(round(a,3))
+                        result_growth.append(round(a,3))
 
-            print(result_growth)
-            # return result_growth
+                try:
+                    if len(result_growth) >= 1:
+                        calculated[k] = round(mean(result_growth[:3]),3)
+                except:
+                    pass
+
+        return calculated
 
     def InitialTable(self):
         self.CreateListofFinancial()
         data = self.deleteMinusProfit()
-        self.calculateGrowth(Growth_type='assets',data=data)
+        Ast = self.calculateGrowth(Growth_type='assets',data=data)
+        Rvn = self.calculateGrowth(Growth_type='revenue',data=data)
+        Npf = self.calculateGrowth(Growth_type='netprofit',data=data)
+        Roe = self.calculateGrowth(Growth_type='roe',data=data)
+        Yld = self.calculateGrowth(Growth_type='yield',data=data)
+        Table = dict([(k,[
+                            k,Ast[k],
+                            Rvn[k],
+                            Npf[k],
+                            Roe[k],
+                            Yld[k],
+                            str(list(data[k]['data']['P/E (เท่า)'].values())[-1]),
+                            str(list(data[k]['data']['P/BV (เท่า)'].values())[-1])
+                        ])
+                        for k in data])
+        return Table
+        
 
 

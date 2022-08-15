@@ -4,9 +4,9 @@ class Setting:
     setting = {
         'SET_download' : False,
         'mai_download' : True,
-        'start_screen_x' : 0,
+        'start_screen_x' : 1925,
         'start_screen_y' : 0,
-        'load_screen_x' : 0,
+        'load_screen_x' : 1925,
         'load_screen_y' : 0,
         'BNB_API': '',
         'BNB_Secret_key': '',

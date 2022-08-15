@@ -16,7 +16,7 @@ class StockAnalyse(tk.Toplevel):
     def create_view(self, model:Stock, controller:AnalyseController):
 
         def analyseTable(stk):
-            columns = ('หลักทรัพย์', 'งบ(ปี)ที่คำนวณ', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
+            columns = ('หลักทรัพย์', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
             tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=25)
 
             # define headings
@@ -47,7 +47,7 @@ class StockAnalyse(tk.Toplevel):
         controller.checkSET100()
         controller.checkSET50()
 
-        analyseTable(stk=[])
+        analyseTable(stk=[v for k,v in controller.InitialTable().items()])
 
         self.labelheader = ttk.Label(self, text = 'Analyse')
         self.labelheader['font'] = ("Impact", 16)
@@ -143,5 +143,3 @@ class StockAnalyse(tk.Toplevel):
         onvalue='pbv',
         offvalue='rm_pbv')
         self.checkbox_PBV.grid(row=8, column=0, padx=3, sticky=tk.W)
-        
-        controller.InitialTable()
