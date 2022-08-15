@@ -4,6 +4,7 @@ import tkinter as tk
 from tkinter.messagebox import showinfo
 
 from __Models.Stocks import Stock
+from __Models.Settings import Setting
 from __Controllers.AnalyseController import AnalyseController
 
 class StockAnalyse(tk.Toplevel):
@@ -13,7 +14,9 @@ class StockAnalyse(tk.Toplevel):
     def __init__(self):
         super().__init__()
 
-    def create_view(self, model:Stock, controller:AnalyseController):
+    def create_view(self, model:Stock, setting:Setting, controller:AnalyseController):
+
+        self.geometry(f'+{str(setting.getanalyse_screen_x())}+{str(setting.getanalyse_screen_y())}')
 
         def analyseTable(stk):
             columns = ('หลักทรัพย์', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
@@ -46,8 +49,8 @@ class StockAnalyse(tk.Toplevel):
 
         controller.checkSET100()
         controller.checkSET50()
-
-        analyseTable(stk=[v for k,v in controller.InitialTable().items()])
+        Table = controller.InitialTable()
+        analyseTable(stk=[Table[i]['data'] for i in Table])
 
         self.labelheader = ttk.Label(self, text = 'Analyse')
         self.labelheader['font'] = ("Impact", 16)

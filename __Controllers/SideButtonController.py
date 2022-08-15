@@ -31,7 +31,7 @@ class ButtonController():
 
     def Stock_Analysis_Click(self):
         window = StockAnalyse()
-        window.create_view(model=self.model, controller=AnalyseController)
+        window.create_view(model=self.model, setting=self.setting, controller=AnalyseController)
 
 
     def Magic_Formula_Click(self):

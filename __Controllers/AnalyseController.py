@@ -1,4 +1,4 @@
-from collections import OrderedDict
+import json
 from statistics import mean
 import pandas as pd
 from __Models.Stocks import Stock
@@ -6,7 +6,8 @@ from __Models.Stocks import Stock
 class AnalyseController():
 
     all_findata = {}
-    # calculated = {}
+    filtered = {}
+    
 
     def __init__(self, model:Stock) -> None:
         super().__init__()
@@ -176,7 +177,6 @@ class AnalyseController():
                 print(e)
 
         self.all_findata = Datas
-        # print(Datas)
 
     def deleteMinusProfit(self):
         raw = self.all_findata.copy()
@@ -192,13 +192,13 @@ class AnalyseController():
         for i in removal_list:
             raw.pop(i)
 
-        return raw
+        self.filtered = raw
 
 
-    def calculateGrowth(self, Growth_type:str, data:dict):
+    def __calculateGrowth(self, Growth_type:str):
         calculated = {}
 
-        for k, v in data.items():
+        for k, v in self.filtered.items():
             x = None
             y = []
             if Growth_type == 'assets':
@@ -240,27 +240,28 @@ class AnalyseController():
                 except:
                     pass
 
-        return calculated
+        print(calculated)
+        return calculated    
 
     def InitialTable(self):
         self.CreateListofFinancial()
-        data = self.deleteMinusProfit()
-        Ast = self.calculateGrowth(Growth_type='assets',data=data)
-        Rvn = self.calculateGrowth(Growth_type='revenue',data=data)
-        Npf = self.calculateGrowth(Growth_type='netprofit',data=data)
-        Roe = self.calculateGrowth(Growth_type='roe',data=data)
-        Yld = self.calculateGrowth(Growth_type='yield',data=data)
-        Table = dict([(k,[
-                            k,Ast[k],
-                            Rvn[k],
-                            Npf[k],
-                            Roe[k],
-                            Yld[k],
-                            str(list(data[k]['data']['P/E (เท่า)'].values())[-1]),
-                            str(list(data[k]['data']['P/BV (เท่า)'].values())[-1])
-                        ])
-                        for k in data])
-        return Table
-        
+        self.deleteMinusProfit()
 
+        json_object = json.dumps(self.filtered, indent = 4) 
+        print(json_object)
 
+        Ast = self.__calculateGrowth(Growth_type='assets')
+        Rvn = self.__calculateGrowth(Growth_type='revenue')
+        Npf = self.__calculateGrowth(Growth_type='netprofit')
+        Roe = self.__calculateGrowth(Growth_type='roe')
+        Yld = self.__calculateGrowth(Growth_type='yield')
+        dataTable = {i:{'data':[i, Ast[i], Rvn[i], Npf[i], Roe[i], Yld[i], str(list(self.filtered[i]['data']['P/E (เท่า)'].values())[-1]), str(list(self.filtered[i]['data']['P/BV (เท่า)'].values())[-1])],
+                    'ismai': self.filtered[i]['ismai'],
+                    'isSET100': self.filtered[i]['isSET100'],
+                    'isSET50': self.filtered[i]['isSET50'],}
+                for i in self.filtered}
+
+        json_object = json.dumps(dataTable, indent = 4) 
+        print(json_object)
+
+        return dataTable
