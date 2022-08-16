@@ -1,3 +1,4 @@
+import json
 import pandas as pd
 from __Models.Stocks import Stock
 from __Controllers.AnalyseController import AnalyseController
@@ -5,12 +6,7 @@ from __Controllers.AnalyseController import AnalyseController
 class FinancialGrowth:
 
     # Encapsulation
-    __data = {
-        'data' : [],
-        'ismai': None,
-        'isSET100': None,
-        'isSET50': None,
-    }
+    DataTable = {}
 
     Market_Stat = {
             'SET': {
@@ -37,41 +33,32 @@ class FinancialGrowth:
         controller.checkSET100()
         controller.checkSET50()
         # print(self.model.getMarket())
-        controller.CreateListofFinancial()
-        controller.deleteMinusProfit()
+        all_findata = controller.CreateListofFinancial()
+        filtered = controller.deleteMinusProfit(all_findata)
+
+        Ast = controller.calculateGrowth(Growth_type='assets',data=filtered)
+        Rvn = controller.calculateGrowth(Growth_type='revenue',data=filtered)
+        Npf = controller.calculateGrowth(Growth_type='netprofit',data=filtered)
+        Roe = controller.calculateGrowth(Growth_type='roe',data=filtered)
+        Yld = controller.calculateGrowth(Growth_type='yield',data=filtered)
+        self.DataTable = {i:{'data':[i, Ast[i], Rvn[i], Npf[i], Roe[i], Yld[i], str(list(filtered[i]['data']['P/E (เท่า)'].values())[-1]), str(list(filtered[i]['data']['P/BV (เท่า)'].values())[-1])],
+                    'ismai': filtered[i]['ismai'],
+                    'isSET100': filtered[i]['isSET100'],
+                    'isSET50': filtered[i]['isSET50'],}
+                for i in filtered}
+
+        json_object = json.dumps(self.DataTable, indent = 4) 
+        print(json_object)
         
-
     #Getters
-    def getData(self):
-        return self.__data['data']
-
-    def getismai(self):
-        return self.__data['ismai']
-
-    def getisSET100(self):
-        return self.__data['isSET100']
-
-    def getisSET50(self):
-        return self.__data['isSET50']
+    def getDataTable(self):
+        return self.DataTable
 
     def getMarket_Stat_SET(self):
         return self.Market_Stat.get('SET')
 
     def getMarket_Stat_mai(self):
         return self.Market_Stat.get('mai')
-
-    #Setters
-    def setData(self, param:list):
-        self.__data['data'] = param
-
-    def setLiabilities(self, param):
-        self.__data['ismai'] = param
-
-    def setEquity(self, param):
-        self.__data['isSET100'] = param
-
-    def setCapital(self, param):
-        self.__data['isSET50'] = param
 
     def setDetails(self):
         df = pd.DataFrame()

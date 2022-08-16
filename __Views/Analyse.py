@@ -40,18 +40,13 @@ class StockAnalyse(tk.Toplevel):
             labelfooter.grid(row=40, column=0, columnspan=3, pady=3, sticky=tk.SE)
 
 
-        # print(model.getMarket())
-        # controller = AnalyseController(model)
-        # market_stat = controller.setDetails()
         pe_set = finance.getMarket_Stat_SET().get('pe')
         pe_mai = finance.getMarket_Stat_mai().get('pe')
         pbv_set = finance.getMarket_Stat_SET().get('pbv')
         pbv_mai = finance.getMarket_Stat_mai().get('pbv')
 
-        # controller.checkSET100()
-        # controller.checkSET50()
-        # Table = controller.InitialTable()
-        analyseTable(stk=[]) ## Table[i]['data'] for i in Table
+        Table = finance.getDataTable()
+        analyseTable(stk=[Table[i]['data'] for i in Table])
 
         self.labelheader = ttk.Label(self, text = 'Analyse')
         self.labelheader['font'] = ("Impact", 16)
