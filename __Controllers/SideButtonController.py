@@ -6,6 +6,7 @@ from __Views.MagicFormula import magicFormula
 from __Controllers.AnalyseController import AnalyseController
 from __Models.Stocks import Stock
 from __Models.Settings import Setting
+from __Models.Financials import FinancialGrowth
 
 
 import tkinter as tk
@@ -31,7 +32,12 @@ class ButtonController():
 
     def Stock_Analysis_Click(self):
         window = StockAnalyse()
-        window.create_view(model=self.model, setting=self.setting, controller=AnalyseController)
+        window.create_view(
+                    model=self.model,
+                    setting=self.setting,
+                    finance=FinancialGrowth(model=self.model),
+                    controller=AnalyseController,
+                    )
 
 
     def Magic_Formula_Click(self):

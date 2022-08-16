@@ -102,10 +102,12 @@ if __name__ == "__main__":
         if res:
             setting.setSET_download(res['SET_download'])
             setting.setmai_download(res['mai_download'])
-            setting.setstart_screen_x(res['start_screen_x'])
-            setting.setstart_screen_y(res['start_screen_y'])
             setting.setload_screen_x(res['load_screen_x'])
             setting.setload_screen_y(res['load_screen_y'])
+            setting.setstart_screen_x(res['start_screen_x'])
+            setting.setstart_screen_y(res['start_screen_y'])
+            setting.setanalyse_screen_x(res['analyse_screen_x'])
+            setting.setanalyse_screen_y(res['analyse_screen_y'])
         else:
             pass
     except Exception as e:

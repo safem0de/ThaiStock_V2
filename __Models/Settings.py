@@ -14,6 +14,7 @@ class Setting:
         'BNB_Secret_key': '',
     }
 
+    #Getter
     def getSET_download(self):
         return self.setting.get('SET_download')
         
@@ -41,11 +42,18 @@ class Setting:
     def getsettingModel(self):
         return self.setting
 
+    #Setter
     def setSET_download(self, param):
         self.setting.update({'SET_download':param})
 
     def setmai_download(self, param):
         self.setting.update({'mai_download':param})
+
+    def setload_screen_x(self, param):
+        self.setting.update({'load_screen_x':param})
+
+    def setload_screen_y(self, param):
+        self.setting.update({'load_screen_y':param})
 
     def setstart_screen_x(self, param):
         self.setting.update({'start_screen_x':param})
@@ -53,8 +61,8 @@ class Setting:
     def setstart_screen_y(self, param):
         self.setting.update({'start_screen_y':param})
 
-    def setload_screen_x(self, param):
-        self.setting.update({'load_screen_x':param})
+    def setanalyse_screen_x(self, param):
+        self.setting.update({'start_screen_x':param})
 
-    def setload_screen_y(self, param):
-        self.setting.update({'load_screen_y':param})
+    def setanalyse_screen_y(self, param):
+        self.setting.update({'start_screen_y':param})

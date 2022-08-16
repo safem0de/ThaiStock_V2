@@ -5,6 +5,7 @@ from tkinter.messagebox import showinfo
 
 from __Models.Stocks import Stock
 from __Models.Settings import Setting
+from __Models.Financials import FinancialGrowth
 from __Controllers.AnalyseController import AnalyseController
 
 class StockAnalyse(tk.Toplevel):
@@ -14,7 +15,7 @@ class StockAnalyse(tk.Toplevel):
     def __init__(self):
         super().__init__()
 
-    def create_view(self, model:Stock, setting:Setting, controller:AnalyseController):
+    def create_view(self, setting:Setting, finance:FinancialGrowth, controller:AnalyseController):
 
         self.geometry(f'+{str(setting.getanalyse_screen_x())}+{str(setting.getanalyse_screen_y())}')
 
@@ -40,17 +41,17 @@ class StockAnalyse(tk.Toplevel):
 
 
         # print(model.getMarket())
-        controller = AnalyseController(model)
-        market_stat = controller.setDetails()
-        pe_set = market_stat.get('SET').get('pe')
-        pe_mai = market_stat.get('mai').get('pe')
-        pbv_set = market_stat.get('SET').get('pbv')
-        pbv_mai = market_stat.get('mai').get('pbv')
+        # controller = AnalyseController(model)
+        # market_stat = controller.setDetails()
+        # pe_set = market_stat.get('SET').get('pe')
+        # pe_mai = market_stat.get('mai').get('pe')
+        # pbv_set = market_stat.get('SET').get('pbv')
+        # pbv_mai = market_stat.get('mai').get('pbv')
 
-        controller.checkSET100()
-        controller.checkSET50()
-        Table = controller.InitialTable()
-        analyseTable(stk=[Table[i]['data'] for i in Table])
+        # controller.checkSET100()
+        # controller.checkSET50()
+        # Table = controller.InitialTable()
+        analyseTable(stk=[]) ## Table[i]['data'] for i in Table
 
         self.labelheader = ttk.Label(self, text = 'Analyse')
         self.labelheader['font'] = ("Impact", 16)
@@ -131,7 +132,7 @@ class StockAnalyse(tk.Toplevel):
 
         self.checkbox_PE_var = tk.StringVar()
         self.checkbox_PE = ttk.Checkbutton(self,
-        text=f'ค่า P/E ต่ำกว่าตลาด\n>> SET : {pe_set}, mai : {pe_mai}',
+        # text=f'ค่า P/E ต่ำกว่าตลาด\n>> SET : {pe_set}, mai : {pe_mai}',
         # command=lambda:checkbox_peSelected(self.checkbox_PE_var.get()),
         variable=self.checkbox_PE_var,
         onvalue='pe',
@@ -140,7 +141,7 @@ class StockAnalyse(tk.Toplevel):
 
         self.checkbox_PBV_var = tk.StringVar()
         self.checkbox_PBV = ttk.Checkbutton(self,
-        text=f'ค่า P/BV ต่ำกว่าตลาด\n>> SET : {pbv_set}, mai : {pbv_mai}',
+        # text=f'ค่า P/BV ต่ำกว่าตลาด\n>> SET : {pbv_set}, mai : {pbv_mai}',
         # command=lambda:checkbox_pbvSelected(self.checkbox_PBV_var.get()),
         variable=self.checkbox_PBV_var,
         onvalue='pbv',

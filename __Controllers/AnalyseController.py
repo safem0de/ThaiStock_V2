@@ -7,7 +7,6 @@ class AnalyseController():
 
     all_findata = {}
     filtered = {}
-    
 
     def __init__(self, model:Stock) -> None:
         super().__init__()
@@ -15,7 +14,7 @@ class AnalyseController():
 
     def bind(self, model:Stock, view):
         self.view = view
-        self.view.create_view(self, model,)
+        self.view.create_view(self, model)
 
     def setDetails(self):
         df = pd.DataFrame()
