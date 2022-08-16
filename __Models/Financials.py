@@ -152,20 +152,20 @@ class FinancialGrowth:
                 avg_assets_SET = round(__asset_SET,3)
                 self.Market_Stat.get('SET').update(avg_asset = avg_assets_SET)
 
-                __revenue_mai = mean([self.DataTable[j]['data'][2] for j in self.DataTable if self.DataTable[j]['ismai']])
-                avg_revenue_mai = round(__revenue_mai,3)
-                self.Market_Stat.get('mai').update(avg_revenue = avg_revenue_mai)
+                __revenue_SET = mean([self.DataTable[j]['data'][2] for j in self.DataTable if not self.DataTable[j]['ismai']])
+                avg_revenue_SET = round(__revenue_SET,3)
+                self.Market_Stat.get('SET').update(avg_revenue = avg_revenue_SET)
 
-                __netprofit_mai = mean([self.DataTable[j]['data'][3] for j in self.DataTable if self.DataTable[j]['ismai']])
-                avg_netprofit_mai = round(__netprofit_mai,3)
-                self.Market_Stat.get('mai').update(avg_netprofit = avg_netprofit_mai)
+                __netprofit_SET = mean([self.DataTable[j]['data'][3] for j in self.DataTable if not self.DataTable[j]['ismai']])
+                avg_netprofit_SET = round(__netprofit_SET,3)
+                self.Market_Stat.get('SET').update(avg_netprofit = avg_netprofit_SET)
 
-                __roe_mai = mean([self.DataTable[j]['data'][4] for j in self.DataTable if self.DataTable[j]['ismai']])
-                avg_roe_mai = round(__roe_mai,3)
-                self.Market_Stat.get('mai').update(avg_roe = avg_roe_mai)
+                __roe_SET = mean([self.DataTable[j]['data'][4] for j in self.DataTable if not self.DataTable[j]['ismai']])
+                avg_roe_SET = round(__roe_SET,3)
+                self.Market_Stat.get('SET').update(avg_roe = avg_roe_SET)
 
-                __yield_mai = mean([self.DataTable[j]['data'][5] for j in self.DataTable if self.DataTable[j]['ismai']])
-                avg_yield_mai = round(__yield_mai,3)
-                self.Market_Stat.get('mai').update(avg_yield = avg_yield_mai)
+                __yield_SET = mean([self.DataTable[j]['data'][5] for j in self.DataTable if not self.DataTable[j]['ismai']])
+                avg_yield_SET = round(__yield_SET,3)
+                self.Market_Stat.get('SET').update(avg_yield = avg_yield_SET)
             except:
                 pass
