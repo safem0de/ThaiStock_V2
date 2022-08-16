@@ -266,7 +266,7 @@ if __name__ == "__main__":
         Thread(update(pb_m,'mai')).start()
 
     async def ShowMain():
-        BtnClose = ttk.Button(load, text='Close', command=lambda: load.destroy(),style='big.TButton')
+        BtnClose = ttk.Button(load, text='Close', command=lambda: load.destroy(), style='big.TButton')
         BtnClose.grid(column=0, row=6, columnspan=5, padx=10, pady=20, sticky=tk.E + tk.W)
         BtnClose.focus()
 
@@ -294,23 +294,21 @@ if __name__ == "__main__":
         root.mainloop()
 
     async def sequencial():
-
+        
         task1 = asyncio.create_task(ShowLoading())
-
-        if bool(setting.getSET_download()):
-            task2 = asyncio.create_task(ShowProgress_SET())
-            await task2
-        else:
-            pass
-
-        if bool(setting.getmai_download()):
-            task3 = asyncio.create_task(ShowProgress_mai())
-            await task3
-        else:
-            pass
-
-        task4 = asyncio.create_task(ShowMain())
+        task2 = asyncio.create_task(ShowProgress_SET())
+        task3 = asyncio.create_task(ShowProgress_mai())
+        asyncio.create_task(ShowMain())
 
         await task1
+        if bool(setting.getSET_download()):
+            await task2
+        else:
+            task2.cancel
+
+        if bool(setting.getmai_download()):    
+            await task3
+        else:
+            task3.cancel
 
     asyncio.run(sequencial())

@@ -17,6 +17,7 @@ class StockAnalyse(tk.Toplevel):
 
     def create_view(self, setting:Setting, finance:FinancialGrowth, controller:AnalyseController):
 
+        self.title('Growth Stock Analyse')
         self.geometry(f'+{str(setting.getanalyse_screen_x())}+{str(setting.getanalyse_screen_y())}')
 
         def analyseTable(stk):
@@ -44,6 +45,12 @@ class StockAnalyse(tk.Toplevel):
         pe_mai = finance.getMarket_Stat_mai().get('pe')
         pbv_set = finance.getMarket_Stat_SET().get('pbv')
         pbv_mai = finance.getMarket_Stat_mai().get('pbv')
+
+        avg_asset_mai = finance.getMarket_Stat_mai().get('avg_asset')
+        avg_revenue_mai = finance.getMarket_Stat_mai().get('avg_revenue')
+        avg_netprofit_mai = finance.getMarket_Stat_mai().get('avg_netprofit')
+        avg_roe_mai = finance.getMarket_Stat_mai().get('avg_roe')
+        avg_yield_mai = finance.getMarket_Stat_mai().get('avg_yield')
 
         Table = finance.getDataTable()
         analyseTable(stk=[Table[i]['data'] for i in Table])
@@ -82,7 +89,7 @@ class StockAnalyse(tk.Toplevel):
         self.checkbox_asset_var = tk.StringVar()
         self.checkbox_asset = ttk.Checkbutton(
         self,
-        text=f'อัตราการเติบโตของสินทรัพย์สูงกว่าค่าเฉลี่ย (Asset Growth) >> {None}',
+        text=f'อัตราการเติบโตของสินทรัพย์สูงกว่าค่าเฉลี่ย (Asset Growth) \nSET : >> {None}, mai : >> {avg_asset_mai}',
         # command = lambda:checkbox_assetSelected(self.checkbox_asset_var.get()),
         variable=self.checkbox_asset_var,
         onvalue='asset',
@@ -91,7 +98,7 @@ class StockAnalyse(tk.Toplevel):
 
         self.checkbox_revenue_var = tk.StringVar()
         self.checkbox_revenue = ttk.Checkbutton(self,
-        text=f'อัตราการเติบโตของรายได้สูงกว่าค่าเฉลี่ย (Revenue Growth) >> {None}',
+        text=f'อัตราการเติบโตของรายได้สูงกว่าค่าเฉลี่ย (Revenue Growth) \nSET : >> {None}, mai : >> {avg_revenue_mai}',
         # command=lambda:checkbox_revenueSelected(self.checkbox_revenue_var.get()),
         variable=self.checkbox_revenue_var,
         onvalue='revenue',
@@ -100,7 +107,7 @@ class StockAnalyse(tk.Toplevel):
 
         self.checkbox_netprofit_var = tk.StringVar()
         self.checkbox_netprofit = ttk.Checkbutton(self,
-        text=f'อัตราการเติบโตของกำไรสูงกว่าค่าเฉลี่ย (NetProfit Growth) >> {None}',
+        text=f'อัตราการเติบโตของกำไรสูงกว่าค่าเฉลี่ย (NetProfit Growth) \nSET : >> {None}, mai : >> {avg_netprofit_mai}',
         # command=lambda:checkbox_netprofitSelected(self.checkbox_netprofit_var.get()),
         variable=self.checkbox_netprofit_var,
         onvalue='netprofit',
@@ -109,7 +116,7 @@ class StockAnalyse(tk.Toplevel):
 
         self.checkbox_ROE_var = tk.StringVar()
         self.checkbox_ROE = ttk.Checkbutton(self,
-        text=f'อัตราการเติบโตของ ROE สูงกว่าค่าเฉลี่ย (ROE Growth) >> {None}',
+        text=f'อัตราการเติบโตของ ROE สูงกว่าค่าเฉลี่ย (ROE Growth) \nSET : >> {None}, mai : >> {avg_roe_mai}',
         # command=lambda:checkbox_roeSelected(self.checkbox_ROE_var.get()),
         variable=self.checkbox_ROE_var,
         onvalue='roe',
@@ -118,7 +125,7 @@ class StockAnalyse(tk.Toplevel):
 
         self.checkbox_Yield_var = tk.StringVar()
         self.checkbox_Yield = ttk.Checkbutton(self,
-        text=f'อัตราการเติบโตของเงินปันผลสูงกว่าค่าเฉลี่ย (Yield Growth) >> {None}',
+        text=f'อัตราการเติบโตของเงินปันผลสูงกว่าค่าเฉลี่ย (Yield Growth) \nSET : >> {None}, mai : >> {avg_yield_mai}',
         # command=lambda:checkbox_roeSelected(self.checkbox_ROE_var.get()),
         variable=self.checkbox_Yield_var,
         onvalue='yield',
