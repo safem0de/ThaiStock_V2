@@ -46,6 +46,8 @@ class StockAnalyse(tk.Toplevel):
         pbv_set = finance.getMarket_Stat_SET().get('pbv')
         pbv_mai = finance.getMarket_Stat_mai().get('pbv')
 
+        avg_asset_SET = finance.getMarket_Stat_SET().get('avg_asset')
+
         avg_asset_mai = finance.getMarket_Stat_mai().get('avg_asset')
         avg_revenue_mai = finance.getMarket_Stat_mai().get('avg_revenue')
         avg_netprofit_mai = finance.getMarket_Stat_mai().get('avg_netprofit')
@@ -89,7 +91,7 @@ class StockAnalyse(tk.Toplevel):
         self.checkbox_asset_var = tk.StringVar()
         self.checkbox_asset = ttk.Checkbutton(
         self,
-        text=f'อัตราการเติบโตของสินทรัพย์สูงกว่าค่าเฉลี่ย (Asset Growth) \nSET : >> {None}, mai : >> {avg_asset_mai}',
+        text=f'อัตราการเติบโตของสินทรัพย์สูงกว่าค่าเฉลี่ย (Asset Growth) \nSET : >> {avg_asset_SET}, mai : >> {avg_asset_mai}',
         # command = lambda:checkbox_assetSelected(self.checkbox_asset_var.get()),
         variable=self.checkbox_asset_var,
         onvalue='asset',

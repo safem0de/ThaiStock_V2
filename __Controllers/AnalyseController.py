@@ -175,28 +175,4 @@ class AnalyseController():
                 except:
                     pass
 
-        print(calculated)
-        return calculated    
-
-    # def InitialTable(self):
-    #     self.CreateListofFinancial()
-    #     self.deleteMinusProfit()
-
-    #     json_object = json.dumps(self.filtered, indent = 4) 
-    #     print(json_object)
-
-    #     Ast = self.__calculateGrowth(Growth_type='assets')
-    #     Rvn = self.__calculateGrowth(Growth_type='revenue')
-    #     Npf = self.__calculateGrowth(Growth_type='netprofit')
-    #     Roe = self.__calculateGrowth(Growth_type='roe')
-    #     Yld = self.__calculateGrowth(Growth_type='yield')
-    #     dataTable = {i:{'data':[i, Ast[i], Rvn[i], Npf[i], Roe[i], Yld[i], str(list(self.filtered[i]['data']['P/E (เท่า)'].values())[-1]), str(list(self.filtered[i]['data']['P/BV (เท่า)'].values())[-1])],
-    #                 'ismai': self.filtered[i]['ismai'],
-    #                 'isSET100': self.filtered[i]['isSET100'],
-    #                 'isSET50': self.filtered[i]['isSET50'],}
-    #             for i in self.filtered}
-
-    #     json_object = json.dumps(dataTable, indent = 4) 
-    #     print(json_object)
-
-    #     return dataTable
+        return calculated

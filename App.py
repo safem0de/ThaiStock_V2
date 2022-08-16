@@ -92,12 +92,12 @@ class App(tk.Tk):
 if __name__ == "__main__":
 
     setting = Setting()
+    # print('mai : ',setting.getmai_download())
+    # print('SET : ',setting.getSET_download())
     try:
         f = open("App_Safem0de.config", "r")
         str_decoded = cryptocode.decrypt(f.read(), 'S@fem0de')
         res = ast.literal_eval(str_decoded)
-
-        print(res)
 
         if res:
             setting.setSET_download(res['SET_download'])
@@ -108,8 +108,6 @@ if __name__ == "__main__":
             setting.setstart_screen_y(res['start_screen_y'])
             setting.setanalyse_screen_x(res['analyse_screen_x'])
             setting.setanalyse_screen_y(res['analyse_screen_y'])
-        else:
-            pass
     except Exception as e:
         print(e)
 
@@ -294,21 +292,17 @@ if __name__ == "__main__":
         root.mainloop()
 
     async def sequencial():
-        
-        task1 = asyncio.create_task(ShowLoading())
-        task2 = asyncio.create_task(ShowProgress_SET())
-        task3 = asyncio.create_task(ShowProgress_mai())
-        asyncio.create_task(ShowMain())
 
-        await task1
-        if bool(setting.getSET_download()):
-            await task2
+        cococoru = []
+        if setting.getSET_download() == True and setting.getmai_download() == True:
+            cococoru = [ShowLoading(),ShowProgress_SET(),ShowProgress_mai(),ShowMain()]
+        elif setting.getSET_download() == False and setting.getmai_download() == True:
+            cococoru = [ShowLoading(),ShowProgress_mai(),ShowMain()]
+        elif setting.getSET_download() == True and setting.getmai_download() == False:
+            cococoru = [ShowLoading(),ShowProgress_SET(),ShowMain()]
         else:
-            task2.cancel
+            cococoru = [ShowLoading(),ShowMain()]
 
-        if bool(setting.getmai_download()):    
-            await task3
-        else:
-            task3.cancel
+        await asyncio.gather(*cococoru)
 
     asyncio.run(sequencial())
