@@ -33,7 +33,6 @@ class ButtonController():
     def Stock_Analysis_Click(self):
         window = StockAnalyse()
         window.create_view(
-                    model=self.model,
                     setting=self.setting,
                     finance=FinancialGrowth(model=self.model),
                     controller=AnalyseController,
