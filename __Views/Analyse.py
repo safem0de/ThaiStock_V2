@@ -22,16 +22,31 @@ class StockAnalyse(tk.Toplevel):
         self.geometry(f'+{str(setting.getanalyse_screen_x())}+{str(setting.getanalyse_screen_y())}')
         self.__Table = finance.getDataTable()
 
-        def RadioBtn_Selected(data):
+        def CheckBox(value:str):
+            if 'rm' in value:
+                self.__stateOfFilter.remove(value.replace('rm_',''))
+            else:
+                self.__stateOfFilter.append(value)
+
+            print(self.__stateOfFilter)
+
+
+        def RadioBtn_Selected(data, condition_Filter:list=self.__stateOfFilter):
             self.__stockTypeFilter = data
+            print(condition_Filter)
             if self.__stockTypeFilter == 'all':
+                # analyseTable([self.__Table[i]['data'] for i in self.__Table])
                 analyseTable([self.__Table[i]['data'] for i in self.__Table])
+
             elif self.__stockTypeFilter == 'set':
                 analyseTable([self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['ismai'] == False and self.__Table[i]['isSET100'] == False and self.__Table[i]['isSET50'] == False])
+            
             elif self.__stockTypeFilter == 'set100':
                 analyseTable([self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['isSET100'] == True])
+            
             elif self.__stockTypeFilter == 'set50':
                 analyseTable([self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['isSET50'] == True])
+            
             elif self.__stockTypeFilter == 'mai':
                 analyseTable([self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['ismai'] == True])
 
@@ -78,9 +93,6 @@ class StockAnalyse(tk.Toplevel):
         avg_roe_mai = finance.getMarket_Stat_mai().get('avg_roe')
         avg_yield_mai = finance.getMarket_Stat_mai().get('avg_yield')
 
-        
-        
-
         self.labelheader = ttk.Label(self, text = 'Analyse')
         self.labelheader['font'] = ("Impact", 16)
         self.labelheader.grid(row=0, column=0, sticky=tk.W+tk.N)
@@ -115,8 +127,8 @@ class StockAnalyse(tk.Toplevel):
         self.checkbox_asset_var = tk.StringVar()
         self.checkbox_asset = ttk.Checkbutton(
         self,
-        text=f'อัตราการเติบโตของสินทรัพย์สูงกว่าค่าเฉลี่ย (Asset Growth)>>\nSET : {avg_asset_SET}, mai : {avg_asset_mai}',
-        # command = lambda:checkbox_assetSelected(self.checkbox_asset_var.get()),
+        text=f'อัตราการเติบโตของสินทรัพย์สูงกว่าค่าเฉลี่ย (Asset Growth)\n>> SET : {avg_asset_SET}, mai : {avg_asset_mai}',
+        command = lambda: CheckBox(self.checkbox_asset_var.get()),
         variable=self.checkbox_asset_var,
         onvalue='asset',
         offvalue='rm_asset')
@@ -124,8 +136,8 @@ class StockAnalyse(tk.Toplevel):
 
         self.checkbox_revenue_var = tk.StringVar()
         self.checkbox_revenue = ttk.Checkbutton(self,
-        text=f'อัตราการเติบโตของรายได้สูงกว่าค่าเฉลี่ย (Revenue Growth)>>\nSET : {avg_revenue_SET}, mai : {avg_revenue_mai}',
-        # command=lambda:checkbox_revenueSelected(self.checkbox_revenue_var.get()),
+        text=f'อัตราการเติบโตของรายได้สูงกว่าค่าเฉลี่ย (Revenue Growth)\n>> SET : {avg_revenue_SET}, mai : {avg_revenue_mai}',
+        command = lambda: CheckBox(self.checkbox_revenue_var.get()),
         variable=self.checkbox_revenue_var,
         onvalue='revenue',
         offvalue='rm_revenue')
@@ -134,7 +146,7 @@ class StockAnalyse(tk.Toplevel):
         self.checkbox_netprofit_var = tk.StringVar()
         self.checkbox_netprofit = ttk.Checkbutton(self,
         text=f'อัตราการเติบโตของกำไรสูงกว่าค่าเฉลี่ย (NetProfit Growth)\n>> SET : {avg_netprofit_SET}, mai : {avg_netprofit_mai}',
-        # command=lambda:checkbox_netprofitSelected(self.checkbox_netprofit_var.get()),
+        command = lambda: CheckBox(self.checkbox_netprofit_var.get()),
         variable=self.checkbox_netprofit_var,
         onvalue='netprofit',
         offvalue='rm_netprofit')
@@ -143,7 +155,7 @@ class StockAnalyse(tk.Toplevel):
         self.checkbox_ROE_var = tk.StringVar()
         self.checkbox_ROE = ttk.Checkbutton(self,
         text=f'อัตราการเติบโตของ ROE สูงกว่าค่าเฉลี่ย (ROE Growth)\n>> SET : {avg_roe_SET}, mai : {avg_roe_mai}',
-        # command=lambda:checkbox_roeSelected(self.checkbox_ROE_var.get()),
+        command = lambda: CheckBox(self.checkbox_ROE_var.get()),
         variable=self.checkbox_ROE_var,
         onvalue='roe',
         offvalue='rm_roe')
@@ -152,7 +164,7 @@ class StockAnalyse(tk.Toplevel):
         self.checkbox_Yield_var = tk.StringVar()
         self.checkbox_Yield = ttk.Checkbutton(self,
         text=f'อัตราการเติบโตของเงินปันผลสูงกว่าค่าเฉลี่ย (Yield Growth)\n>> SET : {avg_yield_SET}, mai : {avg_yield_mai}',
-        # command=lambda:checkbox_roeSelected(self.checkbox_ROE_var.get()),
+        command = lambda: CheckBox(self.checkbox_ROE_var.get()),
         variable=self.checkbox_Yield_var,
         onvalue='yield',
         offvalue='rm_yield')
@@ -161,7 +173,7 @@ class StockAnalyse(tk.Toplevel):
         self.checkbox_PE_var = tk.StringVar()
         self.checkbox_PE = ttk.Checkbutton(self,
         text=f'ค่า P/E ต่ำกว่าตลาด\n>> SET : {pe_set}, mai : {pe_mai}',
-        # command=lambda:checkbox_peSelected(self.checkbox_PE_var.get()),
+        command = lambda: CheckBox(self.checkbox_PE_var.get()),
         variable=self.checkbox_PE_var,
         onvalue='pe',
         offvalue='rm_pe')
@@ -170,7 +182,7 @@ class StockAnalyse(tk.Toplevel):
         self.checkbox_PBV_var = tk.StringVar()
         self.checkbox_PBV = ttk.Checkbutton(self,
         text=f'ค่า P/BV ต่ำกว่าตลาด\n>> SET : {pbv_set}, mai : {pbv_mai}',
-        # command=lambda:checkbox_pbvSelected(self.checkbox_PBV_var.get()),
+        command=lambda: CheckBox(self.checkbox_PBV_var.get()),
         variable=self.checkbox_PBV_var,
         onvalue='pbv',
         offvalue='rm_pbv')
