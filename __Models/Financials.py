@@ -53,7 +53,7 @@ class FinancialGrowth:
         Roe = controller.calculateGrowth(Growth_type='roe',data=filtered)
         Yld = controller.calculateGrowth(Growth_type='yield',data=filtered)
         self.DataTable = {i:{'data':
-                            [   i,
+                                [   i,
                                 Ast[i],
                                 Rvn[i],
                                 Npf[i],
@@ -61,11 +61,10 @@ class FinancialGrowth:
                                 Yld[i], 
                                 str(list(filtered[i]['data']['P/E (เท่า)'].values())[-1]),
                                 str(list(filtered[i]['data']['P/BV (เท่า)'].values())[-1])
-                            ],
-                    'ismai': filtered[i]['ismai'],
-                    'isSET100': filtered[i]['isSET100'],
-                    'isSET50': filtered[i]['isSET50'],}
-                for i in filtered}
+                                ],
+                            'ismai': filtered[i]['ismai'],
+                            'isSET100': filtered[i]['isSET100'],
+                            'isSET50': filtered[i]['isSET50']} for i in filtered}
 
         # json_object = json.dumps(self.DataTable, indent = 4) 
         # print(json_object)

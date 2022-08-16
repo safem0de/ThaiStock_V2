@@ -294,11 +294,11 @@ if __name__ == "__main__":
     async def sequencial():
 
         cococoru = []
-        if setting.getSET_download() == True and setting.getmai_download() == True:
+        if setting.getSET_download() == True and setting.getmai_download() == True:     ## Download SET and mai
             cococoru = [ShowLoading(),ShowProgress_SET(),ShowProgress_mai(),ShowMain()]
-        elif setting.getSET_download() == False and setting.getmai_download() == True:
+        elif setting.getSET_download() == False and setting.getmai_download() == True:  ## Download mai
             cococoru = [ShowLoading(),ShowProgress_mai(),ShowMain()]
-        elif setting.getSET_download() == True and setting.getmai_download() == False:
+        elif setting.getSET_download() == True and setting.getmai_download() == False:  ## Download SET
             cococoru = [ShowLoading(),ShowProgress_SET(),ShowMain()]
         else:
             cococoru = [ShowLoading(),ShowMain()]

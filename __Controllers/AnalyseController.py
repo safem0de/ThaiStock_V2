@@ -159,15 +159,17 @@ class AnalyseController():
                 result_growth = []
                 for i in range(len(z)):
                     # print(f"((สินทรัพย์ปี {year_asset[i][0]} - สินทรัพย์ปี {year_asset[i+1][0]})/ สินทรัพย์ปี {year_asset[i+1][0]})*100")
-                    if (i+1) < len(z):
+                    if (i+1) < len(z) and len(z) > 1 and not z[i+1] == 0:
                         # print((i+1), len(z))
                         a = 0
                         try:
                             a = ((z[i]-z[i+1])*100)/z[i+1]
-                        except ZeroDivisionError:
-                            a = 0
+                        except Exception as ex:
+                            print(ex)
 
                         result_growth.append(round(a,3))
+                    else:
+                        result_growth.append(0)
 
                 try:
                     if len(result_growth) >= 1:

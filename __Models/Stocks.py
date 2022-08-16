@@ -12,7 +12,7 @@ class Stock:
 
     def __init__(self):
         # __prefix = ['NUMBER','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-        __prefix = ['NUMBER','A','B'] ## For Test
+        __prefix = ['NUMBER','S'] ## For Test
         for i in __prefix:
             dflist = pd.read_html('https://classic.set.or.th/set/commonslookup.do?language=th&country=TH&prefix='+i
                         , match="ชื่อย่อหลักทรัพย์" ,encoding='utf8')

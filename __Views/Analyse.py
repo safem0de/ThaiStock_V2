@@ -3,7 +3,6 @@ from tkinter import ttk
 import tkinter as tk
 from tkinter.messagebox import showinfo
 
-from __Models.Stocks import Stock
 from __Models.Settings import Setting
 from __Models.Financials import FinancialGrowth
 from __Controllers.AnalyseController import AnalyseController
@@ -11,6 +10,8 @@ from __Controllers.AnalyseController import AnalyseController
 class StockAnalyse(tk.Toplevel):
 
     __stateOfFilter = []
+    __stockTypeFilter = None
+    __Table = None
 
     def __init__(self):
         super().__init__()
@@ -19,10 +20,29 @@ class StockAnalyse(tk.Toplevel):
 
         self.title('Growth Stock Analyse')
         self.geometry(f'+{str(setting.getanalyse_screen_x())}+{str(setting.getanalyse_screen_y())}')
+        self.__Table = finance.getDataTable()
+
+        def RadioBtn_Selected(data):
+            self.__stockTypeFilter = data
+            if self.__stockTypeFilter == 'all':
+                analyseTable([self.__Table[i]['data'] for i in self.__Table])
+            elif self.__stockTypeFilter == 'set':
+                analyseTable([self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['ismai'] == False and self.__Table[i]['isSET100'] == False and self.__Table[i]['isSET50'] == False])
+            elif self.__stockTypeFilter == 'set100':
+                analyseTable([self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['isSET100'] == True])
+            elif self.__stockTypeFilter == 'set50':
+                analyseTable([self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['isSET50'] == True])
+            elif self.__stockTypeFilter == 'mai':
+                analyseTable([self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['ismai'] == True])
 
         def analyseTable(stk):
+
             columns = ('หลักทรัพย์', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
             tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=25)
+
+            ## Clear Treeview ##
+            for i in tree.get_children():
+                tree.delete(i)
 
             # define headings
             for col in columns:
@@ -40,7 +60,7 @@ class StockAnalyse(tk.Toplevel):
             labelfooter = ttk.Label(self, text = f'**ในตารางไม่นำ "หุ้น" ที่มีการขาดทุนในงบฯย้อนหลัง 3-5 ปี มาพิจารณา {len(stk)} ตัว', foreground='red')
             labelfooter.grid(row=40, column=0, columnspan=3, pady=3, sticky=tk.SE)
 
-
+        RadioBtn_Selected('all')
         pe_set = finance.getMarket_Stat_SET().get('pe')
         pe_mai = finance.getMarket_Stat_mai().get('pe')
         pbv_set = finance.getMarket_Stat_SET().get('pbv')
@@ -58,8 +78,8 @@ class StockAnalyse(tk.Toplevel):
         avg_roe_mai = finance.getMarket_Stat_mai().get('avg_roe')
         avg_yield_mai = finance.getMarket_Stat_mai().get('avg_yield')
 
-        Table = finance.getDataTable()
-        analyseTable(stk=[Table[i]['data'] for i in Table])
+        
+        
 
         self.labelheader = ttk.Label(self, text = 'Analyse')
         self.labelheader['font'] = ("Impact", 16)
@@ -83,7 +103,7 @@ class StockAnalyse(tk.Toplevel):
                 text=p[0],
                 value=p[1],
                 variable=selected_Market,
-                command = lambda : print(selected_Market.get())
+                command = lambda : RadioBtn_Selected(selected_Market.get())
             )
             r.grid(row=0, column=mkt_count, sticky=tk.W + tk.E)
             mkt_count += 1
