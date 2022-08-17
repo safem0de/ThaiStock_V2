@@ -1,18 +1,21 @@
+from statistics import mode
 import tkinter as tk
 from tkinter import DISABLED, ttk
 from tkinter.messagebox import showinfo,showerror
 import webbrowser
 from __Models.Stocks import Stock
+from __Models.Settings import Setting
 from __Controllers.TableController import TableController
 from __Views.Graph import Graph
 
 class Table(tk.Frame):
 
-    def __init__(self, controller:TableController, model:Stock,):#master=None
+    def __init__(self, controller:TableController, model:Stock, setting:Setting):#master=None
         super().__init__()#master
         # self.master = master
         self.model = model
         self.controller = controller
+        self.setting = setting
         self.grid(row=0, column=0, sticky=tk.N + tk.S + tk.E + tk.W)
         # self.create_button()
         
@@ -39,13 +42,11 @@ class Table(tk.Frame):
             name = self.model.getSelected_StockName()
             if not name == None:
                 try:
-                    window = Graph(self.model)
+                    window = Graph(self.model, self.setting)
                     window.create_view()
-                    window.geometry('+1921+10')
-                    # window.geometry('+21+10')
                     window.protocol('WM_DELETE_WINDOW',func=lambda: window.destroy())
                 except Exception as e:
-                    print(e)
+                    print('error : ',e)
                 
             else:
                 showerror(
@@ -63,7 +64,7 @@ class Table(tk.Frame):
                     if Market != 'Crypto':
                         x = record[0].replace(' ','+').replace('&','%26')
                         financialTable(x)
-                        model.setSelected_StockName(record[0]+'.BK')
+                        model.setSelected_StockName(record[0].replace(' ','-')+'.BK')
                     else:
                         model.setSelected_StockName(record[1]+'-USD')
                 except:
@@ -89,10 +90,6 @@ class Table(tk.Frame):
                     lbl.bind("<Button-1>",lambda e : webbrowser.open_new_tab(x[1]))
 
                 grid_row += 1
-
-            # financial = controller.StockStatement(record)
-            # fin_header = controller.StockStatementHeader(financial)
-            # fin_data = controller.StockStatementData(financial)
 
             fin_header:list = list(model.getMarket().get(Market).get(record).get('fin_data').columns)
             fin_data:list = model.getMarket().get(Market).get(record).get('fin_data').values.tolist()

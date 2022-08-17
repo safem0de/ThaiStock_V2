@@ -57,7 +57,7 @@ class Application(ttk.Notebook):
         self.style.configure('TNotebook.Tab', font=('Bahnschrift SemiLight Condensed', 14))
 
     def new_tab(self, controller:TableController, view:Table, model:Stock, name:str):
-        view = view(self.master, model)
+        view = view(self.master, model, setting)
         controller.bind(model, view, name)
         self.add(view, text=name)
 

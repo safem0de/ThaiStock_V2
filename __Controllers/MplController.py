@@ -19,11 +19,10 @@ class CandleController():
             ### https://aroussi.com/post/python-yahoo-finance
             ### period => 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max
             ticker = yf.Ticker(st_Name.replace('%26','&').replace(' ','-').upper())
-            __df = ticker.history(period=period,)
+            __df = ticker.history(period=period)
             __df.Name = st_Name.upper()
         except Exception as e:
             print('err: ',e)
-            pass
 
         return __df
 
@@ -35,10 +34,11 @@ class CandleController():
             ### https://aroussi.com/post/python-yahoo-finance
             ### period => 1d, 5d, 1mo, 3mo, 6mo, 1y, 2y, 5y, 10y, ytd, max
             ticker = yf.Ticker(st_Name.replace('%26','&').replace(' ','-').upper())
-            __df = ticker.history(period='1d', interval=interval)
+            __df = ticker.history(period='5d', interval=interval)
             __df.Name = interval.replace('m', ' minutes')
+
+            # __df = yf.download(tickers=st_Name.replace('%26','&').replace(' ','-').upper(), period='1d', interval='5m')
         except Exception as e:
             print('err: ',e)
-            pass
 
         return __df

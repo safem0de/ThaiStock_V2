@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import Frame, Menu, ttk
+from tkinter import ttk
+from turtle import width
 
 import numpy as np
 from matplotlib import axis
@@ -11,15 +12,18 @@ from matplotlib.backends.backend_tkagg import (
 from matplotlib.backend_bases import key_press_handler
 
 from __Controllers.MplController import CandleController
-from __Models import Stocks
+from __Models.Stocks import Stock
+from __Models.Settings import Setting
 
 class Graph(tk.Tk):
 
-    def __init__(self, model:Stocks):
+    def __init__(self, model:Stock, setting:Setting):
         super().__init__()
         self.model = model
         n = self.model.getSelected_StockName().replace('%26','&').replace('+',' ').replace('.BK','')
         self.title(f'Candle Stick : {n}')
+        self.geometry(f'+{setting.getgraph_screen_x()}+{setting.getgraph_screen_y()}')
+
 
     def popup(self, event):
         try:
@@ -59,7 +63,7 @@ class Graph(tk.Tk):
             df['Close'].rolling(window =20).mean()
 
 
-        def create_candle(df:pd.DataFrame, df1:pd.DataFrame=None, df2:pd.DataFrame=None):
+        def create_candle(df:pd.DataFrame, df1=pd.DataFrame()):
 
             exp12 = df['Close'].ewm(span=12, adjust=False).mean() ## pd.Series
             exp26 = df['Close'].ewm(span=26, adjust=False).mean()
@@ -73,14 +77,14 @@ class Graph(tk.Tk):
             rsi_upper = pd.Series(70, index=df.index)
             rsi_lower = pd.Series(30, index=df.index)
 
-            fig = mpf.figure(style='yahoo', figsize=(12.8, 7.2), dpi=85)
+            fig = mpf.figure(figsize=(16, 7.2), dpi=85)
             fig.suptitle(name.replace('.BK',''))
             gs0 = fig.add_gridspec(2, 2, left=0.05, right=0.95, wspace=0.05, hspace=0.02)
 
             gs00 = gs0[0].subgridspec(3, 1)
             gs01 = gs0[1].subgridspec(3, 1)
-            gs02 = gs0[2].subgridspec(3, 1, hspace=0.02)
-            gs03 = gs0[3].subgridspec(2, 1)
+            gs02 = gs0[2].subgridspec(3, 1, hspace=0.05)
+            gs03 = gs0[3].subgridspec(3, 1, hspace=0.05)
 
             ax0 = fig.add_subplot(gs00[0:, 0])
             ax0.text(0.5, 0.5, 'Safem0de\ncandle stick', transform=ax0.transAxes,
@@ -93,7 +97,7 @@ class Graph(tk.Tk):
             ax1 = fig.add_subplot(gs02[0, 0],sharex = ax0)
             ax2 = fig.add_subplot(gs02[1, 0],sharex = ax0)
             ax3 = fig.add_subplot(gs02[2, 0],sharex = ax0)
-            ax3.tick_params(labelrotation=20)
+            ax3.tick_params(axis='x', labelrotation=10)
 
             RemoveLabel(ax1)
             RemoveLabel(ax2)
@@ -103,16 +107,13 @@ class Graph(tk.Tk):
             fontsize=20, color='gray', alpha=0.4,
             ha='center', va='center', rotation='20')
 
-            ax4.tick_params(axis='x', labelrotation=20)
             ax4.xaxis.tick_top()
 
-            ax5 = fig.add_subplot(gs03[0, 0])
-            ax6 = fig.add_subplot(gs03[1, 0])
-            ax5.tick_params(axis='x', labelrotation=20)
-            ax6.tick_params(axis='x', labelrotation=20)
-            # ax5.text(0.5, 0.5, 'Safem0de\nShort-term Trading', transform=ax5.transAxes,
-            # fontsize=20, color='gray', alpha=0.4,
-            # ha='center', va='center', rotation='20')
+            ax5 = fig.add_subplot(gs03[0:2, 0])
+            ax6 = fig.add_subplot(gs03[2:, 0])
+            ax6.tick_params('y', labelleft=False, labelright=True)
+
+            RemoveLabel(ax5)
 
             try:
                 ax0.annotate(
@@ -132,35 +133,23 @@ class Graph(tk.Tk):
                     size=8,
                     bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
 
-                ax5.annotate(f'period : 1 day\ninterval : {df1.Name}',xy=(0.02,0.75),
-                    xycoords='axes fraction',
-                    size=8,
-                    bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
-
-                ax6.annotate(f'period : 1 day\ninterval : {df2.Name}',xy=(0.02,0.75),
-                    xycoords='axes fraction',
-                    size=8,
-                    bbox=dict(boxstyle="round", fc=(0.9, 0.9, 0.9, 0.4), ec="none"))
-
                 ap = [
-                    # mpf.make_addplot(exp12, color='y', ax=ax0),
-                    # mpf.make_addplot(exp26, color='c', ax=ax0),
-                    
                     mpf.make_addplot(histogram,type='bar',
-                                alpha=1,secondary_y=False,
-                                color='black', ax=ax2),
-                    mpf.make_addplot(macd, color='fuchsia', ax=ax2),
-                    mpf.make_addplot(signal, color='b', ax=ax2),
+                                    alpha=1,
+                                    secondary_y=False,
+                                    ax=ax2),
+                    mpf.make_addplot(macd, color='fuchsia', ax=ax2, width=0.8),
+                    mpf.make_addplot(signal, color='b', ax=ax2, width=0.8),
 
-                    mpf.make_addplot(rsi_upper, color='mediumvioletred', ax=ax3),
-                    mpf.make_addplot(rsi_lower, color='deeppink', ax=ax3),
-                    mpf.make_addplot(rsi, color='indigo', ax=ax3),
+                    mpf.make_addplot(rsi_upper, color='mediumvioletred', ax=ax3, width=0.8, alpha=0.8),
+                    mpf.make_addplot(rsi_lower, color='deeppink', ax=ax3, width=0.8, alpha=0.8),
+                    mpf.make_addplot(rsi, color='indigo', ax=ax3, width=0.8),
                 ]
 
-                mpf.plot(df,ax=ax0,volume=ax1,type='candle', addplot=ap)
-                mpf.plot(df,ax=ax4,type='renko')
-                mpf.plot(df1,ax=ax5,type='renko')
-                mpf.plot(df2,ax=ax6,type='renko')
+                mpf.plot(df, ax=ax0, volume=ax1, type='candle', addplot=ap, style='yahoo')
+                mpf.plot(df, ax=ax4, type='renko', style='yahoo', xrotation=10)
+                mpf.plot(df1, ax=ax5, volume=ax6, type='renko', style='yahoo', xrotation=10)
+
                 
                 canvas = FigureCanvasTkAgg(fig, master=self.frameChart)
                 canvas.draw()
@@ -175,18 +164,18 @@ class Graph(tk.Tk):
                     key_press_handler(event, canvas, toolbar)
 
                 canvas.mpl_connect("key_press_event", on_key_press)
-            except:
-                pass
+            except Exception as e:
+                print('error')
+                print(e)
 
         def radioButton_selected(p):
             for widgets in self.frameChart.winfo_children():
                 widgets.destroy()
             a = CandleController.create_graph_longterm(self, st_Name=name, period=p)
-            b = CandleController.create_graph_shorterm(self, st_Name=name, interval='1m')
-            c = CandleController.create_graph_shorterm(self, st_Name=name, interval='5m')
-            create_candle(a,b,c)
+            b = CandleController.create_graph_shorterm(self, st_Name=name, interval='15m')
+            create_candle(a,b)
 
-        name = str(self.model.getSelected_StockName().replace('%26','&').replace('+',' '))
+        name = str(self.model.getSelected_StockName().replace(' ','-').replace('%26','&').replace('+',' '))
 
         self.frame = ttk.Frame(self)
         self.frame.pack(expand=True, fill=tk.BOTH)
@@ -222,4 +211,4 @@ class Graph(tk.Tk):
 
         self.frameChart = ttk.Frame(self.frame)
         self.frameChart.pack(expand=True, fill=tk.BOTH, side=tk.TOP, padx=5, pady=5)
-        radioButton_selected('3mo')
+        radioButton_selected(selected_period.get())

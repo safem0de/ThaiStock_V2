@@ -4,12 +4,14 @@ class Setting:
     setting = {
         'SET_download' : True,
         'mai_download' : True,
-        'load_screen_x' : 0,
+        'load_screen_x' : 1925,
         'load_screen_y' : 0,
-        'start_screen_x' : 0,
+        'start_screen_x' : 1925,
         'start_screen_y' : 0,
-        'analyse_screen_x' : 0,
+        'analyse_screen_x' : 1925,
         'analyse_screen_y' : 0,
+        'graph_screen_x' : 1925,
+        'graph_screen_y' : 0,
         'BNB_API': '',
         'BNB_Secret_key': '',
     }
@@ -38,6 +40,12 @@ class Setting:
 
     def getanalyse_screen_y(self):
         return str(self.setting.get('analyse_screen_y'))
+
+    def getgraph_screen_x(self):
+        return str(self.setting.get('graph_screen_x'))
+
+    def getgraph_screen_y(self):
+        return str(self.setting.get('graph_screen_y'))
 
     def getsettingModel(self):
         return self.setting

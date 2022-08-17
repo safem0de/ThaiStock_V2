@@ -3,13 +3,15 @@ import cryptocode
 
 x = {
     'SET_download' : False,
-    'mai_download' : True,
+    'mai_download' : False,
     'load_screen_x' : 1925,
     'load_screen_y' : 0,
     'start_screen_x' : 1925,
     'start_screen_y' : 0,
     'analyse_screen_x' : 1925,
     'analyse_screen_y' : 0,
+    'graph_screen_x' : 0,
+    'graph_screen_y' : 0,
     'BNB_API': '',
     'BNB_Secret_key': '',
 }
