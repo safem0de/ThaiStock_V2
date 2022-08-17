@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
-from turtle import width
+from tkinter.messagebox import askretrycancel
 
 import numpy as np
 from matplotlib import axis
@@ -16,6 +16,8 @@ from __Models.Stocks import Stock
 from __Models.Settings import Setting
 
 class Graph(tk.Tk):
+
+    testData = pd.DataFrame(columns=['Symbol','Change','Yrows','Xcols'])
 
     def __init__(self, model:Stock, setting:Setting):
         super().__init__()
@@ -63,7 +65,7 @@ class Graph(tk.Tk):
             df['Close'].rolling(window =20).mean()
 
 
-        def create_candle(df:pd.DataFrame, df1=pd.DataFrame()):
+        def create_candle(df:pd.DataFrame, df1=pd.DataFrame(), df2=pd.DataFrame()):
 
             exp12 = df['Close'].ewm(span=12, adjust=False).mean() ## pd.Series
             exp26 = df['Close'].ewm(span=26, adjust=False).mean()
@@ -147,8 +149,7 @@ class Graph(tk.Tk):
                 ]
 
                 mpf.plot(df, ax=ax0, volume=ax1, type='candle', addplot=ap, style='yahoo')
-                mpf.plot(df, ax=ax4, type='renko', style='yahoo', xrotation=10)
-                mpf.plot(df1, ax=ax5, volume=ax6, type='renko', style='yahoo', xrotation=10)
+                mpf.plot(df2, ax=ax5, volume=ax6, type='renko', style='yahoo', xrotation=10)
 
                 
                 canvas = FigureCanvasTkAgg(fig, master=self.frameChart)
@@ -165,15 +166,20 @@ class Graph(tk.Tk):
 
                 canvas.mpl_connect("key_press_event", on_key_press)
             except Exception as e:
-                print('error')
-                print(e)
-
+                var = askretrycancel(f'Error : {name}',
+                        f'No data found for this date range, symbol may be delisted\n{e}')
+                if var:
+                    pass
+                else:
+                    self.destroy()
+                
         def radioButton_selected(p):
             for widgets in self.frameChart.winfo_children():
                 widgets.destroy()
             a = CandleController.create_graph_longterm(self, st_Name=name, period=p)
-            b = CandleController.create_graph_shorterm(self, st_Name=name, interval='15m')
-            create_candle(a,b)
+            c = CandleController.create_graph_shorterm(self, st_Name=name, interval='5m')
+            create_candle(df=a,df2=c)
+            CandleController.Test(self, st_Name=name)
 
         name = str(self.model.getSelected_StockName().replace(' ','-').replace('%26','&').replace('+',' '))
 
