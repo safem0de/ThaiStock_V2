@@ -1,9 +1,10 @@
 import tkinter as tk
 from tkinter import ttk
-from tkinter.messagebox import askretrycancel
+from tkinter.messagebox import showerror
 
 import numpy as np
 from matplotlib import axis
+import seaborn as sns
 
 import mplfinance as mpf
 import pandas as pd
@@ -17,7 +18,34 @@ from __Models.Settings import Setting
 
 class Graph(tk.Tk):
 
-    testData = pd.DataFrame(columns=['Symbol','Change','Yrows','Xcols'])
+    testData = pd.DataFrame(
+        columns=['Symbol','Change','Yrows','Xcols'],
+        data = [['BIOCON', 3.18 ,1,1],
+                ['SYNINT', 2.45 ,1,2],
+                ['DRREDD', 1.80 ,1,3],
+                ['TORPHA', 1.48 ,1,4],
+                ['FDC', 0.75 ,1,5],
+                ['DRLAL' ,0.56 ,2,1],
+                ['INDREM' ,0.26 ,2,2],
+                ['ABBIND' ,6.04 ,2,3],
+                ['GRANUL' ,6.00 ,2,4],
+                ['GLAPHA' ,-0.44 ,2,5]]
+        )
+    print(testData)
+    symbol = ((np.asarray(testData['Symbol'])).reshape(2,5))
+    perchange = ((np.asarray(testData['Change'])).reshape(2,5))
+
+    print(symbol)
+    print(perchange)
+
+    labels = (np.asarray(["{0} \n {1:.2f}".format(symb,value)
+                      for symb, value in zip(symbol.flatten(),
+                                               perchange.flatten())])
+         ).reshape(2,5)
+
+    result = testData.pivot(index='Yrows',columns='Xcols',values='Change')
+    print(type(result))
+    print(result)
 
     def __init__(self, model:Stock, setting:Setting):
         super().__init__()
@@ -81,7 +109,7 @@ class Graph(tk.Tk):
 
             fig = mpf.figure(figsize=(16, 7.2), dpi=85)
             fig.suptitle(name.replace('.BK',''))
-            gs0 = fig.add_gridspec(2, 2, left=0.05, right=0.95, wspace=0.05, hspace=0.02)
+            gs0 = fig.add_gridspec(2, 2, left=0.05, right=0.95, wspace=0.125, hspace=0.02)
 
             gs00 = gs0[0].subgridspec(3, 1)
             gs01 = gs0[1].subgridspec(3, 1)
@@ -92,9 +120,9 @@ class Graph(tk.Tk):
             ax0.text(0.5, 0.5, 'Safem0de\ncandle stick', transform=ax0.transAxes,
             fontsize=20, color='gray', alpha=0.4,
             ha='center', va='center', rotation='20')
+            ax0.tick_params('y', labelleft=True, labelright=False)
 
             RemoveLabel(ax0)
-            ax0.tick_params('y', labelleft=False, labelright=False)
 
             ax1 = fig.add_subplot(gs02[0, 0],sharex = ax0)
             ax2 = fig.add_subplot(gs02[1, 0],sharex = ax0)
@@ -104,16 +132,22 @@ class Graph(tk.Tk):
             RemoveLabel(ax1)
             RemoveLabel(ax2)
 
-            ax4 = fig.add_subplot(gs01[0:, 0], sharey=ax0)
-            ax4.text(0.5, 0.5, 'Safem0de\nrenko (movement)', transform=ax4.transAxes,
+            
+            ax4 = fig.add_subplot(gs01[0:, 0])
+            ax4.text(0.5, 0.5, 'Safem0de\nHeat Map', transform=ax4.transAxes,
             fontsize=20, color='gray', alpha=0.4,
             ha='center', va='center', rotation='20')
+            ax4.tick_params('y', labelleft=False, labelright=False)
 
-            ax4.xaxis.tick_top()
+            # ttl = ax4.title
+            # ttl.set_position([0.5,1.05])
+            ax4.axis('off')
+
+            RemoveLabel(ax4)
 
             ax5 = fig.add_subplot(gs03[0:2, 0])
             ax6 = fig.add_subplot(gs03[2:, 0])
-            ax6.tick_params('y', labelleft=False, labelright=True)
+            ax6.tick_params('y', labelleft=False, labelright=False)
 
             RemoveLabel(ax5)
 
@@ -148,10 +182,10 @@ class Graph(tk.Tk):
                     mpf.make_addplot(rsi, color='indigo', ax=ax3, width=0.8),
                 ]
 
+                sns.heatmap(df1, annot=self.labels, fmt="", cmap='RdYlGn',linewidths=0.30, ax=ax4)
                 mpf.plot(df, ax=ax0, volume=ax1, type='candle', addplot=ap, style='yahoo')
                 mpf.plot(df2, ax=ax5, volume=ax6, type='renko', style='yahoo', xrotation=10)
 
-                
                 canvas = FigureCanvasTkAgg(fig, master=self.frameChart)
                 canvas.draw()
                 canvas.get_tk_widget().pack(fill=tk.Y, expand=1, padx=5, pady=5)
@@ -166,20 +200,17 @@ class Graph(tk.Tk):
 
                 canvas.mpl_connect("key_press_event", on_key_press)
             except Exception as e:
-                var = askretrycancel(f'Error : {name}',
+                showerror(f'Error : {name}',
                         f'No data found for this date range, symbol may be delisted\n{e}')
-                if var:
-                    pass
-                else:
-                    self.destroy()
+                pass
+
                 
         def radioButton_selected(p):
             for widgets in self.frameChart.winfo_children():
                 widgets.destroy()
             a = CandleController.create_graph_longterm(self, st_Name=name, period=p)
             c = CandleController.create_graph_shorterm(self, st_Name=name, interval='5m')
-            create_candle(df=a,df2=c)
-            CandleController.Test(self, st_Name=name)
+            create_candle(df=a,df1=self.result, df2=c)
 
         name = str(self.model.getSelected_StockName().replace(' ','-').replace('%26','&').replace('+',' '))
 
@@ -192,7 +223,6 @@ class Graph(tk.Tk):
         ### https://www.geeksforgeeks.org/radiobutton-in-tkinter-python/
         selected_period = tk.StringVar(self,'3mo')
         period = (
-                # ('1 Day', '1d'),
                 # ('5 Days', '5d'), ## RSI Calculation Problem n = 14
                 ('1 Month', '1mo'),
                 ('3 Months', '3mo'),
