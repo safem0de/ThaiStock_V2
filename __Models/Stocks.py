@@ -8,11 +8,14 @@ class Stock:
         'mai' : {},
         'Crypto' : {}
     }
+    __Industry = {
+
+    }
+
     __Selected_StockName = None
 
     def __init__(self):
-        # __prefix = ['NUMBER','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-        __prefix = ['NUMBER','S'] ## For Test
+        __prefix = ['NUMBER','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
         for i in __prefix:
             dflist = pd.read_html('https://classic.set.or.th/set/commonslookup.do?language=th&country=TH&prefix='+i
                         , match="ชื่อย่อหลักทรัพย์" ,encoding='utf8')
@@ -51,11 +54,12 @@ class Stock:
                 ]}
             self.__Market['Crypto'].update(y)
 
-        # print(self.__Market)
-
 
     def getMarket(self):
         return self.__Market
+
+    def getIndustry(self):
+        return self.__Industry
 
     def setMarket_mai(self, param:dict):
         self.__Market['mai'].update(param)

@@ -92,8 +92,7 @@ class App(tk.Tk):
 if __name__ == "__main__":
 
     setting = Setting()
-    # print('mai : ',setting.getmai_download())
-    # print('SET : ',setting.getSET_download())
+
     try:
         f = open("App_Safem0de.config", "r")
         str_decoded = cryptocode.decrypt(f.read(), 'S@fem0de')
@@ -115,6 +114,7 @@ if __name__ == "__main__":
     load = Loading(setting)
 
     async def ShowLoading():
+
         await asyncio.sleep(delay=random.uniform(0, 0.0001))
         load.mainloop()
 
@@ -295,13 +295,29 @@ if __name__ == "__main__":
 
         cococoru = []
         if setting.getSET_download() == True and setting.getmai_download() == True:     ## Download SET and mai
-            cococoru = [ShowLoading(),ShowProgress_SET(),ShowProgress_mai(),ShowMain()]
+            cococoru = [
+                ShowLoading(),
+                ShowProgress_SET(),
+                ShowProgress_mai()
+                ,ShowMain()
+                ]
         elif setting.getSET_download() == False and setting.getmai_download() == True:  ## Download mai
-            cococoru = [ShowLoading(),ShowProgress_mai(),ShowMain()]
+            cococoru = [
+                ShowLoading(),
+                ShowProgress_mai(),
+                ShowMain()
+                ]
         elif setting.getSET_download() == True and setting.getmai_download() == False:  ## Download SET
-            cococoru = [ShowLoading(),ShowProgress_SET(),ShowMain()]
+            cococoru = [
+                ShowLoading(),
+                ShowProgress_SET(),
+                ShowMain()
+                ]
         else:
-            cococoru = [ShowLoading(),ShowMain()]
+            cococoru = [
+                ShowLoading(),
+                ShowMain()
+                ]
 
         await asyncio.gather(*cococoru)
 
