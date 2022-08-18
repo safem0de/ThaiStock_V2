@@ -41,16 +41,3 @@ class CandleController():
             print('err: ',e)
 
         return __df
-
-    def Test(self):
-        
-        try:
-            dfz = pd.read_html(
-                # 'https://classic.set.or.th/mkt/sectorialindices.do?language=th&country=TH'
-                # 'https://classic.set.or.th/mkt/sectorquotation.do?market=SET&sector=FOOD&language=th&country=TH'
-                f'https://classic.set.or.th/mkt/sectorialindices.do?market=SET&language=th&country=TH'
-                            , match=".+", encoding='utf-8')
-            for i in dfz:
-                print(i)
-        except:
-            pass

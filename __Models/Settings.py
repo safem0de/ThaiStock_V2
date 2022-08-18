@@ -2,8 +2,8 @@
 class Setting:
 
     setting = {
-        'SET_download' : True,
-        'mai_download' : True,
+        'SET_download' : False,
+        'mai_download' : False,
         'load_screen_x' : 0,
         'load_screen_y' : 0,
         'start_screen_x' : 0,

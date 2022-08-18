@@ -1,3 +1,4 @@
+from tkinter import S
 import pandas as pd
 import requests
 
@@ -54,7 +55,12 @@ class Stock:
                 ]}
             self.__Market['Crypto'].update(y)
 
+        dfRawSector = pd.read_html('https://classic.set.or.th/mkt/sectorialindices.do?market=SET&language=th&country=TH'
+                        , match="กลุ่มอุตสาหกรรม/หมวดธุรกิจ" ,encoding='utf8')
+        dfSector = dfRawSector[0]
+        dfSector = dfSector[['กลุ่มอุตสาหกรรม/หมวดธุรกิจ','%เปลี่ยนแปลง']]
 
+        
     def getMarket(self):
         return self.__Market
 

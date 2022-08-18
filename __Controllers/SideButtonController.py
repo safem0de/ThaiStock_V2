@@ -23,6 +23,8 @@ class ButtonController():
         self.view.buttons["Stock_NEWS"].configure(command=self.Stock_NEWS_Click)
         self.view.buttons["Stock_Analysis"].configure(command=self.Stock_Analysis_Click)
         self.view.buttons["Magic_Formula"].configure(command=self.Magic_Formula_Click)
+        self.view.buttons["Daily_Heatmap"].configure(command=self.Daily_Heatmap_Click)
+
         self.view.buttons["Preferences"].configure(command= self.Preference)
         self.view.buttons["Bibiology"].configure(command=self.Bibiology_Click)
 
@@ -46,6 +48,10 @@ class ButtonController():
             
         except:
             pass
+
+    def Daily_Heatmap_Click(self):
+        print('HeatMap')
+        
 
     def Preference(self):
         try:

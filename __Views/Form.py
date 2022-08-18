@@ -13,6 +13,7 @@ class Form(tk.Frame):
         self.create_button(frame, name="Stock_NEWS", row=0, column=0)
         self.create_button(frame, name="Stock_Analysis", row=1, column=0)
         self.create_button(frame, name="Magic_Formula", row=2, column=0)
+        self.create_button(frame, name="Daily_Heatmap", row=3, column=0)
 
         self.create_button(frame, name="Preferences", row=98, column=0)
         self.create_button(frame, name="Bibiology", row=99, column=0)
