@@ -133,6 +133,7 @@ class Table(tk.Frame):
             pass
         
         self.tree.bind('<<TreeviewSelect>>', item_selected)
+        self.tree.grid(row=0, column=0, sticky=tk.NSEW)
         if platform == "linux" or platform == "linux2":
             # linux
             self.tree.bind("<Button-3>", lambda e : do_popup(e))
@@ -140,8 +141,8 @@ class Table(tk.Frame):
             # OS X
             self.tree.bind("<Button-2>", lambda e : do_popup(e))
         elif platform == "win32":
+            # windows
             self.tree.bind("<Button-3>", lambda e : do_popup(e))
-        self.tree.grid(row=0, column=0, sticky=tk.NSEW)
 
         scrollbar = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=self.tree.yview)
         self.tree.configure(yscroll=scrollbar.set)

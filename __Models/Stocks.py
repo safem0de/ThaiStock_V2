@@ -1,4 +1,3 @@
-from tkinter import S
 import pandas as pd
 import requests
 
@@ -10,8 +9,27 @@ class Stock:
         'Crypto' : {}
     }
     __Industry = {
-
-    }
+        'SET':{
+            'AGRO': {'AGRI': {}, 'FOOD': {}},
+            'CONSUMP':{'FASHION': {}, 'HOME': {}, 'PERSON': {}, },
+            'FINCIAL': {'BANK': {}, 'FIN': {}, 'INSUR': {}},
+            'INDUS': {'AUTO': {}, 'IMM': {}, 'PAPER': {}, 'PETRO': {}, 'PKG': {}, 'STEEL': {}},
+            'PROPCON': {'CONMAT' : {}, 'PROP' : {}, 'PF&REIT' : {}, 'CONS' : {}},
+            'RESOURC':{'ENERG' : {}, 'MINE' : {}},
+            'SERVICE': {'COMM': {}, 'HELTH':{}, 'MEDIA':{}, 'PROF': {}, 'TOURISM':{}, 'TRANS':{}},
+            'TECH': {'ETRON': {}, 'ICT': {}}
+        },
+        'mai':{
+            'AGRO': {},
+            'CONSUMP': {},
+            'FINCIAL': {},
+            'INDUS': {},
+            'PROPCON': {},
+            'RESOURC': {},
+            'SERVICE': {},
+            'TECH': {}
+        }
+    }   
 
     __Selected_StockName = None
 
@@ -55,14 +73,22 @@ class Stock:
                 ]}
             self.__Market['Crypto'].update(y)
 
-        dfRawSector = pd.read_html('https://classic.set.or.th/mkt/sectorialindices.do?market=SET&language=th&country=TH'
-                        , match="กลุ่มอุตสาหกรรม/หมวดธุรกิจ" ,encoding='utf8')
-        dfSector = dfRawSector[0]
-        Industry = dfSector['กลุ่มอุตสาหกรรม/หมวดธุรกิจ'].to_list()
-        Ins_chg =  dfSector['%เปลี่ยนแปลง'].to_list()
+        for j in self.__Industry:
+            print(j)
+            for k in self.__Industry[j]:
+                print(k)
+        # https://classic.set.or.th/mkt/sectorquotation.do?market=SET&sector=AGRO&language=th&country=TH
+        # dfRawSector = pd.read_html('https://classic.set.or.th/mkt/sectorialindices.do?market=SET&language=th&country=TH'
+        #                 , match="กลุ่มอุตสาหกรรม/หมวดธุรกิจ" ,encoding='utf8')
+        # dfSector = dfRawSector[0]
+        # Industry = dfSector['กลุ่มอุตสาหกรรม/หมวดธุรกิจ'].to_list()
+        # Ins_chg =  dfSector['%เปลี่ยนแปลง'].to_list()
 
-        print(Industry)
-        print(Ins_chg)
+        # print(Industry)
+        # print(Ins_chg)
+
+        # print(len(Industry))
+        # print(len(Ins_chg))
 
         
     def getMarket(self):
