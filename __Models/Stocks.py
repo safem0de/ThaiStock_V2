@@ -58,7 +58,11 @@ class Stock:
         dfRawSector = pd.read_html('https://classic.set.or.th/mkt/sectorialindices.do?market=SET&language=th&country=TH'
                         , match="กลุ่มอุตสาหกรรม/หมวดธุรกิจ" ,encoding='utf8')
         dfSector = dfRawSector[0]
-        dfSector = dfSector[['กลุ่มอุตสาหกรรม/หมวดธุรกิจ','%เปลี่ยนแปลง']]
+        Industry = dfSector['กลุ่มอุตสาหกรรม/หมวดธุรกิจ'].to_list()
+        Ins_chg =  dfSector['%เปลี่ยนแปลง'].to_list()
+
+        print(Industry)
+        print(Ins_chg)
 
         
     def getMarket(self):

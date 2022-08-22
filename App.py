@@ -107,6 +107,8 @@ if __name__ == "__main__":
             setting.setstart_screen_y(res['start_screen_y'])
             setting.setanalyse_screen_x(res['analyse_screen_x'])
             setting.setanalyse_screen_y(res['analyse_screen_y'])
+        
+        f.close()
     except Exception as e:
         print(e)
 

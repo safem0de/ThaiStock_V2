@@ -7,6 +7,7 @@ from __Models.Stocks import Stock
 from __Models.Settings import Setting
 from __Controllers.TableController import TableController
 from __Views.Graph import Graph
+from sys import platform
 
 class Table(tk.Frame):
 
@@ -132,7 +133,14 @@ class Table(tk.Frame):
             pass
         
         self.tree.bind('<<TreeviewSelect>>', item_selected)
-        self.tree.bind("<Button-3>", lambda e : do_popup(e))
+        if platform == "linux" or platform == "linux2":
+            # linux
+            self.tree.bind("<Button-3>", lambda e : do_popup(e))
+        elif platform == "darwin":
+            # OS X
+            self.tree.bind("<Button-2>", lambda e : do_popup(e))
+        elif platform == "win32":
+            self.tree.bind("<Button-3>", lambda e : do_popup(e))
         self.tree.grid(row=0, column=0, sticky=tk.NSEW)
 
         scrollbar = ttk.Scrollbar(frame, orient=tk.VERTICAL, command=self.tree.yview)
