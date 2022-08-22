@@ -22,60 +22,6 @@ class StockAnalyse(tk.Toplevel):
         self.geometry(f'+{str(setting.getanalyse_screen_x())}+{str(setting.getanalyse_screen_y())}')
         self.__Table = finance.getDataTable()
 
-        def CheckBox(value:str):
-            if 'rm' in value:
-                self.__stateOfFilter.remove(value.replace('rm_',''))
-            else:
-                self.__stateOfFilter.append(value)
-
-            print(self.__stateOfFilter)
-
-
-        def RadioBtn_Selected(data, condition_Filter:list=self.__stateOfFilter):
-            self.__stockTypeFilter = data
-            print(condition_Filter)
-            if self.__stockTypeFilter == 'all':
-                # analyseTable([self.__Table[i]['data'] for i in self.__Table])
-                analyseTable([self.__Table[i]['data'] for i in self.__Table])
-
-            elif self.__stockTypeFilter == 'set':
-                analyseTable([self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['ismai'] == False and self.__Table[i]['isSET100'] == False and self.__Table[i]['isSET50'] == False])
-            
-            elif self.__stockTypeFilter == 'set100':
-                analyseTable([self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['isSET100'] == True])
-            
-            elif self.__stockTypeFilter == 'set50':
-                analyseTable([self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['isSET50'] == True])
-            
-            elif self.__stockTypeFilter == 'mai':
-                analyseTable([self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['ismai'] == True])
-
-        def analyseTable(stk):
-
-            columns = ('หลักทรัพย์', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
-            tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=25)
-
-            ## Clear Treeview ##
-            for i in tree.get_children():
-                tree.delete(i)
-
-            # define headings
-            for col in columns:
-                tree.heading(col, text = col)
-                tree.column(col, minwidth=0, width=100, stretch=True, anchor=tk.CENTER)
-
-            for s in stk:
-                tree.insert('', tk.END, values=s)
-
-            tree.grid(row=1, column=1, rowspan=20, pady=3, sticky=tk.NS)
-            scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=tree.yview)
-            tree.configure(yscroll=scrollbar.set)
-            scrollbar.grid(row=1, column=2, rowspan=20, pady=3, sticky=tk.NS)
-
-            labelfooter = ttk.Label(self, text = f'**ในตารางไม่นำ "หุ้น" ที่มีการขาดทุนในงบฯย้อนหลัง 3-5 ปี มาพิจารณา {len(stk)} ตัว', foreground='red')
-            labelfooter.grid(row=40, column=0, columnspan=3, pady=3, sticky=tk.SE)
-
-        RadioBtn_Selected('all')
         pe_set = finance.getMarket_Stat_SET().get('pe')
         pe_mai = finance.getMarket_Stat_mai().get('pe')
         pbv_set = finance.getMarket_Stat_SET().get('pbv')
@@ -92,6 +38,73 @@ class StockAnalyse(tk.Toplevel):
         avg_netprofit_mai = finance.getMarket_Stat_mai().get('avg_netprofit')
         avg_roe_mai = finance.getMarket_Stat_mai().get('avg_roe')
         avg_yield_mai = finance.getMarket_Stat_mai().get('avg_yield')
+
+        def CheckBox(value:str):
+            if 'rm' in value:
+                self.__stateOfFilter.remove(value.replace('rm_',''))
+            else:
+                self.__stateOfFilter.append(value)
+
+            print(self.__stateOfFilter)
+            RadioBtn_Selected(selected_Market.get())
+
+
+        def RadioBtn_Selected(data, condition_Filter:list=self.__stateOfFilter):
+            self.__stockTypeFilter = data
+            print(self.__stockTypeFilter)
+            print(bool(condition_Filter))
+            if self.__stockTypeFilter == 'all' and not condition_Filter:
+                initial = [self.__Table[i]['data'] for i in self.__Table]
+                analyseTable(initial)
+            else:
+                pass
+
+            if self.__stockTypeFilter == 'set' and not condition_Filter:
+                initial = [self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['ismai'] == False and self.__Table[i]['isSET100'] == False and self.__Table[i]['isSET50'] == False]
+                analyseTable(initial)
+            else:
+                pass
+
+            if self.__stockTypeFilter == 'set100' and not condition_Filter:
+                initial = [self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['isSET100'] == True]
+            else:
+                pass
+            
+            if self.__stockTypeFilter == 'set50' and not condition_Filter:
+                initial = [self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['isSET50'] == True]
+            else:
+                pass
+            
+            if self.__stockTypeFilter == 'mai' and not condition_Filter:
+                initial = [self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['ismai'] == True]
+            else:
+                pass
+
+        def analyseTable(stk):
+
+            columns = ('หลักทรัพย์', '(สินทรัพย์)เฉลี่ย','(รายได้)เฉลี่ย','(กำไร)เฉลี่ย','(%ROE)เฉลี่ย','(%ปันผล)เฉลี่ย','(P/E)ล่าสุด','(P/BV)ล่าสุด')
+            tree = ttk.Treeview(self, columns=columns, show='headings', name='analyse', height=25)
+
+            ## Clear Treeview ##
+            for i in tree.get_children():
+                tree.delete(i)
+
+            # define headings
+            for col in columns:
+                tree.heading(col, text = col)
+                tree.column(col, minwidth=0, width=100, stretch=True, anchor=tk.CENTER)
+
+            for s in stk:
+                if s:
+                    tree.insert('', tk.END, values=s)
+
+            tree.grid(row=1, column=1, rowspan=20, pady=3, sticky=tk.NS)
+            scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=tree.yview)
+            tree.configure(yscroll=scrollbar.set)
+            scrollbar.grid(row=1, column=2, rowspan=20, pady=3, sticky=tk.NS)
+
+            labelfooter = ttk.Label(self, text = f'**ในตารางไม่นำ "หุ้น" ที่มีการขาดทุนในงบฯย้อนหลัง 3-5 ปี มาพิจารณา {len(stk)} ตัว', foreground='red')
+            labelfooter.grid(row=40, column=0, columnspan=3, pady=3, sticky=tk.SE)
 
         self.labelheader = ttk.Label(self, text = 'Analyse')
         self.labelheader['font'] = ("Impact", 16)
@@ -187,3 +200,5 @@ class StockAnalyse(tk.Toplevel):
         onvalue='pbv',
         offvalue='rm_pbv')
         self.checkbox_PBV.grid(row=8, column=0, padx=3, sticky=tk.W)
+
+        RadioBtn_Selected(selected_Market.get())
