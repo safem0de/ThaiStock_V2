@@ -19,16 +19,16 @@ class Stock:
             'SERVICE': {'COMM': {}, 'HELTH':{}, 'MEDIA':{}, 'PROF': {}, 'TOURISM':{}, 'TRANS':{}},
             'TECH': {'ETRON': {}, 'ICT': {}}
         },
-        # 'mai':{
-        #     'AGRO': {},
-        #     'CONSUMP': {},
-        #     'FINCIAL': {},
-        #     'INDUS': {},
-        #     'PROPCON': {},
-        #     'RESOURC': {},
-        #     'SERVICE': {},
-        #     'TECH': {}
-        # }
+        'mai':{
+            'AGRO': {},
+            'CONSUMP': {},
+            'FINCIAL': {},
+            'INDUS': {},
+            'PROPCON': {},
+            'RESOURC': {},
+            'SERVICE': {},
+            'TECH': {}
+        }
     }   
 
     __Selected_StockName = None
@@ -87,13 +87,13 @@ class Stock:
                     vl = dfSector["มูลค่า('000 บาท)"].to_list()
                     f_value = [float(i) if not i == '-' else 0 for i in vl]
 
-                    # print(Industry)
-                    # print(f_value)
-                    print(dict(zip(Industry, f_value)))
-                    # print(len(Industry))
+                    data = dict(zip(Industry, f_value))
+                    self.setIndustry_mai(k,data)
+
             else:
-                for k in self.__Industry[j].values():
-                    for l in k:
+                for k in self.__Industry[j]:
+                    print('==>',k)
+                    for l in self.__Industry[j][k]:
                         l = l.replace('&','%26')
                         print(l)
                         print(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={l}&language=th&country=TH')
@@ -104,10 +104,10 @@ class Stock:
                         vl = dfSector["มูลค่า('000 บาท)"].to_list()
                         f_value = [float(i) if not i == '-' else 0 for i in vl]
 
-                        # print(Industry)
-                        # print(f_value)
-                        print(dict(zip(Industry, f_value)))
-                        # print(len(Industry))
+                        data = dict(zip(Industry, f_value))
+                        self.setIndustry_SET(k,l.replace('%26','&'),data)
+
+        # print(self.__Industry)
         
     def getMarket(self):
         return self.__Market
@@ -115,14 +115,20 @@ class Stock:
     def getIndustry(self):
         return self.__Industry
 
+    def getSelected_StockName(self):
+        return self.__Selected_StockName
+
     def setMarket_mai(self, param:dict):
         self.__Market['mai'].update(param)
 
     def setMarket_SET(self, param:dict):
         self.__Market['SET'].update(param)
 
-    def getSelected_StockName(self):
-        return self.__Selected_StockName
-
     def setSelected_StockName(self, param):
         self.__Selected_StockName = param
+
+    def setIndustry_mai(self, sector, param):
+        self.__Industry['mai'][sector] = param
+
+    def setIndustry_SET(self, sector, sub_sector, param):
+        self.__Industry['SET'][sector][sub_sector] = param
