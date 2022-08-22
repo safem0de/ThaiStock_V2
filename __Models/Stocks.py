@@ -19,16 +19,16 @@ class Stock:
             'SERVICE': {'COMM': {}, 'HELTH':{}, 'MEDIA':{}, 'PROF': {}, 'TOURISM':{}, 'TRANS':{}},
             'TECH': {'ETRON': {}, 'ICT': {}}
         },
-        'mai':{
-            'AGRO': {},
-            'CONSUMP': {},
-            'FINCIAL': {},
-            'INDUS': {},
-            'PROPCON': {},
-            'RESOURC': {},
-            'SERVICE': {},
-            'TECH': {}
-        }
+        # 'mai':{
+        #     'AGRO': {},
+        #     'CONSUMP': {},
+        #     'FINCIAL': {},
+        #     'INDUS': {},
+        #     'PROPCON': {},
+        #     'RESOURC': {},
+        #     'SERVICE': {},
+        #     'TECH': {}
+        # }
     }   
 
     __Selected_StockName = None
@@ -75,21 +75,31 @@ class Stock:
 
         for j in self.__Industry:
             print(j)
-            for k in self.__Industry[j]:
-                print(k)
-        # https://classic.set.or.th/mkt/sectorquotation.do?market=SET&sector=AGRO&language=th&country=TH
-        # dfRawSector = pd.read_html('https://classic.set.or.th/mkt/sectorialindices.do?market=SET&language=th&country=TH'
-        #                 , match="กลุ่มอุตสาหกรรม/หมวดธุรกิจ" ,encoding='utf8')
-        # dfSector = dfRawSector[0]
-        # Industry = dfSector['กลุ่มอุตสาหกรรม/หมวดธุรกิจ'].to_list()
-        # Ins_chg =  dfSector['%เปลี่ยนแปลง'].to_list()
+            if j == 'mai':
+                for k in self.__Industry[j]:
+                    k = k.replace('&','%26')
+                    print(k)
+                    print(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={k}&language=th&country=TH')
+                    dfRawSector = pd.read_html(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={k}&language=th&country=TH'
+                                    , match="เครื่องหมาย" ,encoding='utf8')
+                    dfSector = dfRawSector[0]
+                    Industry = dfSector['หลักทรัพย์'].to_list()
 
-        # print(Industry)
-        # print(Ins_chg)
+                    print(Industry)
+                    print(len(Industry))
+            else:
+                for k in self.__Industry[j].values():
+                    for l in k:
+                        l = l.replace('&','%26')
+                        print(l)
+                        print(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={l}&language=th&country=TH')
+                        dfRawSector = pd.read_html(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={l}&language=th&country=TH'
+                                        , match="เครื่องหมาย" ,encoding='utf8')
+                        dfSector = dfRawSector[0]
+                        Industry = dfSector['หลักทรัพย์'].to_list()
 
-        # print(len(Industry))
-        # print(len(Ins_chg))
-
+                        print(Industry)
+                        print(len(Industry))
         
     def getMarket(self):
         return self.__Market
