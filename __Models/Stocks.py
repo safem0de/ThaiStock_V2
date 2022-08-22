@@ -84,9 +84,13 @@ class Stock:
                                     , match="เครื่องหมาย" ,encoding='utf8')
                     dfSector = dfRawSector[0]
                     Industry = dfSector['หลักทรัพย์'].to_list()
+                    vl = dfSector["มูลค่า('000 บาท)"].to_list()
+                    f_value = [float(i) if not i == '-' else 0 for i in vl]
 
-                    print(Industry)
-                    print(len(Industry))
+                    # print(Industry)
+                    # print(f_value)
+                    print(dict(zip(Industry, f_value)))
+                    # print(len(Industry))
             else:
                 for k in self.__Industry[j].values():
                     for l in k:
@@ -97,9 +101,13 @@ class Stock:
                                         , match="เครื่องหมาย" ,encoding='utf8')
                         dfSector = dfRawSector[0]
                         Industry = dfSector['หลักทรัพย์'].to_list()
+                        vl = dfSector["มูลค่า('000 บาท)"].to_list()
+                        f_value = [float(i) if not i == '-' else 0 for i in vl]
 
-                        print(Industry)
-                        print(len(Industry))
+                        # print(Industry)
+                        # print(f_value)
+                        print(dict(zip(Industry, f_value)))
+                        # print(len(Industry))
         
     def getMarket(self):
         return self.__Market
