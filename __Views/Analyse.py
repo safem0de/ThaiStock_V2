@@ -110,8 +110,8 @@ class StockAnalyse(tk.Toplevel):
                     print(len(dc_mai_roe))
 
                 if i == 'yield':
-                    dc_SET_yield = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][5]) > float(avg_roe_SET)}
-                    dc_mai_yield = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][5]) > float(avg_roe_mai)}
+                    dc_SET_yield = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][5]) > float(avg_yield_SET)}
+                    dc_mai_yield = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][5]) > float(avg_yield_mai)}
 
                     print(dc_SET_yield)
                     print(len(dc_SET_yield))
@@ -120,10 +120,41 @@ class StockAnalyse(tk.Toplevel):
                     print(len(dc_mai_yield))
 
                 if i == 'pe':
-                    pass
+                    dc_SET_pe = {
+                                    i: dc_SET[i] for i in dc_SET
+                                    if float(str(dc_SET[i][6]).replace('*','').replace('-','0')) < float(pe_set) and
+                                    float(str(dc_SET[i][6]).replace('*','').replace('-','0')) != 0
+                                }
+                    dc_mai_pe = {
+                                    i: dc_mai[i] for i in dc_mai
+                                    if float(str(dc_mai[i][6]).replace('*','').replace('-','0')) < float(pe_mai) and
+                                    float(str(dc_mai[i][6]).replace('*','').replace('-','0')) != 0
+                                }
+
+                    print(dc_SET_pe)
+                    print(len(dc_SET_pe))
+
+                    print(dc_mai_pe)
+                    print(len(dc_mai_pe))
+
 
                 if i == 'pbv':
-                    pass
+                    dc_SET_pbv = {
+                                    i: dc_SET[i] for i in dc_SET
+                                    if float(str(dc_SET[i][7]).replace('*','').replace('-','0')) < float(pbv_set) and
+                                    float(str(dc_SET[i][7]).replace('*','').replace('-','0')) != 0
+                                }
+                    dc_mai_pbv = {
+                                    i: dc_mai[i] for i in dc_mai
+                                    if float(str(dc_mai[i][7]).replace('*','').replace('-','0')) < float(pbv_mai) and
+                                    float(str(dc_mai[i][7]).replace('*','').replace('-','0')) != 0
+                                }
+
+                    print(dc_SET_pbv)
+                    print(len(dc_SET_pbv))
+
+                    print(dc_mai_pbv)
+                    print(len(dc_mai_pbv))
 
 
         def CheckBox(value:str):
