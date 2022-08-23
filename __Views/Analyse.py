@@ -10,7 +10,6 @@ from __Controllers.AnalyseController import AnalyseController
 class StockAnalyse(tk.Toplevel):
 
     __stateOfFilter = []
-    __stockTypeFilter = None
     __Table = None
 
     def __init__(self):
@@ -39,46 +38,64 @@ class StockAnalyse(tk.Toplevel):
         avg_roe_mai = finance.getMarket_Stat_mai().get('avg_roe')
         avg_yield_mai = finance.getMarket_Stat_mai().get('avg_yield')
 
+        def CheckCondition(data, condition_Filter:list = self.__stateOfFilter):
+            Table = self.__Table.copy()
+            
+            dc_SET = {}
+            dc_mai = {}
+            if data == 'all':
+                dc_SET = {i: Table[i]['data'] for i in Table if Table[i]['ismai'] == False and Table[i]['isSET100'] == False and Table[i]['isSET50'] == False}
+                dc_mai = {i: Table[i]['data'] for i in Table if Table[i]['ismai'] == True}
+                print(dc_SET)
+                print(len(dc_SET))
+
+                print(dc_mai)
+                print(len(dc_mai))
+            elif data == 'set':
+                ls_SET = [
+                            Table[i]['data'] for i in Table if Table[i]['ismai'] == False
+                            and
+                            Table[i]['isSET100'] == False
+                            and
+                            Table[i]['isSET50'] == False
+                        ]
+            elif data == 'set100':
+                ls_SET = [Table[i]['data'] for i in Table if Table[i]['isSET100'] == True]
+            elif data == 'set50':
+                ls_SET = [Table[i]['data'] for i in Table if Table[i]['isSET50'] == True]
+            elif data == 'mai':
+                ls_mai = [Table[i]['data'] for i in Table if Table[i]['ismai'] == True]
+
+            for i in condition_Filter:
+                if i == 'asset':
+                    print(dc_SET[i]['data'][1])
+                    print(type(dc_SET[i]['data'][1]))
+                    
+                    print(dc_mai[i]['data'][1])
+                    print(type(dc_mai[i]['data'][1]))
+                    # dc_SET_asset= {i: dc_SET[i]['data'] for i in dc_SET if float(dc_SET[i]['data'][1]) > float(avg_asset_SET) and type(dc_SET[i]['data'][1]) != type(str())}
+                    # dc_mai_asset = {i: dc_mai[i]['data'] for i in dc_mai if float(dc_mai[i]['data'][1]) > float(avg_asset_mai) and type(dc_SET[i]['data'][1]) != type(str())}
+
+                    # print(dc_SET_asset)
+                    # print(len(dc_SET_asset))
+
+                    # print(dc_mai_asset)
+                    # print(len(dc_mai_asset))
+
+
+
         def CheckBox(value:str):
             if 'rm' in value:
                 self.__stateOfFilter.remove(value.replace('rm_',''))
             else:
                 self.__stateOfFilter.append(value)
 
-            print(self.__stateOfFilter)
             RadioBtn_Selected(selected_Market.get())
 
 
-        def RadioBtn_Selected(data, condition_Filter:list=self.__stateOfFilter):
-            self.__stockTypeFilter = data
-            print(self.__stockTypeFilter)
-            print(bool(condition_Filter))
-            if self.__stockTypeFilter == 'all' and not condition_Filter:
-                initial = [self.__Table[i]['data'] for i in self.__Table]
-                analyseTable(initial)
-            else:
-                pass
-
-            if self.__stockTypeFilter == 'set' and not condition_Filter:
-                initial = [self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['ismai'] == False and self.__Table[i]['isSET100'] == False and self.__Table[i]['isSET50'] == False]
-                analyseTable(initial)
-            else:
-                pass
-
-            if self.__stockTypeFilter == 'set100' and not condition_Filter:
-                initial = [self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['isSET100'] == True]
-            else:
-                pass
-            
-            if self.__stockTypeFilter == 'set50' and not condition_Filter:
-                initial = [self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['isSET50'] == True]
-            else:
-                pass
-            
-            if self.__stockTypeFilter == 'mai' and not condition_Filter:
-                initial = [self.__Table[i]['data'] for i in self.__Table if self.__Table[i]['ismai'] == True]
-            else:
-                pass
+        def RadioBtn_Selected(data):
+            CheckCondition(data)
+            pass
 
         def analyseTable(stk):
 

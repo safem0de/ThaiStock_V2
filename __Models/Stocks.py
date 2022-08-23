@@ -74,39 +74,39 @@ class Stock:
                 ]}
             self.__Market['Crypto'].update(y)
 
-        for j in self.__Industry:
-            print(j)
-            if j == 'mai':
-                for k in self.__Industry[j]:
-                    k = k.replace('&','%26')
-                    print(k)
-                    print(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={k}&language=th&country=TH')
-                    dfRawSector = pd.read_html(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={k}&language=th&country=TH'
-                                    , match="เครื่องหมาย" ,encoding='utf8')
-                    dfSector = dfRawSector[0]
-                    Industry = dfSector['หลักทรัพย์'].to_list()
-                    vl = dfSector["มูลค่า('000 บาท)"].to_list()
-                    f_value = [float(i) if not i == '-' else 0 for i in vl]
+        # for j in self.__Industry:
+        #     print(j)
+        #     if j == 'mai':
+        #         for k in self.__Industry[j]:
+        #             k = k.replace('&','%26')
+        #             print(k)
+        #             print(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={k}&language=th&country=TH')
+        #             dfRawSector = pd.read_html(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={k}&language=th&country=TH'
+        #                             , match="เครื่องหมาย" ,encoding='utf8')
+        #             dfSector = dfRawSector[0]
+        #             Industry = dfSector['หลักทรัพย์'].to_list()
+        #             vl = dfSector["มูลค่า('000 บาท)"].to_list()
+        #             f_value = [float(i) if not i == '-' else 0 for i in vl]
 
-                    data = dict(zip(Industry, f_value))
-                    self.setIndustry_mai(k,data)
+        #             data = dict(zip(Industry, f_value))
+        #             self.setIndustry_mai(k,data)
 
-            else:
-                for k in self.__Industry[j]:
-                    print('==>',k)
-                    for l in self.__Industry[j][k]:
-                        l = l.replace('&','%26')
-                        print(l)
-                        print(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={l}&language=th&country=TH')
-                        dfRawSector = pd.read_html(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={l}&language=th&country=TH'
-                                        , match="เครื่องหมาย" ,encoding='utf8')
-                        dfSector = dfRawSector[0]
-                        Industry = dfSector['หลักทรัพย์'].to_list()
-                        vl = dfSector["มูลค่า('000 บาท)"].to_list()
-                        f_value = [float(i) if not i == '-' else 0 for i in vl]
+        #     else:
+        #         for k in self.__Industry[j]:
+        #             print('==>',k)
+        #             for l in self.__Industry[j][k]:
+        #                 l = l.replace('&','%26')
+        #                 print(l)
+        #                 print(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={l}&language=th&country=TH')
+        #                 dfRawSector = pd.read_html(f'https://classic.set.or.th/mkt/sectorquotation.do?market={j}&sector={l}&language=th&country=TH'
+        #                                 , match="เครื่องหมาย" ,encoding='utf8')
+        #                 dfSector = dfRawSector[0]
+        #                 Industry = dfSector['หลักทรัพย์'].to_list()
+        #                 vl = dfSector["มูลค่า('000 บาท)"].to_list()
+        #                 f_value = [float(i) if not i == '-' else 0 for i in vl]
 
-                        data = dict(zip(Industry, f_value))
-                        self.setIndustry_SET(k,l.replace('%26','&'),data)
+        #                 data = dict(zip(Industry, f_value))
+        #                 self.setIndustry_SET(k,l.replace('%26','&'),data)
 
         # print(self.__Industry)
         
