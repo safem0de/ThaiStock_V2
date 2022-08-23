@@ -46,11 +46,13 @@ class StockAnalyse(tk.Toplevel):
             if data == 'all':
                 dc_SET = {i: Table[i]['data'] for i in Table if Table[i]['ismai'] == False and Table[i]['isSET100'] == False and Table[i]['isSET50'] == False}
                 dc_mai = {i: Table[i]['data'] for i in Table if Table[i]['ismai'] == True}
+
                 print(dc_SET)
                 print(len(dc_SET))
 
                 print(dc_mai)
                 print(len(dc_mai))
+
             elif data == 'set':
                 ls_SET = [
                             Table[i]['data'] for i in Table if Table[i]['ismai'] == False
@@ -68,7 +70,7 @@ class StockAnalyse(tk.Toplevel):
 
             for i in condition_Filter:
                 if i == 'asset':
-                    dc_SET_asset= {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][1]) > float(avg_asset_SET)}
+                    dc_SET_asset = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][1]) > float(avg_asset_SET)}
                     dc_mai_asset = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][1]) > float(avg_asset_mai)}
 
                     print(dc_SET_asset)
@@ -77,6 +79,51 @@ class StockAnalyse(tk.Toplevel):
                     print(dc_mai_asset)
                     print(len(dc_mai_asset))
 
+                if i == 'revenue':
+                    dc_SET_revenue = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][2]) > float(avg_revenue_SET)}
+                    dc_mai_revenue = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][2]) > float(avg_revenue_mai)}
+
+                    print(dc_SET_revenue)
+                    print(len(dc_SET_revenue))
+
+                    print(dc_mai_revenue)
+                    print(len(dc_mai_revenue))
+
+                if i == 'netprofit':
+                    dc_SET_netprofit = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][3]) > float(avg_netprofit_SET)}
+                    dc_mai_netprofit = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][3]) > float(avg_netprofit_mai)}
+
+                    print(dc_SET_netprofit)
+                    print(len(dc_SET_netprofit))
+
+                    print(dc_mai_netprofit)
+                    print(len(dc_mai_netprofit))
+
+                if i == 'roe':
+                    dc_SET_roe = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][4]) > float(avg_roe_SET)}
+                    dc_mai_roe = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][4]) > float(avg_roe_mai)}
+
+                    print(dc_SET_roe)
+                    print(len(dc_SET_roe))
+
+                    print(dc_mai_roe)
+                    print(len(dc_mai_roe))
+
+                if i == 'yield':
+                    dc_SET_yield = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][5]) > float(avg_roe_SET)}
+                    dc_mai_yield = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][5]) > float(avg_roe_mai)}
+
+                    print(dc_SET_yield)
+                    print(len(dc_SET_yield))
+
+                    print(dc_mai_yield)
+                    print(len(dc_mai_yield))
+
+                if i == 'pe':
+                    pass
+
+                if i == 'pbv':
+                    pass
 
 
         def CheckBox(value:str):
