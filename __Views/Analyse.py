@@ -1,3 +1,4 @@
+from functools import reduce
 from threading import Thread
 from tkinter import ttk
 import tkinter as tk
@@ -47,115 +48,158 @@ class StockAnalyse(tk.Toplevel):
                 dc_SET = {i: Table[i]['data'] for i in Table if Table[i]['ismai'] == False and Table[i]['isSET100'] == False and Table[i]['isSET50'] == False}
                 dc_mai = {i: Table[i]['data'] for i in Table if Table[i]['ismai'] == True}
 
-                print(dc_SET)
-                print(len(dc_SET))
+                # print(dc_SET)
+                # print(len(dc_SET))
 
-                print(dc_mai)
-                print(len(dc_mai))
+                # print(dc_mai)
+                # print(len(dc_mai))
 
             elif data == 'set':
-                ls_SET = [
-                            Table[i]['data'] for i in Table if Table[i]['ismai'] == False
+                dc_SET = {
+                            i: Table[i]['data'] for i in Table if Table[i]['ismai'] == False
                             and
                             Table[i]['isSET100'] == False
                             and
                             Table[i]['isSET50'] == False
-                        ]
+                        }
             elif data == 'set100':
-                ls_SET = [Table[i]['data'] for i in Table if Table[i]['isSET100'] == True]
+                dc_SET = {i: Table[i]['data'] for i in Table if Table[i]['isSET100'] == True}
             elif data == 'set50':
-                ls_SET = [Table[i]['data'] for i in Table if Table[i]['isSET50'] == True]
+                dc_SET = {i: Table[i]['data'] for i in Table if Table[i]['isSET50'] == True}
             elif data == 'mai':
-                ls_mai = [Table[i]['data'] for i in Table if Table[i]['ismai'] == True]
+                dc_SET = {i: Table[i]['data'] for i in Table if Table[i]['ismai'] == True}
 
-            for i in condition_Filter:
-                if i == 'asset':
-                    dc_SET_asset = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][1]) > float(avg_asset_SET)}
-                    dc_mai_asset = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][1]) > float(avg_asset_mai)}
+            try:
+                dc_SET_asset = {}
+                dc_mai_asset = {}
+                dc_SET_revenue = {}
+                dc_mai_revenue = {}
+                dc_SET_netprofit = {}
+                dc_mai_netprofit = {}
+                dc_SET_roe = {}
+                dc_mai_roe = {}
+                dc_SET_yield = {}
+                dc_mai_yield = {}
+                dc_SET_pe = {}
+                dc_mai_pe = {}
+                dc_SET_pbv = {}
+                dc_mai_pbv = {}
 
-                    print(dc_SET_asset)
-                    print(len(dc_SET_asset))
+                for i in condition_Filter:
+                    if i == 'asset':
+                        dc_SET_asset = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][1]) > float(avg_asset_SET)}
+                        dc_mai_asset = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][1]) > float(avg_asset_mai)}
 
-                    print(dc_mai_asset)
-                    print(len(dc_mai_asset))
+                        # print(dc_SET_asset)
+                        # print(len(dc_SET_asset))
 
-                if i == 'revenue':
-                    dc_SET_revenue = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][2]) > float(avg_revenue_SET)}
-                    dc_mai_revenue = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][2]) > float(avg_revenue_mai)}
+                        # print(dc_mai_asset)
+                        # print(len(dc_mai_asset))
 
-                    print(dc_SET_revenue)
-                    print(len(dc_SET_revenue))
+                    if i == 'revenue':
+                        dc_SET_revenue = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][2]) > float(avg_revenue_SET)}
+                        dc_mai_revenue = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][2]) > float(avg_revenue_mai)}
 
-                    print(dc_mai_revenue)
-                    print(len(dc_mai_revenue))
+                        # print(dc_SET_revenue)
+                        # print(len(dc_SET_revenue))
 
-                if i == 'netprofit':
-                    dc_SET_netprofit = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][3]) > float(avg_netprofit_SET)}
-                    dc_mai_netprofit = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][3]) > float(avg_netprofit_mai)}
+                        # print(dc_mai_revenue)
+                        # print(len(dc_mai_revenue))
 
-                    print(dc_SET_netprofit)
-                    print(len(dc_SET_netprofit))
+                    if i == 'netprofit':
+                        dc_SET_netprofit = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][3]) > float(avg_netprofit_SET)}
+                        dc_mai_netprofit = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][3]) > float(avg_netprofit_mai)}
 
-                    print(dc_mai_netprofit)
-                    print(len(dc_mai_netprofit))
+                        # print(dc_SET_netprofit)
+                        # print(len(dc_SET_netprofit))
 
-                if i == 'roe':
-                    dc_SET_roe = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][4]) > float(avg_roe_SET)}
-                    dc_mai_roe = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][4]) > float(avg_roe_mai)}
+                        # print(dc_mai_netprofit)
+                        # print(len(dc_mai_netprofit))
 
-                    print(dc_SET_roe)
-                    print(len(dc_SET_roe))
+                    if i == 'roe':
+                        dc_SET_roe = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][4]) > float(avg_roe_SET)}
+                        dc_mai_roe = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][4]) > float(avg_roe_mai)}
 
-                    print(dc_mai_roe)
-                    print(len(dc_mai_roe))
+                        # print(dc_SET_roe)
+                        # print(len(dc_SET_roe))
 
-                if i == 'yield':
-                    dc_SET_yield = {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][5]) > float(avg_yield_SET)}
-                    dc_mai_yield = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][5]) > float(avg_yield_mai)}
+                        # print(dc_mai_roe)
+                        # print(len(dc_mai_roe))
 
-                    print(dc_SET_yield)
-                    print(len(dc_SET_yield))
+                    if i == 'yield':
+                        dc_SET_yield = {
+                                            i: dc_SET[i] for i in dc_SET if float(dc_SET[i][5]) > float(avg_yield_SET) and
+                                            float(str(dc_SET[i][5]).replace('*','').replace('-','0')) != 0
+                                        }
+                        dc_mai_yield = {
+                                            i: dc_mai[i] for i in dc_mai if float(dc_mai[i][5]) > float(avg_yield_mai) and
+                                            float(str(dc_SET[i][5]).replace('*','').replace('-','0')) != 0
+                                        }
 
-                    print(dc_mai_yield)
-                    print(len(dc_mai_yield))
+                        # print(dc_SET_yield)
+                        # print(len(dc_SET_yield))
 
-                if i == 'pe':
-                    dc_SET_pe = {
-                                    i: dc_SET[i] for i in dc_SET
-                                    if float(str(dc_SET[i][6]).replace('*','').replace('-','0')) < float(pe_set) and
-                                    float(str(dc_SET[i][6]).replace('*','').replace('-','0')) != 0
-                                }
-                    dc_mai_pe = {
-                                    i: dc_mai[i] for i in dc_mai
-                                    if float(str(dc_mai[i][6]).replace('*','').replace('-','0')) < float(pe_mai) and
-                                    float(str(dc_mai[i][6]).replace('*','').replace('-','0')) != 0
-                                }
+                        # print(dc_mai_yield)
+                        # print(len(dc_mai_yield))
 
-                    print(dc_SET_pe)
-                    print(len(dc_SET_pe))
+                    if i == 'pe':
+                        dc_SET_pe = {
+                                        i: dc_SET[i] for i in dc_SET
+                                        if float(str(dc_SET[i][6]).replace('*','').replace('-','0')) < float(pe_set) and
+                                        float(str(dc_SET[i][6]).replace('*','').replace('-','0')) != 0
+                                    }
+                        dc_mai_pe = {
+                                        i: dc_mai[i] for i in dc_mai
+                                        if float(str(dc_mai[i][6]).replace('*','').replace('-','0')) < float(pe_mai) and
+                                        float(str(dc_mai[i][6]).replace('*','').replace('-','0')) != 0
+                                    }
 
-                    print(dc_mai_pe)
-                    print(len(dc_mai_pe))
+                        # print(dc_SET_pe)
+                        # print(len(dc_SET_pe))
+
+                        # print(dc_mai_pe)
+                        # print(len(dc_mai_pe))
 
 
-                if i == 'pbv':
-                    dc_SET_pbv = {
-                                    i: dc_SET[i] for i in dc_SET
-                                    if float(str(dc_SET[i][7]).replace('*','').replace('-','0')) < float(pbv_set) and
-                                    float(str(dc_SET[i][7]).replace('*','').replace('-','0')) != 0
-                                }
-                    dc_mai_pbv = {
-                                    i: dc_mai[i] for i in dc_mai
-                                    if float(str(dc_mai[i][7]).replace('*','').replace('-','0')) < float(pbv_mai) and
-                                    float(str(dc_mai[i][7]).replace('*','').replace('-','0')) != 0
-                                }
+                    if i == 'pbv':
+                        dc_SET_pbv = {
+                                        i: dc_SET[i] for i in dc_SET
+                                        if float(str(dc_SET[i][7]).replace('*','').replace('-','0')) < float(pbv_set) and
+                                        float(str(dc_SET[i][7]).replace('*','').replace('-','0')) != 0
+                                    }
+                        dc_mai_pbv = {
+                                        i: dc_mai[i] for i in dc_mai
+                                        if float(str(dc_mai[i][7]).replace('*','').replace('-','0')) < float(pbv_mai) and
+                                        float(str(dc_mai[i][7]).replace('*','').replace('-','0')) != 0
+                                    }
 
-                    print(dc_SET_pbv)
-                    print(len(dc_SET_pbv))
+                        # print(dc_SET_pbv)
+                        # print(len(dc_SET_pbv))
 
-                    print(dc_mai_pbv)
-                    print(len(dc_mai_pbv))
+                        # print(dc_mai_pbv)
+                        # print(len(dc_mai_pbv))
 
+                rawData = reduce(set.union, map(set, map(dict.keys, [dc_SET, dc_mai])))
+                asset_union = reduce(set.union, map(set, map(dict.keys, [dc_SET_asset, dc_mai_asset])))
+                revenue_union = reduce(set.union, map(set, map(dict.keys, [dc_SET_revenue, dc_mai_revenue])))
+                netprofit_union = reduce(set.union, map(set, map(dict.keys, [dc_SET_netprofit, dc_mai_netprofit])))
+                roe_union = reduce(set.union, map(set, map(dict.keys, [dc_SET_roe, dc_mai_roe])))
+                yield_union = reduce(set.union, map(set, map(dict.keys, [dc_SET_yield, dc_mai_yield])))
+                pe_union = reduce(set.union, map(set, map(dict.keys, [dc_SET_pe, dc_mai_pe])))
+                pbv_union = reduce(set.union, map(set, map(dict.keys, [dc_SET_pbv, dc_mai_pbv])))
+
+                list_of_sets = [asset_union, revenue_union, netprofit_union, roe_union, yield_union, pe_union, pbv_union]
+                non_empties = [x for x in list_of_sets if x]
+                solution_set = rawData.intersection(*non_empties)
+                Datas = []
+                #### # http://hackwrite.com/posts/intersection-of-non-empty-sets-in-python/
+                for j in solution_set:
+                    # print('--->',Table[j]['data'])
+                    Datas.append(Table[j]['data'])
+
+                return Datas
+            except:
+                pass
 
         def CheckBox(value:str):
             if 'rm' in value:
@@ -167,7 +211,7 @@ class StockAnalyse(tk.Toplevel):
 
 
         def RadioBtn_Selected(data):
-            CheckCondition(data)
+            analyseTable(CheckCondition(data))
 
         def analyseTable(stk):
 
