@@ -68,19 +68,14 @@ class StockAnalyse(tk.Toplevel):
 
             for i in condition_Filter:
                 if i == 'asset':
-                    print(dc_SET[i]['data'][1])
-                    print(type(dc_SET[i]['data'][1]))
-                    
-                    print(dc_mai[i]['data'][1])
-                    print(type(dc_mai[i]['data'][1]))
-                    # dc_SET_asset= {i: dc_SET[i]['data'] for i in dc_SET if float(dc_SET[i]['data'][1]) > float(avg_asset_SET) and type(dc_SET[i]['data'][1]) != type(str())}
-                    # dc_mai_asset = {i: dc_mai[i]['data'] for i in dc_mai if float(dc_mai[i]['data'][1]) > float(avg_asset_mai) and type(dc_SET[i]['data'][1]) != type(str())}
+                    dc_SET_asset= {i: dc_SET[i] for i in dc_SET if float(dc_SET[i][1]) > float(avg_asset_SET)}
+                    dc_mai_asset = {i: dc_mai[i] for i in dc_mai if float(dc_mai[i][1]) > float(avg_asset_mai)}
 
-                    # print(dc_SET_asset)
-                    # print(len(dc_SET_asset))
+                    print(dc_SET_asset)
+                    print(len(dc_SET_asset))
 
-                    # print(dc_mai_asset)
-                    # print(len(dc_mai_asset))
+                    print(dc_mai_asset)
+                    print(len(dc_mai_asset))
 
 
 
@@ -95,7 +90,6 @@ class StockAnalyse(tk.Toplevel):
 
         def RadioBtn_Selected(data):
             CheckCondition(data)
-            pass
 
         def analyseTable(stk):
 
