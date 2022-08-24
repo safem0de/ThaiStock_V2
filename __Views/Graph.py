@@ -146,7 +146,7 @@ class Graph(tk.Tk):
             RemoveLabel(ax4)
 
             ax5 = fig.add_subplot(gs03[0:2, 0])
-            ax6 = fig.add_subplot(gs03[2:, 0])
+            ax6 = fig.add_subplot(gs03[2:, 0], sharex=ax5)
             ax6.tick_params('y', labelleft=False, labelright=False)
 
             RemoveLabel(ax5)
