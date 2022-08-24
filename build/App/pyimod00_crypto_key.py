@@ -1,2 +1,2 @@
 # -*- coding: utf-8 -*-
-key = '0000denytrioxide'
+key = "00'denytrioxide'"

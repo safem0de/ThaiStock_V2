@@ -81,7 +81,7 @@ class App(tk.Tk):
             pyi_splash.update_text('UI Loaded ...')
             pyi_splash.close()
         
-        self.title('Safem0de Stock Version 0.3.1')
+        self.title('Safem0de Stock Version 0.3.2')
         self.iconbitmap(default=ICON_PATH)
         self.geometry(f'+{model.getstart_screen_x()}+{model.getstart_screen_y()}')
 
