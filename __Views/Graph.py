@@ -145,10 +145,10 @@ class Graph(tk.Tk):
 
             RemoveLabel(ax4)
 
-            ax5 = fig.add_subplot(gs03[0:2, 0])
-            ax6 = fig.add_subplot(gs03[2:, 0], sharex=ax5)
-            ax6.tick_params('y', labelleft=False, labelright=False)
-
+            ax5 = fig.add_subplot(gs03[2:, 0])
+            ax5.tick_params('y', labelleft=False, labelright=False)
+            ax6 = fig.add_subplot(gs03[0:2, 0], sharex=ax5)
+            
             RemoveLabel(ax5)
 
             try:
@@ -184,7 +184,7 @@ class Graph(tk.Tk):
 
                 sns.heatmap(df1, annot=self.labels, fmt="", cmap='RdYlGn',linewidths=0.30, ax=ax4)
                 mpf.plot(df, ax=ax0, volume=ax1, type='candle', addplot=ap, style='yahoo')
-                mpf.plot(df2, ax=ax5, volume=ax6, type='renko', style='yahoo', xrotation=10)
+                mpf.plot(df2, ax=ax6, volume=ax5, type='renko', style='yahoo', xrotation=10)
 
                 canvas = FigureCanvasTkAgg(fig, master=self.frameChart)
                 canvas.draw()
